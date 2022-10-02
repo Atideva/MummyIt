@@ -24,12 +24,12 @@ public class HomingBullet : Bullet
         var dir = targetPos - pos;
         dir.Normalize();
         transform.up = dir;
-        transform.position += transform.up * (speed * Time.deltaTime);
+        transform.position += transform.up * (Speed * Time.deltaTime);
 
         var dist = Vector2.Distance(pos, targetPos);
         if (dist < 0.5f)
         {
-            target.Damage(damage);
+            target.Damage(Damage);
             ReturnToPool();
         }
     }

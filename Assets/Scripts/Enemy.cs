@@ -16,9 +16,15 @@ public class Enemy : MonoBehaviour
 
     public bool IsMove => _isMove;
 
+    public bool LastTakenDmgIsMelee { get; private set; }
+    public bool IsFreeze { get; private set; }
+
     bool _isMeleeAttack;
     float _meleeTimer;
     bool _isMove;
+
+    public void Freeze(bool freeze)
+        => IsFreeze = freeze;
 
     public void Move()
     {
@@ -55,10 +61,11 @@ public class Enemy : MonoBehaviour
 
     void OnDeath()
     {
+        Freeze(false);
         StopMove();
         StopMeleeAttack();
         Events.Instance.EnemyDeath(this);
-        gameObject.SetActive(false);
+       // gameObject.SetActive(false);
     }
 
     public void Init(EnemyConfig enemy)
@@ -71,15 +78,24 @@ public class Enemy : MonoBehaviour
         hp.Init(baseHp);
     }
 
-    public void Damage(int amount)
+
+    public void DamageByMelee(float dmg)
     {
-        hp.Damage(amount);
+        LastTakenDmgIsMelee = true;
+        hp.Damage(dmg);
+    }
+    public void Damage(float dmg)
+    {
+        LastTakenDmgIsMelee = false;
+        hp.Damage(dmg);
     }
 
     void Update()
     {
-        if (_isMove)
+        if (_isMove && !IsFreeze)
+        {
             transform.position += Vector3.down * (Time.deltaTime * speed);
+        }
 
         if (_isMeleeAttack)
         {

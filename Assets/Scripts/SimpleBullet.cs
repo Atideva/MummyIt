@@ -29,13 +29,13 @@ public class SimpleBullet : Bullet
         _isCollide = true;
         
         Debug.Log("Bullet collide enemy: " + enemy.name, enemy);
-        enemy.Damage(damage);
+        enemy.Damage(Damage);
         ReturnToPool();
     }
 
     void Update()
     {
-        _t.position += transform.up * (speed * Time.deltaTime);
+        _t.position += transform.up * (Speed * Time.deltaTime);
 
         if (!useLifeTime) return;
         _timer -= Time.deltaTime;

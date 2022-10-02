@@ -10,25 +10,32 @@ public class ItemHandler : MonoBehaviour
     public float moveTime = 0.5f;
     public PatternDrawer drawer;
     public int pickupAtOnce = 1;
-
+    List<ItemSlot> _collected = new();
+    
     void Awake()
     {
         //     creator.OnSlotClick += CollectSlot;
         drawer.OnRelease += MatchSearch;
+        Events.Instance.OnAddAmmoPickup += OnAddAmmoPickup;
     }
 
-    List<ItemSlot> collected = new();
+    void OnAddAmmoPickup(int amount)
+    {
+        pickupAtOnce += amount;
+    }
+
+  
 
     void MatchSearch(List<Pattern> drawPattern)
     {
-        collected = new List<ItemSlot>();
+        _collected = new List<ItemSlot>();
         for (int i = 0; i < pickupAtOnce; i++)
         {
             var slot = GetSlot(drawPattern);
             if (slot)
             {
                 Collect(slot);
-                collected.Add(slot);
+                _collected.Add(slot);
                 //           StartCoroutine(Shoot(slot));
                 //    enemiesSpawner.EnemyAttacked(slot);
             }
@@ -55,7 +62,7 @@ public class ItemHandler : MonoBehaviour
         foreach (var slot in spawner.lineItems)
         {
             //if (enemiesSpawner.IsAttacked(slot)) continue;
-            if (collected.Contains(slot)) continue;
+            if (_collected.Contains(slot)) continue;
             if (patterns.Count != slot.item.Patterns.Count) continue;
 
             var match = patterns.Count

@@ -18,13 +18,23 @@ public class ItemSpawner : MonoBehaviour
     public List<ItemSlot> lineItems = new();
     public List<ItemSlot> hasSubscribe = new();
     public event Action<ItemSlot> OnCreate = delegate { };
-    public event Action<ItemSlot> OnSlotClick = delegate { };
+  //  public event Action<ItemSlot> OnSlotClick = delegate { };
 
     void Start()
     {
         pool.Init(slotPrefab);
         isPause = false;
         timer = cooldown;
+        Events.Instance.OnMerchant += OnMerchant;
+    }
+
+    bool _isMerchant;
+    float _sellMult;
+
+    void OnMerchant(float sellMult)
+    {
+        _isMerchant = true;
+        _sellMult = sellMult;
     }
 
     void FixedUpdate()
@@ -41,25 +51,28 @@ public class ItemSpawner : MonoBehaviour
     {
         var slot = pool.Get();
         var item = getter.Get();
-        
+
 #if UNITY_EDITOR
         item.name = item.Name;
 #endif
-        
+
         slot.Reset();
         slot.Set(item);
+        if (_isMerchant)
+            slot.SetPrice(_sellMult);
         lineItems.Add(slot);
         OnCreate(slot);
 
         if (hasSubscribe.Contains(slot)) return;
         hasSubscribe.Add(slot);
         slot.OnUse += Remove;
-        slot.OnClick += OnClick;
+        slot.OnSell += OnSell;
     }
 
-    void OnClick(ItemSlot obj)
+    void OnSell(ItemSlot slot)
     {
-        OnSlotClick(obj);
+        Events.Instance.AddGold(slot.Price);
+        Remove(slot);
     }
 
     void Remove(ItemSlot slot)

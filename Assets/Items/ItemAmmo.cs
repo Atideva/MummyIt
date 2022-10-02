@@ -7,7 +7,7 @@ namespace Items
     {
         [SerializeField] AmmoConfig ammo;
         public void Set(AmmoConfig newAmmo) => ammo = newAmmo;
-
+        public override Sprite Icon => ammo.Icon;
         public override string Name => ammo.name;
         public override IReadOnlyList<Pattern> Patterns => ammo.Patterns;
 

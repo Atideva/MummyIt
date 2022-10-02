@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PerksSelectUI : MonoBehaviour
 {
-    public List<ChooseSlot> slots = new();
+    public List<PerkSlot> slots = new();
     public CanvasGroup group;
     public Canvas canvas;
-    public event Action<PerkConfig> OnPerkSelected = delegate { };
-    public event Action<AbilityConfig> OnAbilitySelected = delegate { };
+    public event Action<PerkConfig> OnPerkSelect = delegate { };
+  //  public event Action<AbilityConfig> OnAbilitySelected = delegate { };
 
     void Awake()
     {
@@ -22,10 +22,10 @@ public class PerksSelectUI : MonoBehaviour
         canvas.enabled = false;
     }
 
-    void OnSlotClick(ChooseSlot slot)
+    void OnSlotClick(PerkSlot slot)
     {
-        if (slot.perk) OnPerkSelected(slot.perk);
-        if (slot.ability) OnAbilitySelected(slot.ability);
+        if (slot.perk) OnPerkSelect(slot.perk);
+     //   if (slot.ability) OnAbilitySelected(slot.ability);
         Hide();
     }
 

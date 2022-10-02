@@ -6,6 +6,9 @@ namespace Items
 {
     public abstract class Item : PoolObject
     {
+        public int sellPrice = 10;
+        public abstract Sprite Icon { get;    }
+     //   public void SetIcon(Sprite spr) => Icon = spr;
         public Color TypeColor { get; private set; }
         public void SetColor(Color clr) => TypeColor = clr;
         

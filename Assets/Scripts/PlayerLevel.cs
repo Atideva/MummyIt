@@ -14,29 +14,31 @@ public class PlayerLevel : MonoBehaviour
     void Start()
     {
         Events.Instance.OnEnemyDeath += OnEnemyDeath;
-        RequireXp();
+        Events.Instance.OnLevelUp += OnExtraLevelUp;
+        CalcNextXp();
     }
+
+    void OnExtraLevelUp()
+        => LevelUp();
 
     void OnEnemyDeath(Enemy enemy)
-    {
-        AddExp(1);
-    }
+        => AddExp(1);
 
-    void RequireXp()
-    {
-        requireXp = killsForLevel + killsInc * currentLevel;
-    }
+    void CalcNextXp()
+        => requireXp = killsForLevel + killsInc * currentLevel;
 
-    public void AddExp(int amount)
+    void AddExp(int amount)
     {
         currentXp += amount;
-
         if (currentXp >= requireXp)
-        {
-            currentLevel++;
-            OnLevelUp(currentLevel);
-            RequireXp();
-            currentXp = 0;
-        }
+            LevelUp();
+    }
+
+    void LevelUp()
+    {
+        currentLevel++;
+        OnLevelUp(currentLevel);
+        CalcNextXp();
+        currentXp = 0;
     }
 }

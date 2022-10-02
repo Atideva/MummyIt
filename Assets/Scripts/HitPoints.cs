@@ -17,15 +17,17 @@ public class HitPoints : MonoBehaviour
         hp = maxHp;
     }
  
-    public void Damage(float amount)
+    
+    public void Damage(float dmg)
     {
         if (hp <= 0) return;
         
-        hp -= amount;
+        hp -= dmg;
         if (hp <= 0)
         {
             hp = 0;
             OnDeath();
         }
     }
+   
 }

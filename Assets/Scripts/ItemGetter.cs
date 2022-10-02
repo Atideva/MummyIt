@@ -6,20 +6,30 @@ public class ItemGetter : MonoBehaviour
 {
     [Header("Setup")]
     public Player player;
-    [Header("Pool")]
+    [Header("PowerUp")]
+    
+    public ItemPowerUp powerUpPrefab;
+    public ItemPowerUpPool powerUpPool;
+    [Header("Ammo")]
     public ItemAmmo ammoPrefab;
     public ItemAmmoPool ammoPool;
     [Header("Colors")]
     public Color ammoColor;
-    public Color powerupColor;
+    public Color powerUpColor;
     public Color gunColor;
+
     void Start()
     {
-        ammoPool.Init(ammoPrefab);
+        ammoPool.Init(ammoPrefab, 10);
+        powerUpPool.Init(powerUpPrefab, 5);
     }
 
     public Item Get()
     {
+        var r = Random.Range(0, 100);
+        if (r <= 30)
+            return GetPowerUp();
+        
         return GetAmmo();
     }
 
@@ -43,4 +53,26 @@ public class ItemGetter : MonoBehaviour
         item.SetColor(ammoColor);
         return item;
     }
+
+    Item GetPowerUp()
+    {
+        var item = powerUpPool.Get();
+        var id = 0;
+        var chance = Random.Range(0f, 1);
+        var sum = 0f;
+    
+        for (var i = 0; i < player.powerUps.availablePowerUps.Count; i++)
+        {
+            sum += player.powerUps.GetAmmoChance(i);
+            if (chance > sum) continue;
+            id = i;
+            break;
+        }
+    
+        var ammo = player.powerUps.availablePowerUps[id];
+        item.Set(ammo);
+        item.SetColor(powerUpColor);
+        return item;
+    }
+    
 }

@@ -1,28 +1,77 @@
 using System.Collections.Generic;
+using EPOOutline;
+using Powerups;
 using TMPro;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
     public GunShoot shoot;
-    public SpriteRenderer spriteRenderer;
+    public SpriteRenderer gunSprite;
+    public SpriteRenderer aimSprite;
+    public Outlinable plasmaOverloadOutline;
     public TextMeshProUGUI amountTxt;
+    public EnemySpawner enemiesSpawner;
+    public float topCornerY = 4.5f;
+    [Header("DEBUG")]
     public GunConfig gun;
     public int magazine;
     public float shootTimer;
-    public EnemySpawner enemiesSpawner;
-    public float topCornerY = 4.5f;
+
+    bool _plasmaOverload;
+    float _plasmaOverloadTimer;
+    float _plasmaAtkSpdBonus;
 
     void Awake()
     {
+        aimSprite.enabled = false;
+        plasmaOverloadOutline.enabled = false;
         magazine = 0;
         RefreshText();
+    }
+
+    void Start()
+    {
+        Events.Instance.OnUsePlasmaOverload += OnPlasmaOverload;
+        Events.Instance.OnTakeAim += OnTakeAim;
+    }
+
+    void OnTakeAim()
+    {
+        aimSprite.enabled = true;
+    }
+
+
+    void OnPlasmaOverload(PlasmaOverloadData data)
+    {
+        _plasmaOverload = true;
+        _plasmaOverloadTimer += data.Duration;
+        _plasmaAtkSpdBonus = data.AtkSpdBonus;
+        shoot.PlasmaOverload(data.DamageBonus);
+        plasmaOverloadOutline.enabled = true;
+    }
+
+    void StopPlasmaOverload()
+    {
+        _plasmaOverload = false;
+        _plasmaOverloadTimer = 0;
+        _plasmaAtkSpdBonus = 0;
+        shoot.StopPlasmaOverload();
+        plasmaOverloadOutline.enabled = false;
     }
 
     void FixedUpdate()
     {
         if (!enemiesSpawner) return;
-        if (magazine == 0) return;
+        if (magazine == 0 && !_plasmaOverload) return;
+
+        if (_plasmaOverload)
+        {
+            if (_plasmaOverloadTimer > 0)
+                _plasmaOverloadTimer -= Time.fixedDeltaTime;
+            else
+                StopPlasmaOverload();
+        }
 
         var target = GetClosestEnemy(enemiesSpawner.currentEnemies);
         if (!target) return;
@@ -30,7 +79,7 @@ public class Gun : MonoBehaviour
         shootTimer -= Time.fixedDeltaTime;
         if (shootTimer <= 0)
         {
-            shootTimer = 1 / gun.FireRate;
+            shootTimer = 1 / (gun.FireRate * (1 + _plasmaAtkSpdBonus));
             Shoot(target);
             //  enemiesSpawner.EnemyAttacked(target);
         }
@@ -40,12 +89,12 @@ public class Gun : MonoBehaviour
     public void Set(GunConfig newGun)
     {
         gun = newGun;
-        spriteRenderer.sprite = newGun.Sprite;
+        gunSprite.sprite = newGun.Sprite;
     }
 
     public void Shoot(Enemy target)
     {
-        magazine--;
+        if (!_plasmaOverload) magazine--;
         shoot.Shoot(target);
         RefreshText();
     }
@@ -61,7 +110,7 @@ public class Gun : MonoBehaviour
     {
         Enemy closest = null;
         var minDist = Mathf.Infinity;
-        var pos = spriteRenderer.transform.position;
+        var pos = gunSprite.transform.position;
         foreach (var enemy in enemies)
         {
             if (enemy.transform.position.y > topCornerY) continue;
