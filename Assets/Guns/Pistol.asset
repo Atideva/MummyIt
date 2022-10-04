@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d89f5a5a25ca014ea85872079dd6c4a, type: 3}
   m_Name: Pistol
   m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 6607903517634770811, guid: c7ea198b09507ab4ab2562c9f8229721, type: 3}
   icon: {fileID: 0}
   sprite: {fileID: 21300000, guid: de1a97c6be3a97647b15d2287b43a6a8, type: 3}
   fireRate: 5

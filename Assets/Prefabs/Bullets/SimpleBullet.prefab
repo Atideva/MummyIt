@@ -50,7 +50,9 @@ MonoBehaviour:
   damage: 10
   bulletSprite: {fileID: 7082896890958911214}
   speed: 10
-  dmgMult: 0
+  plasmaMult: 0
+  bonusMult: 0
+  speedMult: 0
   useLifeTime: 0
   lifeTime: 10
 --- !u!61 &3015460661096419413
@@ -111,7 +113,7 @@ GameObject:
   - component: {fileID: 6068753074418183086}
   - component: {fileID: 7082896890958911214}
   m_Layer: 0
-  m_Name: Square
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

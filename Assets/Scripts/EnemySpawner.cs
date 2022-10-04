@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Pools;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -36,7 +37,11 @@ public class EnemySpawner : MonoBehaviour
     public Transform spawnPos;
     public List<Enemy> currentEnemies = new();
     public List<Enemy> attackedEnemies = new();
-    public event Action<Enemy> OnSpawn=delegate {  };
+    public event Action<Enemy> OnSpawn = delegate { };
+    readonly Dictionary<Enemy, EnemyPool> _pools = new();
+
+
+
     void Start()
     {
         StartCoroutine(Spawn());
@@ -67,11 +72,15 @@ public class EnemySpawner : MonoBehaviour
     {
         while (true)
         {
-            ChangePosition();
-            var enemy = Instantiate(prefab, spawnPos.position, Quaternion.identity);
-            var config = GetEnemy();
-            enemy.Init(config);
+            MoveSpawnPosition();
+            var config = GetEnemyConfig();
+            var enemy = Pool(config.prefab).Get();
+            enemy.transform.position = spawnPos.position;
+            enemy.transform.rotation = Quaternion.identity;
+#if UNITY_EDITOR
             enemy.gameObject.name = config.name;
+#endif
+            enemy.Init(config);
             currentEnemies.Add(enemy);
             OnSpawn(enemy);
             yield return new WaitForSeconds(spawnCooldown);
@@ -79,9 +88,9 @@ public class EnemySpawner : MonoBehaviour
     }
 
 
-    EnemyConfig GetEnemy() => enemies[Random.Range(0, enemies.Count)];
+    EnemyConfig GetEnemyConfig() => enemies[Random.Range(0, enemies.Count)];
 
-    void ChangePosition()
+    void MoveSpawnPosition()
     {
         var s = 2f;
         var x = Random.Range(-s, s);
@@ -94,5 +103,19 @@ public class EnemySpawner : MonoBehaviour
         {
             currentEnemies.Remove(enemy);
         }
+    }
+    
+    EnemyPool Pool(Enemy enemy)
+    {
+        if (_pools.ContainsKey(enemy)) return _pools[enemy];
+
+        var container = new GameObject {name = enemy.name};
+        container.transform.SetParent(transform);
+
+        var pool = container.AddComponent<EnemyPool>();
+        pool.SetPrefab(enemy);
+
+        _pools.Add(enemy, pool);
+        return _pools[enemy];
     }
 }

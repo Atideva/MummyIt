@@ -1,21 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
+using AudioSystem;
 using UnityEngine;
 
 public class MrMelee : Perk
 {
-    public PlayerMeleeData baseStats;
-    public PlayerMeleeData incPerLvl;
+ 
+    public List<MeleeWeaponConfig> weapons = new();
+ 
+    
+    //public PlayerMeleeData incPerLvl;
 
     void Refresh()
     {
-        Events.Instance.PlayerMeleeWeapon(baseStats);
+        Events.Instance.PlayerMeleeWeapon(weapons[0]);
     }
 }
-
-[System.Serializable]
-public class PlayerMeleeData
-{
-    public float damage;
-    public float cooldown;
-}
+ 

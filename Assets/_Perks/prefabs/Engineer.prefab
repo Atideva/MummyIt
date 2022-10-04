@@ -44,5 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d295f7a6c0aa93e4fbd05b0ef6c5ee02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  config: {fileID: 0}
   level: 0
   maxLevel: 0
+  itemSpawnIncrease: 0.3
+  powerupSpawnIncrease: 0.05

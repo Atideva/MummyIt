@@ -12,11 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d89f5a5a25ca014ea85872079dd6c4a, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
+  bulletPrefab: {fileID: 6607903517634770811, guid: a494b1592967a154e81f71dcd79d782d, type: 3}
   icon: {fileID: 0}
   sprite: {fileID: 0}
   fireRate: 3
   ammo:
-  - {fileID: 11400000, guid: 8c4d86ce30c5d264794fe41c012f8bf6, type: 2}
+  - {fileID: 11400000, guid: c74cc202376b5f047aacbc8b4d924511, type: 2}
+  - {fileID: 11400000, guid: be020dfeac0742d4c9832ddc5f47b82f, type: 2}
+  - {fileID: 11400000, guid: 69038996dcb3fb84bb05b8a861ec703f, type: 2}
   ammoCurve:
     serializedVersion: 2
     m_Curve:

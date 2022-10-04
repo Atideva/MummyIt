@@ -17,19 +17,28 @@ public class ItemSpawner : MonoBehaviour
     [Header("DEBUG")]
     public List<ItemSlot> lineItems = new();
     public List<ItemSlot> hasSubscribe = new();
+
     public event Action<ItemSlot> OnCreate = delegate { };
-  //  public event Action<ItemSlot> OnSlotClick = delegate { };
+    //  public event Action<ItemSlot> OnSlotClick = delegate { };
+    bool _isMerchant;
+    float _sellMult;
+    float _cdMult;
+         
 
     void Start()
     {
-        pool.Init(slotPrefab);
+        _cdMult = 1;
+        pool.SetPrefab(slotPrefab);
         isPause = false;
         timer = cooldown;
         Events.Instance.OnMerchant += OnMerchant;
+        Events.Instance.OnItemSpawnRateAdd += OnSpawnRate;
     }
 
-    bool _isMerchant;
-    float _sellMult;
+    void OnSpawnRate(float add)
+    {
+        _cdMult += add;
+    }
 
     void OnMerchant(float sellMult)
     {
@@ -43,7 +52,7 @@ public class ItemSpawner : MonoBehaviour
 
         timer -= Time.fixedDeltaTime;
         if (timer > 0) return;
-        timer = cooldown;
+        timer = cooldown / _cdMult;
         Create();
     }
 

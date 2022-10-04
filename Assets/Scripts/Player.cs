@@ -29,14 +29,15 @@ public class Player : MonoBehaviour
         Events.Instance.OnPlayerMeleeWeapon += OnMeleeWeapon;
     }
 
-    void OnMeleeWeapon(PlayerMeleeData wep)
+    void OnMeleeWeapon(MeleeWeaponConfig wep)
     {
         if (!meleeWeapon.IsEnable)
             meleeWeapon.Enable();
         meleeWeapon.Refresh(wep);
     }
 
-    void RefreshHpBar() => hpBar.RefreshBar(hitPoints.Percent);
+    void RefreshHpBar()
+        => hpBar.RefreshBar(hitPoints.Percent);
 
     void OnAttackedByEnemy(Enemy enemy, float dmg)
     {
@@ -50,13 +51,11 @@ public class Player : MonoBehaviour
 
 
     void OnAddAmmo(AmmoConfig ammo)
-    {
-        gun.AddAmmo(ammo.Amount);
-    }
+        => gun.AddAmmo(ammo.Amount);
 
     public void ChangeGun(GunConfig newGun)
     {
         currentGun = newGun;
-        gun.Set(newGun);
+        gun.ChangeGun(newGun);
     }
 }

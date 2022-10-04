@@ -86,10 +86,11 @@ public class Gun : MonoBehaviour
     }
 
 
-    public void Set(GunConfig newGun)
+    public void ChangeGun(GunConfig newGun)
     {
         gun = newGun;
         gunSprite.sprite = newGun.Sprite;
+        shoot.ChangeGun(newGun);
     }
 
     public void Shoot(Enemy target)

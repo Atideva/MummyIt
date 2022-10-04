@@ -1,22 +1,24 @@
 using System.Collections.Generic;
+using AudioSystem;
 using UnityEngine;
 
 public class MeleeWeaponCollider : MonoBehaviour
 {
     public BoxCollider2D col2D;
     [Header("DEBUG")]
-    public float damage;
+    public MeleeWeaponConfig weapon;
     public List<Enemy> enemies = new();
+    AudioData _hitSound;
 
     void Awake()
         => col2D.enabled = false;
 
-    public void Enable(float dmg,float duration)
+    public void Enable(MeleeWeaponConfig wep, float duration)
     {
-        damage = dmg;
+        weapon = wep;
         enemies = new List<Enemy>();
         col2D.enabled = true;
-        Invoke(nameof(Disable),duration);
+        Invoke(nameof(Disable), duration);
     }
 
     public void Disable()
@@ -28,7 +30,8 @@ public class MeleeWeaponCollider : MonoBehaviour
         var enemy = EnemySpawner.Instance.TryFindEnemy(col.transform);
         if (!enemy) return;
         if (enemies.Contains(enemy)) return;
-        enemy.DamageByMelee(damage);
+        enemy.DamageByMelee(weapon.Damage);
+        AudioManager.Instance.PlaySound(weapon.HitSound);
         enemies.Add(enemy);
     }
 }

@@ -4,10 +4,10 @@ using UnityEngine;
 
 public class AmmoMagnet : Perk
 {
-    public int bonusItemPerLvl;
+    public float cooldown;
    
     void Refresh()
     {
-        Events.Instance.AddAmmoPickup(bonusItemPerLvl);
+        Events.Instance.AmmoMagnet(cooldown);
     }
 }

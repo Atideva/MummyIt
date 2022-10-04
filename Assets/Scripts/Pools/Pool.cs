@@ -8,7 +8,7 @@ namespace Pools
         T _prefab;
         readonly Queue<T> _queue = new();
 
-        public void Init(T prefab, int prewarmCount = 0)
+        public void SetPrefab(T prefab, int prewarmCount = 0)
         {
             _prefab = prefab;
             for (var i = 0; i < prewarmCount; i++) Create().gameObject.SetActive(false);

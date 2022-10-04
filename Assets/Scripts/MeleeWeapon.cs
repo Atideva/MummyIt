@@ -1,10 +1,10 @@
-using System;
+using AudioSystem;
 using DG.Tweening;
 using UnityEngine;
 
 public class MeleeWeapon : MonoBehaviour
 {
-    public PlayerMeleeData weapon;
+    public MeleeWeaponConfig weapon;
     public float getTargetsFreq = 0.5f;
     public DOTweenAnimation attackAnim;
     public MeleeWeaponTrigger trigger;
@@ -24,11 +24,12 @@ public class MeleeWeapon : MonoBehaviour
         shootTimer = 0;
     }
 
-    public void Refresh(PlayerMeleeData wep)
+    public void Refresh(MeleeWeaponConfig wep)
         => weapon = wep;
-
-    public void NoTargets() => _isTargetNear = false;
-    public void TargetsAcquire() => _isTargetNear = true;
+    public void NoTargets()
+        => _isTargetNear = false;
+    public void TargetsAcquire() 
+        => _isTargetNear = true;
 
     void FixedUpdate()
     {
@@ -56,9 +57,10 @@ public class MeleeWeapon : MonoBehaviour
 
     void Attack()
     {
-        shootTimer = weapon.cooldown;
+        shootTimer = weapon.Cooldown;
         attackAnim.DORestart();
         attackAnim.DOPlay();
-        wepCollider.Enable(weapon.damage, attackAnim.duration);
+        wepCollider.Enable(weapon, attackAnim.duration);
     }
+    
 }

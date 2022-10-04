@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Events : MonoBehaviour
 {
-    
     #region Singleton
 
     //-------------------------------------------------------------
@@ -49,6 +48,9 @@ public class Events : MonoBehaviour
     public event Action<int> OnAddAmmoPickup = delegate { };
     public void AddAmmoPickup(int amount) => OnAddAmmoPickup(amount);
 
+    public event Action<float> OnAmmoMagnet = delegate { };
+    public void AmmoMagnet(float cooldown) => OnAmmoMagnet(cooldown);
+
     public event Action<float> OnBulletSpeedAdd = delegate { };
     public void AddBulletSpeed(float mult) => OnBulletSpeedAdd(mult);
 
@@ -57,16 +59,25 @@ public class Events : MonoBehaviour
 
     public event Action OnTakeAim = delegate { };
     public void TakeAim() => OnTakeAim();
-    
+
     public event Action<float> OnPlateArmorAdd = delegate { };
     public void AddPlateArmor(float onePlateDurability) => OnPlateArmorAdd(onePlateDurability);
-    
-    public event Action<PlayerMeleeData> OnPlayerMeleeWeapon = delegate { };
-    public void PlayerMeleeWeapon(PlayerMeleeData data) => OnPlayerMeleeWeapon(data);
-    
+
+    public event Action OnPlateArmorRestore = delegate { };
+    public void RestorePlateArmor() => OnPlateArmorRestore();
+
+    public event Action<MeleeWeaponConfig> OnPlayerMeleeWeapon = delegate { };
+    public void PlayerMeleeWeapon(MeleeWeaponConfig config) => OnPlayerMeleeWeapon(config);
+
     public event Action<float> OnMerchant = delegate { };
     public void Merchant(float sellMult) => OnMerchant(sellMult);
-    
+
     public event Action<int> OnAddGold = delegate { };
     public void AddGold(int amount) => OnAddGold(amount);
+
+    public event Action<float> OnItemSpawnRateAdd = delegate { };
+    public void AddItemSpawnRate(float addMult) => OnItemSpawnRateAdd(addMult);
+
+    public event Action<float> OnPowerupSpawnRateAdd = delegate { };
+    public void AddPowerupSpawnRate(float addMult) => OnPowerupSpawnRateAdd(addMult);
 }

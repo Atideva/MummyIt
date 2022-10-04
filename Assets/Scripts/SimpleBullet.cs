@@ -15,12 +15,11 @@ public class SimpleBullet : Bullet
     {
         _isCollide = false;
         _timer = lifeTime;
-        
-        var pos = (Vector2) _t.position;
-        var targetPos = (Vector2) newTarget.transform.position;
-        var dir = targetPos - pos;
-        dir.Normalize();
-        transform.up = dir;
+        // var pos = (Vector2) _t.position;
+        // var targetPos = (Vector2) newTarget.transform.position;
+        // var dir = targetPos - pos;
+        // dir.Normalize();
+        // transform.up = dir;
     }
 
     protected override void OnEnemyCollide(Enemy enemy)

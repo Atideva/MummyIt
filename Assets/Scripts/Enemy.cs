@@ -1,7 +1,8 @@
 using System;
+using Pools;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : PoolObject
 {
     public float speed = 1;
     public EnemyConfig _enemy;

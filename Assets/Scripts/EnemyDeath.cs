@@ -50,13 +50,14 @@ public class EnemyDeath : MonoBehaviour
 
     void DeathAnim(Enemy enemy)
     {
-        enemy.gameObject.SetActive(false);
+        //play death anim
+        enemy.ReturnToPool();
     }
 
     void Disable(Enemy enemy)
     {
-        if (enemy == testEnemy) enemy.transform.position = testPos;
-        enemy.transform.rotation = Quaternion.identity;
-        enemy.gameObject.SetActive(false);
+        if (enemy == testEnemy)
+            enemy.transform.position = testPos;
+        enemy.ReturnToPool();
     }
 }

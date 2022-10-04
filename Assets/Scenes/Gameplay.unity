@@ -196,7 +196,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6477067777568693682, guid: beef898ba7ebe6b4b9abe687bdb14c8f, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 375
+      value: 410
       objectReference: {fileID: 0}
     - target: {fileID: 6477067777568693682, guid: beef898ba7ebe6b4b9abe687bdb14c8f, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -772,15 +772,15 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 335917331}
   - {fileID: 777709468}
   - {fileID: 939090220}
   - {fileID: 1918230828}
   - {fileID: 1908580429}
   - {fileID: 1779724520}
-  - {fileID: 335917331}
   - {fileID: 719527964}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &248781291
 GameObject:
@@ -1058,7 +1058,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 244578244}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &335917332
 MonoBehaviour:
@@ -1951,7 +1951,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   col2D: {fileID: 622357462}
-  damage: 0
+  weapon: {fileID: 0}
   enemies: []
 --- !u!61 &622357462
 BoxCollider2D:
@@ -2132,6 +2132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8488250532b6ea4bb984eeb8d907f02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerUps: {fileID: 335917332}
+  plateArmorConfig: {fileID: 11400000, guid: b5a78c227b42bfe44a9ae27f2475a460, type: 2}
   ui: {fileID: 719527965}
   plates: []
 --- !u!1 &732962717
@@ -2269,6 +2271,7 @@ MonoBehaviour:
   moveTime: 0.5
   drawer: {fileID: 1900810926}
   pickupAtOnce: 1
+  movingSlots: []
 --- !u!4 &760289783
 Transform:
   m_ObjectHideFlags: 0
@@ -2345,7 +2348,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 244578244}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &777709469
 MonoBehaviour:
@@ -3209,7 +3212,7 @@ Transform:
   m_Children:
   - {fileID: 1365774288}
   m_Father: {fileID: 244578244}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &939090221
 MonoBehaviour:
@@ -3330,7 +3333,7 @@ MonoBehaviour:
   m_StartCorner: 0
   m_StartAxis: 0
   m_CellSize: {x: 250, y: 320}
-  m_Spacing: {x: 75, y: 0}
+  m_Spacing: {x: 110, y: 0}
   m_Constraint: 2
   m_ConstraintCount: 1
 --- !u!1 &996676484
@@ -3685,6 +3688,7 @@ Transform:
   - {fileID: 1698918651}
   - {fileID: 760289783}
   - {fileID: 856620201}
+  - {fileID: 1942275623}
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4263,7 +4267,7 @@ Transform:
   m_Children:
   - {fileID: 837281372}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1345630573
 GameObject:
@@ -5594,9 +5598,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80e99444f41d16b4295034b5f1d031af, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weapon:
-    damage: 0
-    cooldown: 0
+  weapon: {fileID: 0}
   getTargetsFreq: 0.5
   attackAnim: {fileID: 919484711}
   trigger: {fileID: 1721867264}
@@ -5731,7 +5733,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 244578244}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1779724521
 MonoBehaviour:
@@ -5794,7 +5796,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1866057991
 PrefabInstance:
@@ -6199,7 +6201,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 244578244}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1918230826
 GameObject:
@@ -6211,7 +6213,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1918230828}
   - component: {fileID: 1918230827}
-  - component: {fileID: 1918230829}
   m_Layer: 0
   m_Name: Shoot
   m_TagString: Untagged
@@ -6234,10 +6235,10 @@ MonoBehaviour:
   enemiesSpawner: {fileID: 2083509148}
   anim: {fileID: 466410743}
   firePos: {fileID: 770913809}
-  bulletPrefab: {fileID: 6607903517634770811, guid: c7ea198b09507ab4ab2562c9f8229721, type: 3}
-  pool: {fileID: 1918230829}
   plasmaOverloadSprite: {fileID: 21300000, guid: 59fc963c88017f244867d33ed23e1e2c, type: 3}
   baseBulletSprite: {fileID: 21300000, guid: 425b2c9535cdc75409f4f784fdc13211, type: 3}
+  currentPool: {fileID: 0}
+  currentGun: {fileID: 0}
   plasmaDmgMult: 0
   bonusDmgMult: 0
   speedDmgMult: 0
@@ -6254,20 +6255,55 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 244578244}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1918230829
+--- !u!1 &1942275622
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1942275623}
+  - component: {fileID: 1942275624}
+  m_Layer: 0
+  m_Name: AmmoMagnet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1942275623
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942275622}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1196593639}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1942275624
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1918230826}
+  m_GameObject: {fileID: 1942275622}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aeb0ffa4fc87f174abcafb49ec040eb8, type: 3}
+  m_Script: {fileID: 11500000, guid: ce124454ee8e69543b96c1f4a54b8a60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemHandler: {fileID: 0}
+  cooldown: 0
+  timer: 0
 --- !u!1 &1947215820
 GameObject:
   m_ObjectHideFlags: 0
@@ -6305,6 +6341,8 @@ MonoBehaviour:
   ammoColor: {r: 0.2530012, g: 1, b: 0, a: 1}
   powerUpColor: {r: 1, g: 0, b: 0.8420372, a: 1}
   gunColor: {r: 0, g: 0.33996248, b: 1, a: 1}
+  powerupChance: 0.1
+  powerupChanceMax: 0.5
 --- !u!4 &1947215822
 Transform:
   m_ObjectHideFlags: 0
@@ -6684,7 +6722,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemies:
-  - {fileID: 11400000, guid: 9052396f0081b954f8c378fc6e5b7831, type: 2}
   - {fileID: 11400000, guid: cb552d46b301eaf4ea74a0d2fbfacac5, type: 2}
   - {fileID: 11400000, guid: f5b244cd10d653a40b1a7424d5656c6c, type: 2}
   - {fileID: 11400000, guid: 033203839c5035d49ac692ab2e0b01c0, type: 2}

@@ -44,5 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93ac36f862621fe45ba0629ce7b07d03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  config: {fileID: 0}
   level: 0
   maxLevel: 0
+  weapons:
+  - sprite: {fileID: 0}
+    hitSound: {fileID: 0}
+    damage: 0
+    cooldown: 0

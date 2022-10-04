@@ -1,5 +1,4 @@
-using System;
-using System.Collections.Generic;
+ using System.Collections.Generic;
 using System.Linq;
 using Powerups;
 using UnityEngine;
@@ -15,8 +14,7 @@ public class PlayerPowerUps : MonoBehaviour
     {
         Events.Instance.OnUsePowerUp += OnPowerUpUse;
     }
-
-
+    
     void OnPowerUpUse(PowerUpConfig powerUp)
     {
         PowerUp up;
@@ -60,4 +58,5 @@ public class PlayerPowerUps : MonoBehaviour
     float TotalChance => availablePowerUps
         .Select((t, i) => i / (float) (availablePowerUps.Count - 1))
         .Sum(ammoCurve.Evaluate);
+    
 }

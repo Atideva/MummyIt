@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DG.Tweening;
+using Items;
 using UnityEngine;
 
 public class ItemHandler : MonoBehaviour
@@ -10,11 +11,13 @@ public class ItemHandler : MonoBehaviour
     public float moveTime = 0.5f;
     public PatternDrawer drawer;
     public int pickupAtOnce = 1;
-    List<ItemSlot> _collected = new();
-    
+    [Header("DEBUG")]
+    //   List<ItemSlot> _collectAtOnce = new();
+    public List<ItemSlot> movingSlots = new();
+
     void Awake()
     {
-        //     creator.OnSlotClick += CollectSlot;
+        // creator.OnSlotClick += CollectSlot;
         drawer.OnRelease += MatchSearch;
         Events.Instance.OnAddAmmoPickup += OnAddAmmoPickup;
     }
@@ -24,21 +27,32 @@ public class ItemHandler : MonoBehaviour
         pickupAtOnce += amount;
     }
 
-  
 
     void MatchSearch(List<Pattern> drawPattern)
     {
-        _collected = new List<ItemSlot>();
-        for (int i = 0; i < pickupAtOnce; i++)
+        //  _collectAtOnce = new List<ItemSlot>();
+        for (var i = 0; i < pickupAtOnce; i++)
         {
             var slot = GetSlot(drawPattern);
-            if (slot)
-            {
-                Collect(slot);
-                _collected.Add(slot);
-                //           StartCoroutine(Shoot(slot));
-                //    enemiesSpawner.EnemyAttacked(slot);
-            }
+            if (!slot) continue;
+            Collect(slot);
+            movingSlots.Add(slot);
+            //  _collectAtOnce.Add(slot);
+            //  StartCoroutine(Shoot(slot));
+            //  enemiesSpawner.EnemyAttacked(slot);
+        }
+    }
+
+    public bool AnyAmmo => GetAmmoSlot();
+
+    public void CollectAmmo()
+    {
+        for (var i = 0; i < pickupAtOnce; i++)
+        {
+            var slot = GetAmmoSlot();
+            if (!slot) continue;
+            Collect(slot);
+            movingSlots.Add(slot);
         }
     }
 
@@ -53,6 +67,7 @@ public class ItemHandler : MonoBehaviour
 
     void UseSlot(ItemSlot slot)
     {
+        movingSlots.Remove(slot);
         slot.Use();
     }
 
@@ -61,18 +76,30 @@ public class ItemHandler : MonoBehaviour
     {
         foreach (var slot in spawner.lineItems)
         {
-            //if (enemiesSpawner.IsAttacked(slot)) continue;
-            if (_collected.Contains(slot)) continue;
+            // if (_collectAtOnce.Contains(slot)) continue;
+            if (movingSlots.Contains(slot)) continue;
             if (patterns.Count != slot.item.Patterns.Count) continue;
 
             var match = patterns.Count
-            (draw => 
+            (draw =>
                 slot.item.Patterns.Any
-            (item =>
-                draw.start == item.start && draw.end == item.end ||
-                draw.start == item.end && draw.end == item.start));
+                (item =>
+                    draw.start == item.start && draw.end == item.end ||
+                    draw.start == item.end && draw.end == item.start));
 
             if (match == patterns.Count)
+                return slot;
+        }
+
+        return null;
+    }
+
+    ItemSlot GetAmmoSlot()
+    {
+        foreach (var slot in spawner.lineItems)
+        {
+            if (movingSlots.Contains(slot)) continue;
+            if (slot.item is ItemAmmo)
                 return slot;
         }
 
