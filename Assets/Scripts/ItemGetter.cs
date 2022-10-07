@@ -1,5 +1,6 @@
 using Items;
 using Pools;
+using Powerups;
 using UnityEngine;
 
 public class ItemGetter : MonoBehaviour
@@ -43,6 +44,21 @@ public class ItemGetter : MonoBehaviour
         return GetAmmo();
     }
 
+    public Item GetAmmoItem(AmmoConfig config)
+    {
+        var item = ammoPool.Get();
+        item.Set(config);
+        item.SetColor(ammoColor);
+        return item;
+    }
+    
+    public Item GetPowerupItem(PowerUpConfig config)
+    {
+        var item = powerUpPool.Get();
+        item.Set(config);
+        item.SetColor(ammoColor);
+        return item;
+    }
     Item GetAmmo()
     {
         var item = ammoPool.Get();

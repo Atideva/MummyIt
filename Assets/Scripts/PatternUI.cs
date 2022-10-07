@@ -15,6 +15,8 @@ public class PatternUI : MonoBehaviour
 
     public void Set(IReadOnlyList<Pattern> patterns)
     {
+        if (!gameObject.activeSelf) return;
+        
         if (patterns.Count == 0) return;
 
         foreach (var ui in points)
@@ -51,4 +53,5 @@ public class PatternUI : MonoBehaviour
             Debug.LogError("Pattern circle ID is out of range!");
         }
     }
+    
 }

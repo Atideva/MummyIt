@@ -1,5 +1,4 @@
 using System;
- 
 using UnityEngine;
 
 public class HitPoints : MonoBehaviour
@@ -9,14 +8,14 @@ public class HitPoints : MonoBehaviour
     public float maxHp;
     public event Action OnDeath=delegate {  };
     public float Percent =>   hp / maxHp;
- 
 
-    public void Init(int maximumHp)
+    public void SetMaxHp(int maximumHp)
     {
         maxHp = maximumHp;
         hp = maxHp;
     }
- 
+
+    public void HealAll() => hp = maxHp;
     
     public void Damage(float dmg)
     {

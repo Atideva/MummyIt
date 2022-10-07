@@ -18,7 +18,7 @@ public class Player : MonoBehaviour
     void Awake()
     {
         ChangeGun(startingGun);
-        hitPoints.Init(maxHp);
+        hitPoints.SetMaxHp(maxHp);
         RefreshHpBar();
     }
 

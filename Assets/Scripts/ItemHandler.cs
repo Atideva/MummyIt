@@ -11,15 +11,23 @@ public class ItemHandler : MonoBehaviour
     public float moveTime = 0.5f;
     public PatternDrawer drawer;
     public int pickupAtOnce = 1;
+ 
     [Header("DEBUG")]
     //   List<ItemSlot> _collectAtOnce = new();
     public List<ItemSlot> movingSlots = new();
 
     void Awake()
     {
-        // creator.OnSlotClick += CollectSlot;
+        spawner.OnSlotClick += OnSlotClick;
         drawer.OnRelease += MatchSearch;
         Events.Instance.OnAddAmmoPickup += OnAddAmmoPickup;
+    }
+
+    void OnSlotClick(ItemSlot slot)
+    {
+        if (movingSlots.Contains(slot)) return;
+        Collect(slot);
+        movingSlots.Add(slot); 
     }
 
     void OnAddAmmoPickup(int amount)

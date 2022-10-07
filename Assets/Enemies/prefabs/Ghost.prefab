@@ -55,5 +55,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ghost
       objectReference: {fileID: 0}
+    - target: {fileID: 4986288529969666838, guid: 0de9c02590172d34b947d61a5fce6f35, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0b8125c4387c99747a2a2712045b0643, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0de9c02590172d34b947d61a5fce6f35, type: 3}

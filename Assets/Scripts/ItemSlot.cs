@@ -14,21 +14,27 @@ public class ItemSlot : PoolObject
     public RectTransform container;
     public PatternUI patternUI;
     public Button sellButton;
+    public Button clickButton;
     public TextMeshProUGUI sellTxt;
 
     [Header("DEBUG")]
     public Item item;
-
+    public int Price { get; private set; }
     public event Action<ItemSlot> OnSell = delegate { };
+    public event Action<ItemSlot> OnClick = delegate { };
     public event Action<ItemSlot> OnUse = delegate { };
 
     void Awake()
     {
         sellButton.gameObject.SetActive(false);
         sellButton.onClick.AddListener(Sell);
+        clickButton.onClick.AddListener(Click);
     }
 
-    public int Price { get; private set; }
+    void Click()
+        => OnClick(this);
+    
+
 
     public void SetPrice(float sellMult)
     {
@@ -40,6 +46,7 @@ public class ItemSlot : PoolObject
 
     public void Set(Item newItem)
     {
+        ResetContainerPosition();
         item = newItem;
         icon.sprite = newItem.Icon;
         typeImage.color = newItem.TypeColor;
@@ -50,7 +57,7 @@ public class ItemSlot : PoolObject
 #endif
     }
 
-    public void Reset()
+      void ResetContainerPosition()
         => container.anchoredPosition = Vector2.zero;
 
     public void Use()

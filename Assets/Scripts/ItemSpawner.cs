@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Items;
 using Pools;
 using UnityEngine;
 
@@ -19,11 +20,11 @@ public class ItemSpawner : MonoBehaviour
     public List<ItemSlot> hasSubscribe = new();
 
     public event Action<ItemSlot> OnCreate = delegate { };
-    //  public event Action<ItemSlot> OnSlotClick = delegate { };
+    public event Action<ItemSlot> OnSlotClick = delegate { };
     bool _isMerchant;
     float _sellMult;
     float _cdMult;
-         
+
 
     void Start()
     {
@@ -32,10 +33,20 @@ public class ItemSpawner : MonoBehaviour
         isPause = false;
         timer = cooldown;
         Events.Instance.OnMerchant += OnMerchant;
-        Events.Instance.OnItemSpawnRateAdd += OnSpawnRate;
+        Events.Instance.OnItemSpawnRateAdd += OnItemSpawnRate;
+        Events.Instance.OnItemSpawnRequest += OnItemSpawnRequest;
     }
 
-    void OnSpawnRate(float add)
+    void OnItemSpawnRequest(Item item, float posX)
+    {
+        var slot = Create(item);
+        if (posX != -12345)
+        {
+            slot.slotRect.anchoredPosition = new Vector2(posX, 0);
+        }
+    }
+
+    void OnItemSpawnRate(float add)
     {
         _cdMult += add;
     }
@@ -53,30 +64,38 @@ public class ItemSpawner : MonoBehaviour
         timer -= Time.fixedDeltaTime;
         if (timer > 0) return;
         timer = cooldown / _cdMult;
-        Create();
+        var item = getter.Get();
+        Create(item);
     }
 
-    void Create()
+    ItemSlot Create(Item item)
     {
         var slot = pool.Get();
-        var item = getter.Get();
 
 #if UNITY_EDITOR
         item.name = item.Name;
 #endif
 
-        slot.Reset();
         slot.Set(item);
         if (_isMerchant)
             slot.SetPrice(_sellMult);
         lineItems.Add(slot);
+
         OnCreate(slot);
 
-        if (hasSubscribe.Contains(slot)) return;
-        hasSubscribe.Add(slot);
-        slot.OnUse += Remove;
-        slot.OnSell += OnSell;
+        if (!hasSubscribe.Contains(slot))
+        {
+            hasSubscribe.Add(slot);
+            slot.OnUse += Remove;
+            slot.OnSell += OnSell;
+            slot.OnClick += OnClick;
+        }
+
+        return slot;
     }
+
+    void OnClick(ItemSlot slot)
+        => OnSlotClick(slot);
 
     void OnSell(ItemSlot slot)
     {

@@ -8,6 +8,7 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
+    
     #region Singleton
 
     //-------------------------------------------------------------
@@ -40,12 +41,18 @@ public class EnemySpawner : MonoBehaviour
     public event Action<Enemy> OnSpawn = delegate { };
     readonly Dictionary<Enemy, EnemyPool> _pools = new();
 
-
-
+    public void StopSpawn() => _spawn = false;
     void Start()
     {
-        StartCoroutine(Spawn());
+        _spawn = true;
+        _timer = spawnCooldown;
         Events.Instance.OnEnemyDeath += OnEnemyDeath;
+        Events.Instance.OnEnemySpawnRequest += OnEnemySpawnRequest;
+    }
+
+    void OnEnemySpawnRequest(EnemyConfig enemy, Vector2 pos)
+    {
+        Spawn(enemy,pos);
     }
 
     public Enemy TryFindEnemy(Transform t)
@@ -68,25 +75,33 @@ public class EnemySpawner : MonoBehaviour
             attackedEnemies.Remove(en);
     }
 
-    IEnumerator Spawn()
+    float _timer;
+    bool _spawn;
+    void FixedUpdate()
     {
-        while (true)
-        {
-            MoveSpawnPosition();
-            var config = GetEnemyConfig();
-            var enemy = Pool(config.prefab).Get();
-            enemy.transform.position = spawnPos.position;
-            enemy.transform.rotation = Quaternion.identity;
-#if UNITY_EDITOR
-            enemy.gameObject.name = config.name;
-#endif
-            enemy.Init(config);
-            currentEnemies.Add(enemy);
-            OnSpawn(enemy);
-            yield return new WaitForSeconds(spawnCooldown);
-        }
+        _timer -= Time.fixedDeltaTime;
+        if (_timer > 0) return;
+        
+        _timer = spawnCooldown;
+        
+        MoveSpawnPosition();
+        var enemyConfig = GetEnemyConfig();
+        Spawn(enemyConfig, spawnPos.position);
     }
+ 
 
+    void Spawn(EnemyConfig config, Vector2 pos)
+    {
+        var enemy = Pool(config.prefab).Get();
+        enemy.transform.position = pos;
+        enemy.transform.rotation = Quaternion.identity;
+#if UNITY_EDITOR
+        enemy.gameObject.name = config.name;
+#endif
+        enemy.SetConfig(config);
+        currentEnemies.Add(enemy);
+        OnSpawn(enemy);
+    }
 
     EnemyConfig GetEnemyConfig() => enemies[Random.Range(0, enemies.Count)];
 
@@ -104,7 +119,7 @@ public class EnemySpawner : MonoBehaviour
             currentEnemies.Remove(enemy);
         }
     }
-    
+
     EnemyPool Pool(Enemy enemy)
     {
         if (_pools.ContainsKey(enemy)) return _pools[enemy];

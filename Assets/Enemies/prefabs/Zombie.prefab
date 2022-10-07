@@ -55,5 +55,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zombie
       objectReference: {fileID: 0}
+    - target: {fileID: 3535648359939336246, guid: 192abdd1e7653d14dbae5ef4db987df2, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0152d37e558a22048b3e7f8d58f84815, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 192abdd1e7653d14dbae5ef4db987df2, type: 3}

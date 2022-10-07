@@ -1,3 +1,4 @@
+using System.Linq;
 using DG.Tweening;
 using UnityEngine;
 
@@ -32,10 +33,18 @@ public class EnemyDeath : MonoBehaviour
 
     void OnEnemyDeath(Enemy enemy)
     {
-        if (enemy.LastTakenDmgIsMelee)
-            PunchAnim(enemy);
+        var reincarnate = enemy.abilities.Find(a => a is Reincarnate) as Reincarnate;
+        if (reincarnate && reincarnate.resurrects > 0)
+        {
+            //reincarnation
+        }
         else
-            DeathAnim(enemy);
+        {
+            if (enemy.LastTakenDmgIsMelee)
+                PunchAnim(enemy);
+            else
+                DeathAnim(enemy);
+        }
     }
 
     void PunchAnim(Enemy enemy)

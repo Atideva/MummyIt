@@ -4,6 +4,7 @@ TrippleEye - 3 eye on death
 MrDeath - huge attack
 Werewolf - auuuugh! enemies mov speed aura +30%
 Orc - siьple as that , just moving
-HaloweenGhost - shot fireball at player
+Haloween Ghost - shot fireball at player
 Skull - enemies attackspeed aura +50%
+
 mummy - wear pistols
