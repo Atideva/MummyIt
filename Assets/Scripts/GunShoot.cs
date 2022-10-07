@@ -58,26 +58,29 @@ public class GunShoot : MonoBehaviour
         => bonusDmgMult += mult;
 
     public void Shoot(Enemy enemy)
-        => StartCoroutine(ShootRoutine(enemy));
+        => StartCoroutine(ShootRoutine(Vector2.up, enemy));
 
-    IEnumerator ShootRoutine(Enemy enemy)
+    public void Shoot(Vector2 pos)
+        => StartCoroutine(ShootRoutine(pos));
+
+    IEnumerator ShootRoutine(Vector2 shootPos, Enemy enemy = null)
     {
         anim.Attack();
         yield return new WaitForSeconds(anim.attackDur);
 
-        if (currentGun.MultiShot )
+        if (currentGun.MultiShot)
         {
             var bullets = currentGun.MultiShot ? currentGun.BulletsAmountPerShot : 1;
             var spread = Random.Range(currentGun.AngleSpread.minValue, currentGun.AngleSpread.maxValue);
-           
+
             var pos = (Vector2) firePos.position;
-            var targetPos = (Vector2) enemy.transform.position;
+            var targetPos = enemy ? (Vector2) enemy.transform.position : shootPos;
             var dir = targetPos - pos;
             firePos.up = dir;
-            
+
             var angle = firePos.rotation.eulerAngles.z;
             dir.Normalize();
-            
+
             if (bullets > 1) angle -= spread / 2;
             var step = bullets > 1 ? spread / (bullets - 1) : 0;
 
@@ -116,8 +119,6 @@ public class GunShoot : MonoBehaviour
             bullet.transform.position = pos;
             bullet.Fire(enemy);
         }
-
-       
     }
 
     void MultiShot()

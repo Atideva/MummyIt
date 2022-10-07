@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 309876387318595186}
   - component: {fileID: 8566752977278701505}
   m_Layer: 5
-  m_Name: PlateArmor (1)
+  m_Name: PlateArmor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -11,7 +11,7 @@ public class ItemHandler : MonoBehaviour
     public float moveTime = 0.5f;
     public PatternDrawer drawer;
     public int pickupAtOnce = 1;
- 
+    public LazyPickerHandler lazyPicker;
     [Header("DEBUG")]
     //   List<ItemSlot> _collectAtOnce = new();
     public List<ItemSlot> movingSlots = new();
@@ -26,8 +26,10 @@ public class ItemHandler : MonoBehaviour
     void OnSlotClick(ItemSlot slot)
     {
         if (movingSlots.Contains(slot)) return;
+        if (lazyPicker.current <= 0) return;
+        lazyPicker.SpendOneCharge();
         Collect(slot);
-        movingSlots.Add(slot); 
+        movingSlots.Add(slot);
     }
 
     void OnAddAmmoPickup(int amount)

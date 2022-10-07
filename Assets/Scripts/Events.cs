@@ -29,7 +29,7 @@ public class Events : MonoBehaviour
     #endregion
 
     public event Action<Item, float> OnItemSpawnRequest = delegate { };
-    public void SpawnItem(Item item, float posX=-12345) => OnItemSpawnRequest(item, posX);
+    public void SpawnItem(Item item, float posX = -12345) => OnItemSpawnRequest(item, posX);
     public event Action<EnemyConfig, Vector2> OnEnemySpawnRequest = delegate { };
     public void SpawnEnemy(EnemyConfig enemy, Vector2 pos) => OnEnemySpawnRequest(enemy, pos);
 
@@ -81,11 +81,15 @@ public class Events : MonoBehaviour
     public event Action<int> OnAddGold = delegate { };
     public void AddGold(int amount) => OnAddGold(amount);
 
+    public event Action<float> OnHealPlayer = delegate { };
+    public void HealPlayer(float amount) => OnHealPlayer(amount);
     public event Action<float> OnItemSpawnRateAdd = delegate { };
     public void AddItemSpawnRate(float addMult) => OnItemSpawnRateAdd(addMult);
 
     public event Action<float> OnPowerupSpawnRateAdd = delegate { };
     public void AddPowerupSpawnRate(float addMult) => OnPowerupSpawnRateAdd(addMult);
-}
 
- 
+    public event Action<int, float> OnLazyPickerAdd = delegate { };
+    public void AddLazyPicker(int amount, float cooldown) => OnLazyPickerAdd(amount, cooldown);
+    
+}

@@ -6,8 +6,8 @@ public class TakeAim : Perk
 {
     public float bulletSpdBonus;
     public float bulletDmgBonus;
-
-    void Refresh()
+ 
+    public override void Activate()
     {
         Events.Instance.TakeAim();
         Events.Instance.AddBulletSpeed(bulletSpdBonus);

@@ -16,8 +16,9 @@ public class Gun : MonoBehaviour
     [Header("DEBUG")]
     public GunConfig gun;
     public int magazine;
-    public float shootTimer;
+    public float shootCooldown;
 
+    bool _autoShoot;
     bool _plasmaOverload;
     float _plasmaOverloadTimer;
     float _plasmaAtkSpdBonus;
@@ -60,10 +61,12 @@ public class Gun : MonoBehaviour
         plasmaOverloadOutline.enabled = false;
     }
 
+
     void FixedUpdate()
     {
+        shootCooldown -= Time.fixedDeltaTime;
         if (!enemiesSpawner) return;
-        if (magazine == 0 && !_plasmaOverload) return;
+        if (magazine <= 0 && !_plasmaOverload) return;
 
         if (_plasmaOverload)
         {
@@ -73,18 +76,29 @@ public class Gun : MonoBehaviour
                 StopPlasmaOverload();
         }
 
-        var target = GetClosestEnemy(enemiesSpawner.currentEnemies);
-        if (!target) return;
-
-        shootTimer -= Time.fixedDeltaTime;
-        if (shootTimer <= 0)
-        {
-            shootTimer = 1 / (gun.FireRate * (1 + _plasmaAtkSpdBonus));
-            Shoot(target);
-            //  enemiesSpawner.EnemyAttacked(target);
-        }
+        if (!_autoShoot) return;
+        ShootAtClosestTarget();
     }
 
+    public void ShootAtPos(Vector2 pos)
+    {
+        if (shootCooldown > 0) return;
+        ResetShootCooldown();
+        Shoot(pos);
+    }
+
+    public void ShootAtClosestTarget()
+    {
+        if (shootCooldown > 0) return;
+        var target = GetClosestEnemy(enemiesSpawner.currentEnemies);
+        if (!target) return;
+        ResetShootCooldown();
+        Shoot(target);
+        //enemiesSpawner.EnemyAttacked(target);
+    }
+
+    void ResetShootCooldown() 
+        => shootCooldown = 1 / (gun.FireRate * (1 + _plasmaAtkSpdBonus));
 
     public void ChangeGun(GunConfig newGun)
     {
@@ -95,8 +109,19 @@ public class Gun : MonoBehaviour
 
     public void Shoot(Enemy target)
     {
-        if (!_plasmaOverload) magazine--;
         shoot.Shoot(target);
+        RefreshMagazine();
+    }
+
+    public void Shoot(Vector2 pos)
+    {
+        shoot.Shoot(pos);
+        RefreshMagazine();
+    }
+
+    void RefreshMagazine()
+    {
+        if (!_plasmaOverload) magazine--;
         RefreshText();
     }
 
@@ -106,6 +131,10 @@ public class Gun : MonoBehaviour
         RefreshText();
     }
 
+    public void EnableAutoShoot()
+        => _autoShoot = true;
+    public void DisableAutoShoot()
+        => _autoShoot = false;
 
     Enemy GetClosestEnemy(List<Enemy> enemies)
     {
@@ -125,5 +154,6 @@ public class Gun : MonoBehaviour
         return closest;
     }
 
-    void RefreshText() => amountTxt.text = magazine.ToString();
+    void RefreshText() 
+        => amountTxt.text = magazine.ToString();
 }

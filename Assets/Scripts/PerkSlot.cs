@@ -5,11 +5,17 @@ using UnityEngine.UI;
 
 public class PerkSlot : MonoBehaviour
 {
-    public Image icon;
     public Button button;
-    public PerkConfig perk;
-    // public  AbilityConfig ability;
+    public Image icon;
+    public GameObject levelUp;
+    public TextMeshProUGUI curLvl;
+    public TextMeshProUGUI nextLvl;
     public TextMeshProUGUI description;
+    [Header("DEBUG")]
+    public PerkConfig perk;
+    public GunConfig gun;
+    // public  AbilityConfig ability;
+
     public event Action<PerkSlot> OnClick = delegate { };
 
     void Awake()
@@ -25,11 +31,28 @@ public class PerkSlot : MonoBehaviour
     //     perk = null;
     // }
 
-    public void Set(PerkConfig perkConfig)
+    public void Set(PerkConfig perkConfig, int lvl)
     {
         perk = perkConfig;
+      
         icon.sprite = perkConfig.Icon;
         description.text = perkConfig.Description;
+     
+        levelUp.SetActive(lvl != 1);
+        curLvl.text = lvl.ToString();
+        nextLvl.text = (lvl + 1).ToString();
+
+
         //  ability = null;
+    }
+
+    public void Set(GunConfig gunConfig)
+    {
+        gun = gunConfig;
+        
+        icon.sprite = gunConfig.Icon;
+        description.text = gunConfig.Description;
+       
+        levelUp.SetActive(false);
     }
 }

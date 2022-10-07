@@ -6,8 +6,11 @@ public abstract class Perk : MonoBehaviour
     public int level;
     public int maxLevel;
 
-//     public abstract void Activate();
+    public abstract void Activate();
+ 
     public void LevelUp()
     {
+        level++;
+        Activate();
     }
 }

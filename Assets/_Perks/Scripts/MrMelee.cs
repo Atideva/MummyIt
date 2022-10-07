@@ -10,8 +10,8 @@ public class MrMelee : Perk
  
     
     //public PlayerMeleeData incPerLvl;
-
-    void Refresh()
+ 
+    public override void Activate()
     {
         Events.Instance.PlayerMeleeWeapon(weapons[0]);
     }

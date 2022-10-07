@@ -4,10 +4,10 @@ public class Engineer : Perk
     public float itemSpawnIncrease;
     public float powerupSpawnIncrease;
     
-    public void Refresh()
+ 
+    public override void Activate()
     {
         Events.Instance.AddItemSpawnRate(itemSpawnIncrease);
         Events.Instance.AddPowerupSpawnRate(powerupSpawnIncrease);
     }
-    
 }

@@ -6,9 +6,10 @@ public class PlateArmor : Perk
 {
     public float onePlateDurability;
     
-    void Refresh()
+    
+
+    public override void Activate()
     {
         Events.Instance.AddPlateArmor(onePlateDurability);
- 
     }
 }

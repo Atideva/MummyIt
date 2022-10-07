@@ -7,6 +7,9 @@ public class PerkSelect : MonoBehaviour
     public PlayerLevel playerLevel;
     public PerksSelectUI ui;
     public List<PerkConfig> perks = new();
+    [Header("Guns")]
+    public float gunChance = 0.2f;
+    public List<PerkConfig> guns = new();
     public List<AbilityConfig> abilitiesPool = new();
     [Header("DEBUG")]
     public List<Perk> chosenPerks = new();
@@ -26,11 +29,11 @@ public class PerkSelect : MonoBehaviour
         {
             var pk = chosenPerks.Find(p => p.config == perk);
             pk.LevelUp();
-            //pk.Activate();
         }
         else
         {
             var pk = Instantiate(perk.Prefab, transform);
+            pk.Activate();
             chosenPerks.Add(pk);
             //pk.Activate();
         }
@@ -49,17 +52,23 @@ public class PerkSelect : MonoBehaviour
 
     void Show()
     {
-        var perks = this.perks.ToList();
+        var perkList = perks.ToList();
 
         List<PerkConfig> choose = new();
-        for (int i = 0; i < 3; i++)
+        List<int> levels = new();
+        
+        for (var i = 0; i < 3; i++)
         {
-            var r = Random.Range(0, perks.Count);
-            choose.Add(perks[r]);
-            perks.Remove(perks[r]);
+            var r = Random.Range(0, perkList.Count);
+            var p = perkList[r];
+            choose.Add(p);
+            var exist = chosenPerks.FirstOrDefault(perk => perk.config = p);
+            var lvl = exist ? exist.level : 1;
+            levels.Add(lvl);
+            perkList.Remove(perkList[r]);
         }
 
-        ui.Show(choose);
+        ui.Show(choose, levels);
     }
     
 }

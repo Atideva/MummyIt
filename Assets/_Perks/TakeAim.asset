@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14aaa648411a6645b9797df215169de, type: 3}
   m_Name: TakeAim
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  description: 
+  icon: {fileID: 21300000, guid: 1ec81743df94f4af4a205d83f99fd189, type: 3}
   prefab: {fileID: 1077789414610424781, guid: a9dab6be7fbaf934e80135e3576f1597, type: 3}
+  description: Increase dmg and bullet speed

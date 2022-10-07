@@ -15,6 +15,7 @@ public class GunConfig : ScriptableObject
     [SerializeField] float delayBetweenShots;
     //   [SerializeField] float angleSpread;
     [SerializeField]     [RangeInt(0, 180)] RangedInt angleSpread;
+    [SerializeField][TextArea] string description;
   //  [RangeFloat(0, 3)] public RangedFloat pitch;
     //[SerializeField] int magazine = 6;
     //[SerializeField] float reloadTime = 0.5f;
@@ -27,7 +28,7 @@ public class GunConfig : ScriptableObject
     public Sprite Icon => icon;
     public float FireRate => fireRate;
     public Sprite Sprite => sprite;
-
+    public string Description => description;
     public float GetAmmoChance(int ammoID)
     {
         var point = ammo.Count > 1 ? (float) ammoID / (ammo.Count - 1) : 0;

@@ -15,6 +15,15 @@ public class HitPoints : MonoBehaviour
         hp = maxHp;
     }
 
+    public void Heal(float amount)
+    {
+        hp += amount;
+        if (hp > maxHp)
+        {
+            hp = maxHp;
+        }
+    }
+
     public void HealAll() => hp = maxHp;
     
     public void Damage(float dmg)

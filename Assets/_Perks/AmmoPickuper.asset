@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14aaa648411a6645b9797df215169de, type: 3}
   m_Name: AmmoPickuper
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  description: 
+  icon: {fileID: 21300000, guid: af16dc5e98e0d47ac9fd8734f244c058, type: 3}
   prefab: {fileID: 4374823079258215699, guid: 1b58224ab4cefbd408e14852e2225a00, type: 3}
+  description: Pickup more ammo at once

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f14aaa648411a6645b9797df215169de, type: 3}
   m_Name: Engineer
   m_EditorClassIdentifier: 
-  icon: {fileID: 0}
-  description: 
+  icon: {fileID: 21300000, guid: 84b97b938844d4732834a0fb89e2f3b1, type: 3}
   prefab: {fileID: 1368242251663146024, guid: 8404ced15388d4844bfca72deafff999, type: 3}
+  description: More items!

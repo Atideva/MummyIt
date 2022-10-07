@@ -5,8 +5,8 @@ using UnityEngine;
 public class AmmoPickupMaster : Perk
 {
     public int bonusItemPerLvl;
-   
-    void Refresh()
+  
+    public override void Activate()
     {
         Events.Instance.AddAmmoPickup(bonusItemPerLvl);
     }

@@ -5,8 +5,8 @@ using UnityEngine;
 public class AmmoMagnet : Perk
 {
     public float cooldown;
-   
-    void Refresh()
+ 
+    public override void Activate()
     {
         Events.Instance.AmmoMagnet(cooldown);
     }

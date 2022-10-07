@@ -4,6 +4,7 @@ public class Player : MonoBehaviour
 {
     [Header("Settings")]
     public PlayerPowerUps powerUps;
+    public PlayerGunSwitcher gunSwitcherUI;
     public GunConfig startingGun;
     public int maxHp = 100;
     public HitPoints hitPoints;
@@ -27,6 +28,14 @@ public class Player : MonoBehaviour
         Events.Instance.OnAmmoAdd += OnAddAmmo;
         Events.Instance.OnEnemyAttack += OnAttackedByEnemy;
         Events.Instance.OnPlayerMeleeWeapon += OnMeleeWeapon;
+        Events.Instance.OnHealPlayer += OnHealPlayer;
+        
+    }
+
+    void OnHealPlayer(float hpRestore)
+    {
+         hitPoints.Heal(hpRestore);
+         RefreshHpBar();
     }
 
     void OnMeleeWeapon(MeleeWeaponConfig wep)

@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f14aaa648411a6645b9797df215169de, type: 3}
-  m_Name: AmmoMagnet
+  m_Name: LazyPicker
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: c629d8bdb59bb4d0ab348fbd7fc3b2cd, type: 3}
-  prefab: {fileID: 2070190758985386832, guid: a667c3c7b9f781545ba17a5ee90ed530, type: 3}
-  description: Ammo magnet
+  icon: {fileID: 21300000, guid: 0b599f30c1fbc9a4e9c1556868160b0b, type: 3}
+  prefab: {fileID: 2683625052632524475, guid: 6caddde1fac33174a94485e5949279d4, type: 3}
+  description: No more draw lines! Just tap on item to get it!
