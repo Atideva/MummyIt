@@ -66,15 +66,15 @@ public class ItemGetter : MonoBehaviour
         var chance = Random.Range(0f, 1);
         var sum = 0f;
 
-        for (var i = 0; i < player.currentGun.Ammo.Count; i++)
+        for (var i = 0; i < player.ammoMagazine.AmmoTypes.Count; i++)
         {
-            sum += player.currentGun.GetAmmoChance(i);
+            sum += player.ammoMagazine.GetAmmoChance(i);
             if (chance > sum) continue;
             id = i;
             break;
         }
 
-        var ammo = player.currentGun.Ammo[id];
+        var ammo = player.ammoMagazine.AmmoTypes[id];
         item.Set(ammo);
         item.SetColor(ammoColor);
         return item;

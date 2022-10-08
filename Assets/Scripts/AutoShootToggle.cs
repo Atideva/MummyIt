@@ -1,11 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AutoShootToggle : MonoBehaviour
 {
-    public Gun gun;
+    public Gun firstGun;
+    public Gun secondGun;
     public Button toggleButton;
     public Image toggleImage;
     public Color enableColor;
@@ -16,7 +15,6 @@ public class AutoShootToggle : MonoBehaviour
     {
         _enable = true;
         ChangeState(_enable);
-
         toggleButton.onClick.AddListener(Toggle);
     }
 
@@ -30,9 +28,15 @@ public class AutoShootToggle : MonoBehaviour
     void ChangeState(bool isEnable)
     {
         if (isEnable)
-            gun.EnableAutoShoot();
+        {
+            firstGun.EnableAutoShoot();
+            secondGun.EnableAutoShoot();
+        }
         else
-            gun.DisableAutoShoot();
+        {
+            firstGun.DisableAutoShoot();
+            secondGun.DisableAutoShoot();
+        }
         
         toggleImage.color = isEnable ? enableColor : disableColor;
     }

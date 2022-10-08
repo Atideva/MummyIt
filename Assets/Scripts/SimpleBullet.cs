@@ -29,6 +29,9 @@ public class SimpleBullet : Bullet
         
         Debug.Log("Bullet collide enemy: " + enemy.name, enemy);
         enemy.Damage(Damage);
+        if (AttackModifiers.Count > 0)
+            Events.Instance.ApplyAttackModifier(enemy, AttackModifiers);
+            
         ReturnToPool();
     }
 

@@ -30,6 +30,8 @@ public class HomingBullet : Bullet
         if (dist < 0.5f)
         {
             target.Damage(Damage);
+            if (AttackModifiers.Count > 0)
+                Events.Instance.ApplyAttackModifier(target, AttackModifiers);
             ReturnToPool();
         }
     }

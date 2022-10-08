@@ -1,4 +1,5 @@
 using System;
+using Perks;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -34,11 +35,12 @@ public class PerkSlot : MonoBehaviour
     public void Set(PerkConfig perkConfig, int lvl)
     {
         perk = perkConfig;
-      
+        gun = null;
+        
         icon.sprite = perkConfig.Icon;
         description.text = perkConfig.Description;
      
-        levelUp.SetActive(lvl != 1);
+        levelUp.SetActive(lvl > 1);
         curLvl.text = lvl.ToString();
         nextLvl.text = (lvl + 1).ToString();
 
@@ -46,9 +48,10 @@ public class PerkSlot : MonoBehaviour
         //  ability = null;
     }
 
-    public void Set(GunConfig gunConfig)
+    public void Set(GunConfig gunConfig,int lvl)
     {
         gun = gunConfig;
+        perk = null;
         
         icon.sprite = gunConfig.Icon;
         description.text = gunConfig.Description;

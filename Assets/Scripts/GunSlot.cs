@@ -7,6 +7,9 @@ public class GunSlot : MonoBehaviour
     public GunConfig gun;
     public Image icon;
     public Button clickButton;
+    public Image rank;
+    public Image atkModificator;
+
     public event Action<GunSlot> OnClick = delegate { };
 
     void Awake()
@@ -20,5 +23,17 @@ public class GunSlot : MonoBehaviour
     {
         gun = newGun;
         icon.sprite = newGun.Icon;
+    }
+
+    public void SetModificator(Sprite sprite)
+    {
+        atkModificator.enabled = true;
+        atkModificator.sprite = sprite;
+    }
+
+    public void DisableModificator() => atkModificator.enabled = false;
+    public void SetRank(Sprite sprite)
+    {
+        rank.sprite = sprite;
     }
 }

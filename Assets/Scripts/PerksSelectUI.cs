@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Perks;
 using UnityEngine;
 
 public class PerksSelectUI : MonoBehaviour
@@ -9,6 +10,8 @@ public class PerksSelectUI : MonoBehaviour
     public Canvas canvas;
 
     public event Action<PerkConfig> OnPerkSelect = delegate { };
+
+    public event Action<GunConfig> OnGunSelect = delegate { };
     //  public event Action<AbilityConfig> OnAbilitySelected = delegate { };
 
     void Awake()
@@ -26,17 +29,32 @@ public class PerksSelectUI : MonoBehaviour
     void OnSlotClick(PerkSlot slot)
     {
         if (slot.perk) OnPerkSelect(slot.perk);
+        if (slot.gun) OnGunSelect(slot.gun);
         //   if (slot.ability) OnAbilitySelected(slot.ability);
         Hide();
     }
 
-    public void Show(List<PerkConfig> perks, List<int> lvl)
+    public void Show(GunConfig gun, List<PerkConfig> perks, List<int> lvl)
     {
         canvas.enabled = true;
-        for (int i = 0; i < slots.Count; i++)
+        var from = 0;
+        if (gun)
+        {
+            slots[0].Set(gun, lvl[0]);
+            from++;
+        }
+
+        for (int i = from; i < slots.Count; i++)
         {
             if (i < perks.Count)
+            {
+                slots[i].gameObject.SetActive(true);
                 slots[i].Set(perks[i], lvl[i]);
+            }
+            else
+            {
+                slots[i].gameObject.SetActive(false);
+            }
         }
     }
 }

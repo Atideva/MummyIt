@@ -42,6 +42,7 @@ public class EnemySpawner : MonoBehaviour
     readonly Dictionary<Enemy, EnemyPool> _pools = new();
 
     public void StopSpawn() => _spawn = false;
+    
     void Start()
     {
         _spawn = true;

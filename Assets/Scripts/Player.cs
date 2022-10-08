@@ -4,7 +4,7 @@ public class Player : MonoBehaviour
 {
     [Header("Settings")]
     public PlayerPowerUps powerUps;
-    public PlayerGunSwitcher gunSwitcherUI;
+
     public GunConfig startingGun;
     public int maxHp = 100;
     public HitPoints hitPoints;
@@ -12,13 +12,22 @@ public class Player : MonoBehaviour
     public PlayerPlateArmor plateArmor;
     public MeleeWeapon meleeWeapon;
     [Header("Setup")]
-    public Gun gun;
+    public Gun firstGun;
+    public Gun secondGun;
+    public GunSlotsUI gunSlotsUI;
     [Header("DEBUG")]
-    public GunConfig currentGun;
+    public GunConfig firstGunConfig;
+    public GunConfig secondGunConfig;
+    public AmmoMagazine ammoMagazine;
 
     void Awake()
     {
-        ChangeGun(startingGun);
+        firstGun.Enable();
+        secondGun.Disable();
+
+        firstGun.Init(ammoMagazine);
+        ChangeFirst(startingGun);
+
         hitPoints.SetMaxHp(maxHp);
         RefreshHpBar();
     }
@@ -29,13 +38,79 @@ public class Player : MonoBehaviour
         Events.Instance.OnEnemyAttack += OnAttackedByEnemy;
         Events.Instance.OnPlayerMeleeWeapon += OnMeleeWeapon;
         Events.Instance.OnHealPlayer += OnHealPlayer;
-        
+        Events.Instance.OnGunPickup += OnGunPickup;
+        Events.Instance.OnAllowSecondGun += AllowSecondGun;
+    }
+
+    void AllowSecondGun()
+    {
+        secondGun.Init(ammoMagazine);
+        ChangeSecond(startingGun);
+    }
+
+    void ChangeFirst(GunConfig newGun)
+    {
+        firstGunConfig = newGun;
+        firstGun.Change(newGun);
+        gunSlotsUI.FirstSlotRefresh(firstGun);
+    }
+
+    void ChangeSecond(GunConfig newGun)
+    {
+        secondGunConfig = newGun;
+        secondGun.Change(newGun);
+        gunSlotsUI.SecondSlotRefresh(secondGun);
+    }
+
+    void UpgradeFirst()
+    {
+        firstGun.Upgrade();
+        gunSlotsUI.FirstSlotRefresh(firstGun);
+    }
+
+    void UpgradeSecond()
+    {
+        secondGun.Upgrade();
+        gunSlotsUI.SecondSlotRefresh(secondGun);
+    }
+
+    void OnGunPickup(GunConfig gun)
+    {
+        if (secondGun.Enabled && secondGun.Empty)
+        {
+            ChangeSecond(gun);
+            return;
+        }
+
+        if (firstGun.CanUpgrade && firstGun.gun == gun)
+        {
+            UpgradeFirst();
+            return;
+        }
+
+        if (secondGun.CanUpgrade && secondGun.gun == gun)
+        {
+            UpgradeSecond();
+            return;
+        }
+
+        if (firstGun.CanChange)
+        {
+            ChangeFirst(gun);
+            return;
+        }
+
+        if (secondGun.CanChange)
+        {
+            ChangeSecond(gun);
+            return;
+        }
     }
 
     void OnHealPlayer(float hpRestore)
     {
-         hitPoints.Heal(hpRestore);
-         RefreshHpBar();
+        hitPoints.Heal(hpRestore);
+        RefreshHpBar();
     }
 
     void OnMeleeWeapon(MeleeWeaponConfig wep)
@@ -58,13 +133,6 @@ public class Player : MonoBehaviour
         RefreshHpBar();
     }
 
-
     void OnAddAmmo(AmmoConfig ammo)
-        => gun.AddAmmo(ammo.Amount);
-
-    public void ChangeGun(GunConfig newGun)
-    {
-        currentGun = newGun;
-        gun.ChangeGun(newGun);
-    }
+        => ammoMagazine.AddAmmo(ammo.Amount);
 }

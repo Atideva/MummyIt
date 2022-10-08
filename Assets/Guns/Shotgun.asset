@@ -16,32 +16,11 @@ MonoBehaviour:
   icon: {fileID: 0}
   sprite: {fileID: 0}
   fireRate: 3
-  ammo:
-  - {fileID: 11400000, guid: c74cc202376b5f047aacbc8b4d924511, type: 2}
-  - {fileID: 11400000, guid: be020dfeac0742d4c9832ddc5f47b82f, type: 2}
-  - {fileID: 11400000, guid: 69038996dcb3fb84bb05b8a861ec703f, type: 2}
-  ammoCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: -0.99871993
-      outSlope: -0.99871993
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1.0012817
-      value: 0
-      inSlope: -0.99871993
-      outSlope: -0.99871993
-      tangentMode: 34
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  chanceFactor: 4
+  multiShot: 1
+  bulletsAmountPerShot: 3
+  delayBetweenShots: 0
+  angleSpread:
+    minValue: 41.538445
+    maxValue: 41.538445
+  description: Shotgun
+  maxUpgradeLevel: 6

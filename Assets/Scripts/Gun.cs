@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using AttackModificators;
 using EPOOutline;
 using Powerups;
-using TMPro;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -10,25 +10,38 @@ public class Gun : MonoBehaviour
     public SpriteRenderer gunSprite;
     public SpriteRenderer aimSprite;
     public Outlinable plasmaOverloadOutline;
-    public TextMeshProUGUI amountTxt;
+
     public EnemySpawner enemiesSpawner;
     public float topCornerY = 4.5f;
     [Header("DEBUG")]
     public GunConfig gun;
-    public int magazine;
-    public float shootCooldown;
 
+    public float shootCooldown;
     bool _autoShoot;
     bool _plasmaOverload;
     float _plasmaOverloadTimer;
     float _plasmaAtkSpdBonus;
+    AmmoMagazine _magazine;
+    public int lvl;
+    public AttackModificatorConfig attackModificator;
+    public bool CanUpgrade => Enabled && gun && lvl < gun.MaxUpgradeLevel;
+    public bool CanChange => Enabled &&gun && lvl < 2;
+    public bool ChangeDisabled => !CanChange;
+    public bool IsMaxed => Enabled &&gun && lvl >= gun.MaxUpgradeLevel;
+    public bool Enabled { get; private set; }
+    public bool Empty =>  gun == null;
+ 
+    public void Init(AmmoMagazine magazine)
+    {
+        Enabled = true;
+        lvl = 1;
+        _magazine = magazine;
+    }
 
     void Awake()
     {
         aimSprite.enabled = false;
         plasmaOverloadOutline.enabled = false;
-        magazine = 0;
-        RefreshText();
     }
 
     void Start()
@@ -66,7 +79,7 @@ public class Gun : MonoBehaviour
     {
         shootCooldown -= Time.fixedDeltaTime;
         if (!enemiesSpawner) return;
-        if (magazine <= 0 && !_plasmaOverload) return;
+        if (_magazine.Ammo <= 0 && !_plasmaOverload) return;
 
         if (_plasmaOverload)
         {
@@ -97,14 +110,32 @@ public class Gun : MonoBehaviour
         //enemiesSpawner.EnemyAttacked(target);
     }
 
-    void ResetShootCooldown() 
+    void ResetShootCooldown()
         => shootCooldown = 1 / (gun.FireRate * (1 + _plasmaAtkSpdBonus));
 
-    public void ChangeGun(GunConfig newGun)
+
+    public void Disable()
+    {
+        gunSprite.enabled = false;
+        enabled = false;
+    }
+
+    public void Enable()
+    {
+        gunSprite.enabled = true;
+        enabled = true;
+    }
+
+    public void Change(GunConfig newGun)
     {
         gun = newGun;
         gunSprite.sprite = newGun.Sprite;
         shoot.ChangeGun(newGun);
+    }
+
+    public void Upgrade()
+    {
+        lvl++;
     }
 
     public void Shoot(Enemy target)
@@ -121,18 +152,14 @@ public class Gun : MonoBehaviour
 
     void RefreshMagazine()
     {
-        if (!_plasmaOverload) magazine--;
-        RefreshText();
+        if (!_plasmaOverload)
+            _magazine.TakeAmmo();
     }
 
-    public void AddAmmo(int amount)
-    {
-        magazine += amount;
-        RefreshText();
-    }
 
     public void EnableAutoShoot()
         => _autoShoot = true;
+
     public void DisableAutoShoot()
         => _autoShoot = false;
 
@@ -153,7 +180,4 @@ public class Gun : MonoBehaviour
 
         return closest;
     }
-
-    void RefreshText() 
-        => amountTxt.text = magazine.ToString();
 }

@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using AttackModificators;
 using Items;
 using Powerups;
 using UnityEngine;
@@ -47,6 +49,9 @@ public class Events : MonoBehaviour
 
     public event Action<Enemy, float> OnEnemyAttack = delegate { };
     public void EnemyAttack(Enemy enemy, float damage) => OnEnemyAttack(enemy, damage);
+    
+    public event Action<Enemy, IReadOnlyList<AttackModificatorConfig>> OnApplyAttackModifier = delegate { };
+    public void ApplyAttackModifier(Enemy enemy, IReadOnlyList<AttackModificatorConfig> modifiers) => OnApplyAttackModifier(enemy,modifiers);
 
     public event Action OnLevelUp = delegate { };
     public void LevelUp() => OnLevelUp();
@@ -83,6 +88,10 @@ public class Events : MonoBehaviour
 
     public event Action<float> OnHealPlayer = delegate { };
     public void HealPlayer(float amount) => OnHealPlayer(amount);
+
+    public event Action<GunConfig> OnGunPickup = delegate { };
+    public void GunPickup(GunConfig gun) => OnGunPickup(gun);
+
     public event Action<float> OnItemSpawnRateAdd = delegate { };
     public void AddItemSpawnRate(float addMult) => OnItemSpawnRateAdd(addMult);
 
@@ -91,5 +100,7 @@ public class Events : MonoBehaviour
 
     public event Action<int, float> OnLazyPickerAdd = delegate { };
     public void AddLazyPicker(int amount, float cooldown) => OnLazyPickerAdd(amount, cooldown);
-    
+
+    public event Action OnAllowSecondGun = delegate { };
+    public void AllowSecondGun() => OnAllowSecondGun();
 }

@@ -37,24 +37,7 @@ public class GunConfigEditor : Editor
         base.OnInspectorGUI();
         EditorGUILayout.Space();
 
-        if (script.Ammo.Count > 0)
-        {
-            _scroll = EditorGUILayout.BeginScrollView(_scroll, GUILayout.MaxHeight(300));
-            for (var i = 0; i < script.Ammo.Count; i++)
-            {
-                EditorGUILayout.BeginHorizontal("box");
-                var nam = script.Ammo[i] ? script.Ammo[i].name : "None";
-                EditorGUILayout.LabelField(nam);
-
-                var chance = (int) (script.GetAmmoChance(i) * 100f);
-
-                EditorGUILayout.LabelField(chance + "%");
-                EditorGUILayout.EndHorizontal();
-            }
-
-            EditorGUILayout.EndScrollView();
-        }
-
+        
 
         if (GUI.changed) SetObjectDirty(script);
     }
