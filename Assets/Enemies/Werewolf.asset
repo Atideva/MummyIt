@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ca147af480e6b479799f59d4743f00, type: 3}
   m_Name: Werewolf
   m_EditorClassIdentifier: 
-  prefab: {fileID: 3706425043409998655, guid: 83548ca3022c78d4da45e970865b529b, type: 3}
+  prefab: {fileID: 185352164650466385, guid: 5ea7aab98b9d2c747a683a73515795df, type: 3}
   damage: 10
   attackSpeed: 1
   speed: 0.2

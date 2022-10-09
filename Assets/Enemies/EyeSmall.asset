@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ca147af480e6b479799f59d4743f00, type: 3}
   m_Name: EyeSmall
   m_EditorClassIdentifier: 
-  prefab: {fileID: 4905183063030693113, guid: 0de9c02590172d34b947d61a5fce6f35, type: 3}
+  prefab: {fileID: 961508967817660204, guid: 11f0e50e5498d2f4db8d221318f21319, type: 3}
   damage: 10
   attackSpeed: 1
   speed: 0.2

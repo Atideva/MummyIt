@@ -7,29 +7,43 @@ using UnityEngine;
 public class ItemHandler : MonoBehaviour
 {
     public ItemSpawner spawner;
+    public ItemCollector collector;
     public Transform moveTo;
+    public Transform ammoMoveTo;
     public float moveTime = 0.5f;
     public PatternDrawer drawer;
     public int pickupAtOnce = 1;
     public LazyPickerHandler lazyPicker;
     [Header("DEBUG")]
-    //   List<ItemSlot> _collectAtOnce = new();
+    //List<ItemSlot> _collectAtOnce = new();
     public List<ItemSlot> movingSlots = new();
+    public bool AnyAmmo => GetAmmoSlot();
 
     void Awake()
     {
         spawner.OnSlotClick += OnSlotClick;
-        drawer.OnRelease += MatchSearch;
+        drawer.OnRelease += SearchMatchItem;
         Events.Instance.OnAddAmmoPickup += OnAddAmmoPickup;
     }
 
     void OnSlotClick(ItemSlot slot)
     {
         if (movingSlots.Contains(slot)) return;
-        if (lazyPicker.current <= 0) return;
-        lazyPicker.SpendOneCharge();
-        Collect(slot);
-        movingSlots.Add(slot);
+
+        if (collector.AnyEmptySlot && slot.item is not ItemAmmo)
+        {
+            Debug.Log("Slot collect", slot);
+            movingSlots.Add(slot);
+            collector.Collect(slot);
+            return;
+        }
+
+        if (lazyPicker.current > 0)
+        {
+            lazyPicker.SpendOneCharge();
+            movingSlots.Add(slot);
+            Pickup(slot);
+        }
     }
 
     void OnAddAmmoPickup(int amount)
@@ -38,22 +52,33 @@ public class ItemHandler : MonoBehaviour
     }
 
 
-    void MatchSearch(List<Pattern> drawPattern)
+    void SearchMatchItem(List<Pattern> drawPattern)
     {
-        //  _collectAtOnce = new List<ItemSlot>();
-        for (var i = 0; i < pickupAtOnce; i++)
+        var getSlot = GetSlot(drawPattern, spawner.VisibleItems);
+        if (!getSlot)
         {
-            var slot = GetSlot(drawPattern);
+            var collectorSlot = GetSlot(drawPattern, collector.Items);
+            if (collectorSlot)
+                collector.UseItem(collectorSlot);
+
+            return;
+        }
+
+        Pickup(getSlot);
+        movingSlots.Add(getSlot);
+
+        if (getSlot.item is not ItemAmmo || pickupAtOnce < 2)
+            return;
+
+        for (var i = 1; i < pickupAtOnce; i++)
+        {
+            var slot = GetSlot(drawPattern, spawner.VisibleItems);
             if (!slot) continue;
-            Collect(slot);
+            Pickup(slot);
             movingSlots.Add(slot);
-            //  _collectAtOnce.Add(slot);
-            //  StartCoroutine(Shoot(slot));
-            //  enemiesSpawner.EnemyAttacked(slot);
         }
     }
 
-    public bool AnyAmmo => GetAmmoSlot();
 
     public void CollectAmmo()
     {
@@ -61,33 +86,49 @@ public class ItemHandler : MonoBehaviour
         {
             var slot = GetAmmoSlot();
             if (!slot) continue;
-            Collect(slot);
+            Pickup(slot);
             movingSlots.Add(slot);
         }
     }
 
-    void Collect(ItemSlot slot)
+    public float collectSize = 0.4f;
+    void Pickup(ItemSlot slot)
     {
+        var pos = slot.item is ItemAmmo
+            ? ammoMoveTo.position
+            : moveTo.position;
+
+
+        slot.container.DOScale(collectSize, moveTime);
+        
         Debug.Log("Slot collect", slot);
         slot.container
-            .DOMove(moveTo.position, moveTime)
+            .DOMove(pos, moveTime)
             .OnComplete(()
                 => UseSlot(slot));
     }
 
+    public void FinishMove(ItemSlot slot)
+    {
+        if (movingSlots.Contains(slot))
+            movingSlots.Remove(slot);
+    }
+
     void UseSlot(ItemSlot slot)
     {
-        movingSlots.Remove(slot);
+        FinishMove(slot);
         slot.Use();
+        slot.ReturnToPool();
     }
 
 
-    ItemSlot GetSlot(IReadOnlyList<Pattern> patterns)
+    ItemSlot GetSlot(IReadOnlyList<Pattern> patterns, IEnumerable<ItemSlot> items)
     {
-        foreach (var slot in spawner.lineItems)
+        foreach (var slot in items)
         {
             // if (_collectAtOnce.Contains(slot)) continue;
             if (movingSlots.Contains(slot)) continue;
+            if (slot.IsEmpty) continue;
             if (patterns.Count != slot.item.Patterns.Count) continue;
 
             var match = patterns.Count
@@ -106,7 +147,7 @@ public class ItemHandler : MonoBehaviour
 
     ItemSlot GetAmmoSlot()
     {
-        foreach (var slot in spawner.lineItems)
+        foreach (var slot in spawner.VisibleItems)
         {
             if (movingSlots.Contains(slot)) continue;
             if (slot.item is ItemAmmo)

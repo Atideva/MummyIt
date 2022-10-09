@@ -14,11 +14,11 @@ public class PlayerLevel : MonoBehaviour
     void Start()
     {
         Events.Instance.OnEnemyDeath += OnEnemyDeath;
-        Events.Instance.OnLevelUp += OnExtraLevelUp;
+        Events.Instance.OnLevelUp += OnUp;
         CalcNextXp();
     }
 
-    void OnExtraLevelUp()
+    void OnUp()
         => LevelUp();
 
     void OnEnemyDeath(Enemy enemy)
@@ -41,4 +41,5 @@ public class PlayerLevel : MonoBehaviour
         CalcNextXp();
         currentXp = 0;
     }
+    
 }

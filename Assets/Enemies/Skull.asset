@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ca147af480e6b479799f59d4743f00, type: 3}
   m_Name: Skull
   m_EditorClassIdentifier: 
-  prefab: {fileID: 2454025316616738643, guid: cff2551b8dc63ec4eb5c43e0491b831c, type: 3}
+  prefab: {fileID: 2856227684994954032, guid: 2d2875a1eeb1590488374e95d7f0161c, type: 3}
   damage: 10
   attackSpeed: 1
   speed: 0.2

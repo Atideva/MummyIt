@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ca147af480e6b479799f59d4743f00, type: 3}
   m_Name: HalloweenGhost
   m_EditorClassIdentifier: 
-  prefab: {fileID: 2346073116473969286, guid: 84e62b3f82feb634f9bccc85aa777db1, type: 3}
+  prefab: {fileID: 4515520660837510006, guid: d406f36d532c55b4abd491b9b8a28d35, type: 3}
   damage: 10
   attackSpeed: 1
   speed: 0.2

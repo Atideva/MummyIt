@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ca147af480e6b479799f59d4743f00, type: 3}
   m_Name: MrDeath
   m_EditorClassIdentifier: 
-  prefab: {fileID: 7454458492298275222, guid: f68f234d81eb08d45aae1aa1f5851024, type: 3}
+  prefab: {fileID: 3988606014288036933, guid: 0d3d18791306279459fd349aaed36d52, type: 3}
   damage: 10
   attackSpeed: 1
   speed: 0.2

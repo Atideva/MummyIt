@@ -16,10 +16,11 @@ public class PerkSelect : MonoBehaviour
     //  public List<AbilityConfig> abilitiesPool = new();
     [Header("DEBUG")]
     public List<Perk> chosenPerks = new();
+    public int levelUps;
 
     void Start()
     {
-        playerLevel.OnLevelUp += ChoosePerk;
+        playerLevel.OnLevelUp += OnLevelUp;
         ui.OnPerkSelect += OnPerkSelect;
         ui.OnGunSelect += OnGunSelect;
         // ui.OnAbilitySelected += Continue;
@@ -28,7 +29,7 @@ public class PerkSelect : MonoBehaviour
     void OnGunSelect(GunConfig gunConfig)
     {
         Events.Instance.GunPickup(gunConfig);
-        Continue();
+        CheckLevels();
     }
 
     //  void Continue(AbilityConfig ab) 
@@ -49,13 +50,36 @@ public class PerkSelect : MonoBehaviour
             //pk.Activate();
         }
 
-        Continue();
+        CheckLevels();
+    }
+
+    void CheckLevels()
+    {
+        levelUps--;
+        if (levelUps == 0)
+            Continue();
+        else
+        {
+            if (perks.Count > 0)
+                ChoosePerk();
+            else
+            {
+                levelUps = 0;
+                Continue();
+            }
+        }
     }
 
     void Continue() => Time.timeScale = 1;
     void Pause() => Time.timeScale = 0;
 
-    void ChoosePerk(int lvl)
+    void OnLevelUp(int lvl)
+    {
+        levelUps++;
+        ChoosePerk();
+    }
+
+    void ChoosePerk()
     {
         if (perks.Count == 0) return;
         Show();

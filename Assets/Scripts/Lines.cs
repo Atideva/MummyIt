@@ -30,8 +30,5 @@ public class Lines : MonoBehaviour
     public PatternLine prefab;
     public PatternLinePool pool;
     public PatternLine Get() => pool.Get();
-    void AwakeJob()
-    {
-        pool.SetPrefab(prefab);
-    }
+    void AwakeJob() => pool.SetPrefab(prefab);
 }

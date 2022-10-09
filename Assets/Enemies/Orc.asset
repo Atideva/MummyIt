@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ca147af480e6b479799f59d4743f00, type: 3}
   m_Name: Orc
   m_EditorClassIdentifier: 
-  prefab: {fileID: 1478847009070100215, guid: 3a4c6c801d02e804aa39ce52668c1473, type: 3}
+  prefab: {fileID: 3301117572974768192, guid: 03d59d8559eb68f49ab6c8a803fa2390, type: 3}
   damage: 10
   attackSpeed: 1
   speed: 0.2

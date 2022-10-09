@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6ca147af480e6b479799f59d4743f00, type: 3}
   m_Name: Worm
   m_EditorClassIdentifier: 
-  prefab: {fileID: 6373927686315593663, guid: 1fbbe7bde385db84f8a9ac54e9a8617d, type: 3}
+  prefab: {fileID: 2086166509120481257, guid: 7b36a8c405430c84bbb1f6bfbb76054e, type: 3}
   damage: 10
   attackSpeed: 1
   speed: 0.2

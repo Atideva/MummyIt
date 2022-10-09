@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Items;
 using Pools;
 using UnityEngine;
@@ -10,14 +11,23 @@ public class ItemSpawner : MonoBehaviour
     public ItemSlot slotPrefab;
     public ItemPool pool;
     public ItemGetter getter;
+    public ItemTransporter transporter;
     [Header("Settings")]
-    public float cooldown = 1;
+    public float itemPerSec = 1;
+
     public bool isPause;
     public float timer;
-
+    public int maxItemsCount = 10;
     [Header("DEBUG")]
-    public List<ItemSlot> lineItems = new();
-    public List<ItemSlot> hasSubscribe = new();
+    [SerializeField] List<ItemSlot> lineItems = new();
+    [SerializeField] List<ItemSlot> hasSubscribe = new();
+
+    public List<ItemSlot> VisibleItems  
+        => lineItems.Where(item => transporter.IsVisible(item)).ToList();
+
+    float Cooldown => 1 / itemPerSec;
+
+    public IReadOnlyList<ItemSlot> LineItems => lineItems;
 
     public event Action<ItemSlot> OnCreate = delegate { };
     public event Action<ItemSlot> OnSlotClick = delegate { };
@@ -31,7 +41,7 @@ public class ItemSpawner : MonoBehaviour
         _cdMult = 1;
         pool.SetPrefab(slotPrefab);
         isPause = false;
-        timer = cooldown;
+        timer = Cooldown;
         Events.Instance.OnMerchant += OnMerchant;
         Events.Instance.OnItemSpawnRateAdd += OnItemSpawnRate;
         Events.Instance.OnItemSpawnRequest += OnItemSpawnRequest;
@@ -63,7 +73,8 @@ public class ItemSpawner : MonoBehaviour
 
         timer -= Time.fixedDeltaTime;
         if (timer > 0) return;
-        timer = cooldown / _cdMult;
+        if (lineItems.Count >= maxItemsCount) return;
+        timer = Cooldown / _cdMult;
         var item = getter.Get();
         Create(item);
     }
@@ -86,7 +97,8 @@ public class ItemSpawner : MonoBehaviour
         if (!hasSubscribe.Contains(slot))
         {
             hasSubscribe.Add(slot);
-            slot.OnUse += Remove;
+            // slot.OnUse += Remove;
+            slot.OnDestroy += Remove;
             slot.OnSell += OnSell;
             slot.OnClick += OnClick;
         }

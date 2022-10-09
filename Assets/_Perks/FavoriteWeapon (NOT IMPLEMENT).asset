@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f14aaa648411a6645b9797df215169de, type: 3}
+  m_Name: FavoriteWeapon (NOT IMPLEMENT)
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: dfd025a9f65894f9ab6c3e0ad7b68615, type: 3}
+  prefab: {fileID: 1790055622023680208, guid: f8fcbc0c40f73f44eaec811390f59260, type: 3}
+  description: Llock current weapon and upgrade it!

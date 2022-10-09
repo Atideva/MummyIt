@@ -23,17 +23,33 @@ public class ItemSlot : PoolObject
     public event Action<ItemSlot> OnSell = delegate { };
     public event Action<ItemSlot> OnClick = delegate { };
     public event Action<ItemSlot> OnUse = delegate { };
+    public event Action<ItemSlot> OnDestroy = delegate { };
+    public bool HasItem => item;
+    public bool IsEmpty => !item;
+    public bool Enabled => gameObject.activeSelf;
+
+    public void Empty()
+    {
+        item = null;
+        container.gameObject.SetActive(false);
+    }
 
     void Awake()
     {
         sellButton.gameObject.SetActive(false);
         sellButton.onClick.AddListener(Sell);
         clickButton.onClick.AddListener(Click);
+        OnReturnToPool += OnReturn;
+    }
+
+    void OnReturn()
+    {
+        patternUI.Disable();
+        OnDestroy(this);
     }
 
     void Click()
         => OnClick(this);
-    
 
 
     public void SetPrice(float sellMult)
@@ -46,7 +62,7 @@ public class ItemSlot : PoolObject
 
     public void Set(Item newItem)
     {
-        ResetContainerPosition();
+        ResetContainer();
         item = newItem;
         icon.sprite = newItem.Icon;
         typeImage.color = newItem.TypeColor;
@@ -57,21 +73,23 @@ public class ItemSlot : PoolObject
 #endif
     }
 
-      void ResetContainerPosition()
-        => container.anchoredPosition = Vector2.zero;
+    void ResetContainer()
+    {
+        container.gameObject.SetActive(true);
+        container.anchoredPosition = Vector2.zero;
+        container.localScale=Vector3.one;
+    }
 
     public void Use()
     {
         item.Use();
         OnUse(this);
-        patternUI.Disable();
-        ReturnToPool();
+ 
     }
 
     void Sell()
     {
         OnSell(this);
-        patternUI.Disable();
         ReturnToPool();
     }
 }

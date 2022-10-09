@@ -34,7 +34,8 @@ public class EnemySpawner : MonoBehaviour
 
     public List<EnemyConfig> enemies = new();
     public Enemy prefab;
-    public float spawnCooldown;
+    public float enemiesPerSec = 2;
+      float SpawnCooldown=> 1/enemiesPerSec;
     public Transform spawnPos;
     public List<Enemy> currentEnemies = new();
     public List<Enemy> attackedEnemies = new();
@@ -46,7 +47,7 @@ public class EnemySpawner : MonoBehaviour
     void Start()
     {
         _spawn = true;
-        _timer = spawnCooldown;
+        _timer = SpawnCooldown;
         Events.Instance.OnEnemyDeath += OnEnemyDeath;
         Events.Instance.OnEnemySpawnRequest += OnEnemySpawnRequest;
     }
@@ -83,7 +84,7 @@ public class EnemySpawner : MonoBehaviour
         _timer -= Time.fixedDeltaTime;
         if (_timer > 0) return;
         
-        _timer = spawnCooldown;
+        _timer = SpawnCooldown;
         
         MoveSpawnPosition();
         var enemyConfig = GetEnemyConfig();

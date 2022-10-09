@@ -9,7 +9,8 @@ public class GunSlot : MonoBehaviour
     public Button clickButton;
     public Image rank;
     public Image atkModificator;
-
+    public void Enable() => gameObject.SetActive(true);
+    public void Disable() => gameObject.SetActive(false);
     public event Action<GunSlot> OnClick = delegate { };
 
     void Awake()
@@ -34,6 +35,10 @@ public class GunSlot : MonoBehaviour
     public void DisableModificator() => atkModificator.enabled = false;
     public void SetRank(Sprite sprite)
     {
+        rank.enabled = true;
         rank.sprite = sprite;
     }
+
+    
+    public void DisableRank() => rank.enabled = false;
 }

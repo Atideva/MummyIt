@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 6607903517634770811, guid: a494b1592967a154e81f71dcd79d782d, type: 3}
-  icon: {fileID: 0}
-  sprite: {fileID: 0}
+  icon: {fileID: -3695664891932108249, guid: b071b51d5d9e27945835b2fc1e40fc49, type: 3}
+  sprite: {fileID: -3695664891932108249, guid: b071b51d5d9e27945835b2fc1e40fc49, type: 3}
   fireRate: 3
   multiShot: 1
   bulletsAmountPerShot: 3
   delayBetweenShots: 0
   angleSpread:
-    minValue: 41.538445
-    maxValue: 41.538445
+    minValue: 23.721703
+    maxValue: 23.721703
   description: Shotgun
   maxUpgradeLevel: 6

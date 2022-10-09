@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     public PlayerHpUI hpBar;
     public PlayerPlateArmor plateArmor;
     public MeleeWeapon meleeWeapon;
+    public AmmoMagazine ammoMagazine;
     [Header("Setup")]
     public Gun firstGun;
     public Gun secondGun;
@@ -18,7 +19,7 @@ public class Player : MonoBehaviour
     [Header("DEBUG")]
     public GunConfig firstGunConfig;
     public GunConfig secondGunConfig;
-    public AmmoMagazine ammoMagazine;
+    
 
     void Awake()
     {

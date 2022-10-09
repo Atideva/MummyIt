@@ -17,9 +17,10 @@ public class LazyPickerHandler : MonoBehaviour
     {
         ui.Disable();
     }
-
+ 
     void Start()
     {
+        OnAdd(99999, 1);
         Events.Instance.OnLazyPickerAdd += OnAdd;
     }
 

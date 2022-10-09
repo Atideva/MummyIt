@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f14aaa648411a6645b9797df215169de, type: 3}
-  m_Name: FavoriteWeapon
+  m_Name: ItemCollector
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: dfd025a9f65894f9ab6c3e0ad7b68615, type: 3}
-  prefab: {fileID: 1790055622023680208, guid: f8fcbc0c40f73f44eaec811390f59260, type: 3}
-  description: Llock current weapon and upgrade it!
+  icon: {fileID: 21300000, guid: af16dc5e98e0d47ac9fd8734f244c058, type: 3}
+  prefab: {fileID: 7882531866211672212, guid: 304be891175fe90448da237606bc324b, type: 3}
+  description: Tap on an item to save it for the right time

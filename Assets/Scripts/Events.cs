@@ -103,4 +103,7 @@ public class Events : MonoBehaviour
 
     public event Action OnAllowSecondGun = delegate { };
     public void AllowSecondGun() => OnAllowSecondGun();
+    
+    public event Action<int> OnItemCollectSlotAdd = delegate { };
+    public void AddItemCollectSlot(int amount) => OnItemCollectSlotAdd(amount);
 }

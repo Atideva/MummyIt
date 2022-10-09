@@ -7,12 +7,19 @@ public class ItemTransporter : MonoBehaviour
     public ItemSpawner spawner;
 
     public float moveSpeed;
-    [Header("DEBUG")]
     public float leftCorner;
+    public bool deleteItems;
+    public float deleteItemCorner;
+    [Header("DEBUG")]
     public float rightCorner;
     public float itemWidth;
-    IReadOnlyList<ItemSlot> Items => spawner.lineItems;
+    IReadOnlyList<ItemSlot> Items => spawner.LineItems;
 
+    public bool IsVisible(ItemSlot slot)
+    {
+        var x = slot.slotRect.anchoredPosition.x;
+        return x <= rightCorner;
+    }
 
     // rect.anchoredPosition = new Vector3(i * stepWidth, 0);
     void Start()
@@ -41,6 +48,7 @@ public class ItemTransporter : MonoBehaviour
 
     void Update()
     {
+        var toRemove = new List<ItemSlot>();
         for (var i = 0; i < Items.Count; i++)
         {
             var moveTo = i == 0 ? leftCorner : GetRightBorder(Items[i - 1]);
@@ -48,12 +56,22 @@ public class ItemTransporter : MonoBehaviour
             var x = Items[i].slotRect.anchoredPosition.x;
             var y = Items[i].slotRect.anchoredPosition.y;
 
+            if (deleteItems && x <= deleteItemCorner)
+            {
+                toRemove.Add(Items[i]);
+            }
+
             if (x > moveTo)
             {
                 x -= moveSpeed * Time.deltaTime;
                 if (x < moveTo) x = moveTo;
                 Items[i].slotRect.anchoredPosition = new Vector2(x, y);
             }
+        }
+
+        foreach (var r in toRemove)
+        {
+            r.ReturnToPool();
         }
     }
 }
