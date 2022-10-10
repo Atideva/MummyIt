@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
     public PlayerPlateArmor plateArmor;
     public MeleeWeapon meleeWeapon;
     public AmmoMagazine ammoMagazine;
+    public PlasmaOverloading plasmaOverload;
     [Header("Setup")]
     public Gun firstGun;
     public Gun secondGun;
@@ -19,14 +20,14 @@ public class Player : MonoBehaviour
     [Header("DEBUG")]
     public GunConfig firstGunConfig;
     public GunConfig secondGunConfig;
-    
+
 
     void Awake()
     {
         firstGun.Enable();
         secondGun.Disable();
 
-        firstGun.Init(ammoMagazine);
+        firstGun.Init(ammoMagazine, plasmaOverload);
         ChangeFirst(startingGun);
 
         hitPoints.SetMaxHp(maxHp);
@@ -45,8 +46,9 @@ public class Player : MonoBehaviour
 
     void AllowSecondGun()
     {
-        secondGun.Init(ammoMagazine);
+        secondGun.Init(ammoMagazine, plasmaOverload);
         ChangeSecond(startingGun);
+        plasmaOverload.SecondGunEnabled();
     }
 
     void ChangeFirst(GunConfig newGun)

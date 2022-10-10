@@ -40,7 +40,7 @@ public class ItemCollector : MonoBehaviour
     {
         moving.Add(slot);
         slot.container
-            .DOMove(handler.moveTo.position, moveTime)
+            .DOMove(handler.powerupsMoveTo.position, moveTime)
             .OnComplete(()
                 => UseSlot(slot));
     }

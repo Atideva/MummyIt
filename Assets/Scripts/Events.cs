@@ -92,8 +92,8 @@ public class Events : MonoBehaviour
     public event Action<GunConfig> OnGunPickup = delegate { };
     public void GunPickup(GunConfig gun) => OnGunPickup(gun);
 
-    public event Action<float> OnItemSpawnRateAdd = delegate { };
-    public void AddItemSpawnRate(float addMult) => OnItemSpawnRateAdd(addMult);
+    public event Action<float> OnIncreaseItemRate = delegate { };
+    public void AddItemSpawnRate(float addMult) => OnIncreaseItemRate(addMult);
 
     public event Action<float> OnPowerupSpawnRateAdd = delegate { };
     public void AddPowerupSpawnRate(float addMult) => OnPowerupSpawnRateAdd(addMult);

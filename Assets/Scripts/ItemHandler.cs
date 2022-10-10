@@ -8,19 +8,22 @@ public class ItemHandler : MonoBehaviour
 {
     public ItemSpawner spawner;
     public ItemCollector collector;
-    public Transform moveTo;
+    public Transform powerupsMoveTo;
     public Transform ammoMoveTo;
     public float moveTime = 0.5f;
     public PatternDrawer drawer;
     public int pickupAtOnce = 1;
     public LazyPickerHandler lazyPicker;
+    public float collectSize = 0.4f;
     [Header("DEBUG")]
     //List<ItemSlot> _collectAtOnce = new();
     public List<ItemSlot> movingSlots = new();
     public bool AnyAmmo => GetAmmoSlot();
-
+    public bool enable;
+    public void Disable() => enable = false;
     void Awake()
     {
+        enable = true;
         spawner.OnSlotClick += OnSlotClick;
         drawer.OnRelease += SearchMatchItem;
         Events.Instance.OnAddAmmoPickup += OnAddAmmoPickup;
@@ -28,6 +31,7 @@ public class ItemHandler : MonoBehaviour
 
     void OnSlotClick(ItemSlot slot)
     {
+        if (!enable) return;
         if (movingSlots.Contains(slot)) return;
 
         if (collector.AnyEmptySlot && slot.item is not ItemAmmo)
@@ -91,12 +95,12 @@ public class ItemHandler : MonoBehaviour
         }
     }
 
-    public float collectSize = 0.4f;
-    void Pickup(ItemSlot slot)
+
+    public  void Pickup(ItemSlot slot)
     {
         var pos = slot.item is ItemAmmo
             ? ammoMoveTo.position
-            : moveTo.position;
+            : powerupsMoveTo.position;
 
 
         slot.container.DOScale(collectSize, moveTime);

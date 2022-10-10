@@ -43,7 +43,7 @@ public class ItemSpawner : MonoBehaviour
         isPause = false;
         timer = Cooldown;
         Events.Instance.OnMerchant += OnMerchant;
-        Events.Instance.OnItemSpawnRateAdd += OnItemSpawnRate;
+        Events.Instance.OnIncreaseItemRate += OnIncreaseItemRate;
         Events.Instance.OnItemSpawnRequest += OnItemSpawnRequest;
     }
 
@@ -56,7 +56,7 @@ public class ItemSpawner : MonoBehaviour
         }
     }
 
-    void OnItemSpawnRate(float add)
+    void OnIncreaseItemRate(float add)
     {
         _cdMult += add;
     }

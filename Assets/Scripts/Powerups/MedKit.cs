@@ -3,7 +3,8 @@
     public class MedKit : PowerUp
     {
         public float hpRestore;
-        public override void Use()
+
+        protected override void OnUse()
         {
         Events.Instance.HealPlayer(hpRestore);
         }

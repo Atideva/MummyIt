@@ -10,6 +10,7 @@ public class Enemy : PoolObject
     public TestPatternView patternView;
     public HitPoints hp;
     public int baseHp;
+    public Grayscale grayScale;
 
     [Header("ABILITIES")]
     public List<EnemyAbility> abilities = new();
@@ -20,6 +21,9 @@ public class Enemy : PoolObject
     public bool LastTakenDmgIsMelee { get; private set; }
     public bool IsFreeze { get; private set; }
 
+    public bool Immune { get; private set; }
+
+    float _immunePosY;
     bool _isMeleeAttack;
     float _meleeTimer;
     bool _isMove;
@@ -33,6 +37,13 @@ public class Enemy : PoolObject
         hp.OnDeath += OnDeath;
         foreach (var ability in abilities)
             ability.Init(this);
+    }
+
+    public void SetImmune(float y)
+    {
+        Immune = true;
+        _immunePosY = y;
+        grayScale.Enable();
     }
 
     public void SetConfig(EnemyConfig enemy)
@@ -50,12 +61,16 @@ public class Enemy : PoolObject
     }
 
     public void Freeze(bool freeze)
-        => IsFreeze = freeze;
+    {
+        if (Immune) return;
 
-    public void Move() 
+        IsFreeze = freeze;
+    }
+
+    public void Move()
         => _isMove = true;
 
-    public void StopMove() 
+    public void StopMove()
         => _isMove = false;
 
     public void StartMeleeAttack()
@@ -64,10 +79,10 @@ public class Enemy : PoolObject
         _meleeTimer = 0;
     }
 
-    public void StopMeleeAttack() 
+    public void StopMeleeAttack()
         => _isMeleeAttack = false;
 
-    void MeleeAttack() 
+    void MeleeAttack()
         => Events.Instance.EnemyAttack(this, _enemy.damage);
 
 
@@ -83,12 +98,16 @@ public class Enemy : PoolObject
 
     public void DamageByMelee(float dmg)
     {
+        if (Immune) return;
+
         LastTakenDmgIsMelee = true;
         hp.Damage(dmg);
     }
 
     public void Damage(float dmg)
     {
+        if (Immune) return;
+
         LastTakenDmgIsMelee = false;
         hp.Damage(dmg);
     }
@@ -96,6 +115,13 @@ public class Enemy : PoolObject
 
     void Update()
     {
+ 
+        if (Immune && transform.position.y <= _immunePosY)
+        {
+            Immune = false;
+            grayScale.Disable();
+        }
+
         if (_isMove && !IsFreeze)
         {
             transform.position += Vector3.down * (Time.deltaTime * speed * (1 + _bonusMOVEspd));

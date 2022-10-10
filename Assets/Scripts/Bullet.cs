@@ -27,14 +27,17 @@ public abstract class Bullet : PoolObject
     public abstract void Fire(Enemy newTarget);
     public void SetSprite(Sprite sprite) => bulletSprite.sprite = sprite;
 
-    public void SetDamageMult(float plasma, float bonus)
+    public void SetDamage(float dmg,float plasma, float bonus)
     {
+
+        damage = dmg;
         plasmaMult = plasma;
         bonusMult = bonus;
     }
 
-    public void SetSpeedMult(float bonusSpeed)
+    public void SetSpeed(float spd,float bonusSpeed)
     {
+        speed = spd;
         speedMult = bonusSpeed;
     }
 

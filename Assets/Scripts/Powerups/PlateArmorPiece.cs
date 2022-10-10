@@ -2,7 +2,7 @@ namespace Powerups
 {
     public class PlateArmorPiece : PowerUp
     {
-        public override void Use()
+        protected override void OnUse()
         {
             Events.Instance.RestorePlateArmor();
         }

@@ -1,5 +1,4 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Pools;
@@ -32,6 +31,7 @@ public class EnemySpawner : MonoBehaviour
 
     #endregion
 
+    public Transform immunePos;
     public List<EnemyConfig> enemies = new();
     public Enemy prefab;
     public float enemiesPerSec = 2;
@@ -81,8 +81,10 @@ public class EnemySpawner : MonoBehaviour
     bool _spawn;
     void FixedUpdate()
     {
+        
         _timer -= Time.fixedDeltaTime;
         if (_timer > 0) return;
+        if (!_spawn) return;
         
         _timer = SpawnCooldown;
         
@@ -101,6 +103,7 @@ public class EnemySpawner : MonoBehaviour
         enemy.gameObject.name = config.name;
 #endif
         enemy.SetConfig(config);
+        enemy.SetImmune(immunePos.position.y);
         currentEnemies.Add(enemy);
         OnSpawn(enemy);
     }

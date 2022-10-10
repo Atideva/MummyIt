@@ -9,6 +9,8 @@ public class GunConfig : ScriptableObject
     [SerializeField] Bullet bulletPrefab;
     [SerializeField] Sprite icon;
     [SerializeField] Sprite sprite;
+    [SerializeField] float damage = 10;
+    [SerializeField] float bulletSpeed = 10;
     [SerializeField] float fireRate = 3;
     [SerializeField] bool multiShot;
     [SerializeField] int bulletsAmountPerShot;
@@ -61,4 +63,8 @@ public class GunConfig : ScriptableObject
     public float DelayBetweenShots => delayBetweenShots;
 
     public int MaxUpgradeLevel => maxUpgradeLevel;
+
+    public float Damage => damage;
+
+    public float BulletSpeed => bulletSpeed;
 }

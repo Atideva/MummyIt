@@ -92,9 +92,9 @@ public class GunShoot : MonoBehaviour
                 //BULLET_POOL.CreateBullet(damage, bulletSpeed, firePoint.position, Quaternion.Euler(0f, 0f, randomAngle));
 
                 var bullet = currentPool.Get();
+                bullet.SetDamage(currentGun.Damage, plasmaDmgMult, bonusDmgMult);
+                bullet.SetSpeed(currentGun.BulletSpeed, speedDmgMult);
                 bullet.SetSprite(_plasmaOverload ? plasmaOverloadSprite : baseBulletSprite);
-                bullet.SetDamageMult(plasmaDmgMult, bonusDmgMult);
-                bullet.SetSpeedMult(speedDmgMult);
                 bullet.transform.position = firePos.position;
                 bullet.transform.rotation = Quaternion.Euler(0f, 0f, randomAngle);
                 bullet.Fire(enemy);
@@ -108,8 +108,8 @@ public class GunShoot : MonoBehaviour
         {
             var bullet = currentPool.Get();
             bullet.SetSprite(_plasmaOverload ? plasmaOverloadSprite : baseBulletSprite);
-            bullet.SetDamageMult(plasmaDmgMult, bonusDmgMult);
-            bullet.SetSpeedMult(speedDmgMult);
+            bullet.SetDamage(currentGun.Damage, plasmaDmgMult, bonusDmgMult);
+            bullet.SetSpeed(currentGun.BulletSpeed, speedDmgMult);
 
             var pos = (Vector2) firePos.position;
             var targetPos = (Vector2) enemy.transform.position;

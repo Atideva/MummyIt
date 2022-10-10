@@ -9,6 +9,13 @@ namespace Powerups
         public HammerSmashVfx vfx;
         public float damage;
 
+        protected override void OnUse()
+        {
+            if (!vfx.IsInit)
+                vfx.Init(this, spawnPos);
+            vfx.SmashThem();
+        }
+
         public void DamageTargets(List<Enemy> targets)
         {
             foreach (var target in targets)
@@ -16,12 +23,5 @@ namespace Powerups
         }
 
         public void Return() => ReturnToPool();
-
-        public override void Use()
-        {
-            if (!vfx.IsInit)
-                vfx.Init(this, spawnPos);
-            vfx.SmashThem();
-        }
     }
 }

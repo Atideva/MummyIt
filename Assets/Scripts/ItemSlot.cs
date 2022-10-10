@@ -32,6 +32,7 @@ public class ItemSlot : PoolObject
     {
         item = null;
         container.gameObject.SetActive(false);
+        patternUI.Disable();
     }
 
     void Awake()

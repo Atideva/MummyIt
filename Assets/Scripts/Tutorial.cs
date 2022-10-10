@@ -8,6 +8,7 @@ public class Tutorial : MonoBehaviour
     public EnemySpawner enemySpawner;
     public ItemGetter itemGetter;
     public ItemSpawner itemSpawner;
+    
     void Start()
     {
         for (var i = 0; i < steps.Count; i++)

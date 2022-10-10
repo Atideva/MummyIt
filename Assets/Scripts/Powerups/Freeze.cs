@@ -12,7 +12,7 @@ namespace Powerups
         public List<GameObject> vfxes = new();
         List<Enemy> _enemies = new();
 
-        public override void Use()
+        protected override void OnUse()
         {
             Events.Instance.OnEnemyDeath += OnEnemyDeath;
             FreezeAll();
@@ -36,6 +36,8 @@ namespace Powerups
             for (var i = 0; i < _enemies.Count; i++)
             {
                 var enemy = _enemies[i];
+                if(enemy.Immune) continue;
+                
                 enemy.Freeze(true);
                 if (i < vfxes.Count)
                 {

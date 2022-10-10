@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using AttackModificators;
-using EPOOutline;
 using Powerups;
 using UnityEngine;
 
@@ -9,21 +8,17 @@ public class Gun : MonoBehaviour
     public GunShoot shoot;
     public SpriteRenderer gunSprite;
     public SpriteRenderer aimSprite;
-    public Outlinable plasmaOverloadOutline;
-
     public EnemySpawner enemiesSpawner;
     public float topCornerY = 4.5f;
     [Header("DEBUG")]
     public GunConfig gun;
-
     public float shootCooldown;
     bool _autoShoot;
-    bool _plasmaOverload;
-    float _plasmaOverloadTimer;
-    float _plasmaAtkSpdBonus;
     AmmoMagazine _magazine;
     public int lvl;
     public AttackModificatorConfig attackModificator;
+    PlasmaOverloading _overload;
+    
     public bool CanUpgrade => Enabled && gun && lvl < gun.MaxUpgradeLevel;
     public bool CanChange => Enabled &&gun && lvl < 2;
     public bool ChangeDisabled => !CanChange;
@@ -31,22 +26,31 @@ public class Gun : MonoBehaviour
     public bool Enabled { get; private set; }
     public bool Empty =>  gun == null;
  
-    public void Init(AmmoMagazine magazine)
+    public void Init(AmmoMagazine magazine,PlasmaOverloading overload)
     {
+        _overload = overload;
+        overload.OnOverloadEnd += OverloadEnd;
+        overload.OnOverloadStart += OverloadStart;
         Enabled = true;
         lvl = 1;
         _magazine = magazine;
     }
 
+    void OverloadEnd()
+        => shoot.StopPlasmaOverload();
+
+    void OverloadStart(PlasmaOverloadData data)
+        => shoot.PlasmaOverload(data.DamageBonus);
+
     void Awake()
     {
         aimSprite.enabled = false;
-        plasmaOverloadOutline.enabled = false;
+
     }
 
     void Start()
     {
-        Events.Instance.OnUsePlasmaOverload += OnPlasmaOverload;
+    
         Events.Instance.OnTakeAim += OnTakeAim;
     }
 
@@ -56,40 +60,17 @@ public class Gun : MonoBehaviour
     }
 
 
-    void OnPlasmaOverload(PlasmaOverloadData data)
-    {
-        _plasmaOverload = true;
-        _plasmaOverloadTimer += data.Duration;
-        _plasmaAtkSpdBonus = data.AtkSpdBonus;
-        shoot.PlasmaOverload(data.DamageBonus);
-        plasmaOverloadOutline.enabled = true;
-    }
-
-    void StopPlasmaOverload()
-    {
-        _plasmaOverload = false;
-        _plasmaOverloadTimer = 0;
-        _plasmaAtkSpdBonus = 0;
-        shoot.StopPlasmaOverload();
-        plasmaOverloadOutline.enabled = false;
-    }
+  
 
 
     void FixedUpdate()
     {
         shootCooldown -= Time.fixedDeltaTime;
+        
         if (!enemiesSpawner) return;
-        if (_magazine.Ammo <= 0 && !_plasmaOverload) return;
-
-        if (_plasmaOverload)
-        {
-            if (_plasmaOverloadTimer > 0)
-                _plasmaOverloadTimer -= Time.fixedDeltaTime;
-            else
-                StopPlasmaOverload();
-        }
-
+        if (_magazine.Ammo <= 0 && _overload.Disabled) return;
         if (!_autoShoot) return;
+        
         ShootAtClosestTarget();
     }
 
@@ -111,7 +92,7 @@ public class Gun : MonoBehaviour
     }
 
     void ResetShootCooldown()
-        => shootCooldown = 1 / (gun.FireRate * (1 + _plasmaAtkSpdBonus));
+        => shootCooldown = 1 / (gun.FireRate * (1 + _overload.AtkSpeed));
 
 
     public void Disable()
@@ -152,7 +133,7 @@ public class Gun : MonoBehaviour
 
     void RefreshMagazine()
     {
-        if (!_plasmaOverload)
+        if (_overload.Disabled)
             _magazine.TakeAmmo();
     }
 

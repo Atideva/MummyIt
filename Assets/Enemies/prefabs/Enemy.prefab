@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 1904210898422297499}
   - component: {fileID: 8985262297190078249}
   - component: {fileID: 5858834326909418891}
+  - component: {fileID: 5990573071588535089}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -139,6 +140,7 @@ MonoBehaviour:
   patternView: {fileID: 2975029498199394076}
   hp: {fileID: 8985262297190078249}
   baseHp: 10
+  grayScale: {fileID: 5990573071588535089}
   abilities: []
 --- !u!114 &8985262297190078249
 MonoBehaviour:
@@ -180,6 +182,23 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &5990573071588535089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1967353163673965637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a2f07586a273f448acf5ab6b6d7c458, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sprites: []
+  defaultMaterial: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  grayMaterial: {fileID: 2100000, guid: d067881a924ae694fbf4f75b5f1021fa, type: 2}
+  defaultColor: {r: 1, g: 1, b: 1, a: 1}
+  grayColor: {r: 0.8207547, g: 0.8207547, b: 0.8207547, a: 0.4627451}
 --- !u!1 &2290196761327589717
 GameObject:
   m_ObjectHideFlags: 0

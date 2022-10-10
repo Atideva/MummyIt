@@ -3,7 +3,8 @@
     public class PlasmaOverload : PowerUp
     {
         public PlasmaOverloadData settings;
-        public override void Use()
+
+        protected override void OnUse()
         {
             Events.Instance.UsePlasmaOverload(settings);
             ReturnToPool();

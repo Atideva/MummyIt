@@ -8,7 +8,7 @@ public class PlayerPowerUps : MonoBehaviour
     public List<PowerUpConfig> availablePowerUps = new();
     [SerializeField] AnimationCurve ammoCurve;
     [SerializeField] float chanceFactor = 4f;
-    Dictionary<PowerUpConfig, List<PowerUp>> powerUpPool = new();
+    readonly Dictionary<PowerUpConfig, List<PowerUp>> _powerUpPool = new();
 
     void Start()
     {
@@ -18,9 +18,9 @@ public class PlayerPowerUps : MonoBehaviour
     void OnPowerUpUse(PowerUpConfig powerUp)
     {
         PowerUp up;
-        if (powerUpPool.ContainsKey(powerUp))
+        if (_powerUpPool.ContainsKey(powerUp))
         {
-            var list = powerUpPool[powerUp];
+            var list = _powerUpPool[powerUp];
             if (list.Any(p => p.IsAvailable))
             {
                 up = list.Find(p => p.IsAvailable);
@@ -37,9 +37,10 @@ public class PlayerPowerUps : MonoBehaviour
             var newList = new List<PowerUp>();
             up = Instantiate(powerUp.Prefab, transform);
             newList.Add(up);
-            powerUpPool.Add(powerUp, newList);
+            _powerUpPool.Add(powerUp, newList);
         }
-        
+
+       
         up.Use();
     }
 
