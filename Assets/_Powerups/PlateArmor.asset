@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff5c1b1192f84d4bbb8f331de5af91f, type: 3}
   m_Name: PlateArmor
   m_EditorClassIdentifier: 
+  sound: {fileID: 11400000, guid: d8f7f595001c4844e8b1fc0a924481af, type: 2}
   icon: {fileID: 21300000, guid: 899ae835d39ea6a42887d88f052cd0e3, type: 3}
   patterns:
   - start: 2

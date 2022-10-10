@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using AudioSystem;
 using Ranged;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "Gun", menuName = "Configs/New Gun")]
 public class GunConfig : ScriptableObject
 {
+    [SerializeField] AudioData shootSound;
     [SerializeField] Bullet bulletPrefab;
     [SerializeField] Sprite icon;
     [SerializeField] Sprite sprite;
@@ -67,4 +69,6 @@ public class GunConfig : ScriptableObject
     public float Damage => damage;
 
     public float BulletSpeed => bulletSpeed;
+
+    public AudioData ShootSound => shootSound;
 }

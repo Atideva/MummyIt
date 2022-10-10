@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AudioSystem;
 using UnityEngine;
 
 namespace Powerups
@@ -6,6 +7,7 @@ namespace Powerups
     [CreateAssetMenu(fileName = "PowerUp", menuName = "Configs/New PowerUp")]
     public class PowerUpConfig : ScriptableObject
     {
+        [SerializeField] AudioData sound;
         [SerializeField] Sprite icon;
         [SerializeField] List<Pattern> patterns = new();
         [SerializeField] PowerUp prefab;
@@ -13,5 +15,7 @@ namespace Powerups
         public Sprite Icon => icon;
 
         public PowerUp Prefab => prefab;
+
+        public AudioData Sound => sound;
     }
 }

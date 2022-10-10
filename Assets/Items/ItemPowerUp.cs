@@ -13,6 +13,8 @@ namespace Items
         public override string Name => powerUp.name;
         public override IReadOnlyList<Pattern> Patterns => powerUp.Patterns;
 
+        public PowerUpConfig Config => powerUp;
+
         public override void Use()
         {
             Events.Instance.UsePowerUp(powerUp);

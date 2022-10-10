@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cbf9da1fddd9e3449a6d4f9788278834, type: 3}
-  m_Name: AssaultRiffle Shoot
+  m_Name: Medkit
   m_EditorClassIdentifier: 
   sounds:
-  - {fileID: 8300000, guid: 284be0baed85c9140bcb2dd0fc1895fd, type: 3}
+  - {fileID: 8300000, guid: bf9bcceea6e49a24d8fb39dc2e72b2c1, type: 3}
   volume:
-    minValue: 1
+    minValue: 0.81411636
     maxValue: 1
   pitch:
-    minValue: 1.0032898
-    maxValue: 1.0032898
+    minValue: 0.8640019
+    maxValue: 0.9468323
   maximumFrequency: 0

@@ -18,15 +18,15 @@ public class Gun : MonoBehaviour
     public int lvl;
     public AttackModificatorConfig attackModificator;
     PlasmaOverloading _overload;
-    
+
     public bool CanUpgrade => Enabled && gun && lvl < gun.MaxUpgradeLevel;
-    public bool CanChange => Enabled &&gun && lvl < 2;
+    public bool CanChange => Enabled && gun && lvl < 2;
     public bool ChangeDisabled => !CanChange;
-    public bool IsMaxed => Enabled &&gun && lvl >= gun.MaxUpgradeLevel;
+    public bool IsMaxed => Enabled && gun && lvl >= gun.MaxUpgradeLevel;
     public bool Enabled { get; private set; }
-    public bool Empty =>  gun == null;
- 
-    public void Init(AmmoMagazine magazine,PlasmaOverloading overload)
+    public bool Empty => gun == null;
+
+    public void Init(AmmoMagazine magazine, PlasmaOverloading overload)
     {
         _overload = overload;
         overload.OnOverloadEnd += OverloadEnd;
@@ -45,12 +45,10 @@ public class Gun : MonoBehaviour
     void Awake()
     {
         aimSprite.enabled = false;
-
     }
 
     void Start()
     {
-    
         Events.Instance.OnTakeAim += OnTakeAim;
     }
 
@@ -60,17 +58,14 @@ public class Gun : MonoBehaviour
     }
 
 
-  
-
-
     void FixedUpdate()
     {
         shootCooldown -= Time.fixedDeltaTime;
-        
+
         if (!enemiesSpawner) return;
         if (_magazine.Ammo <= 0 && _overload.Disabled) return;
         if (!_autoShoot) return;
-        
+
         ShootAtClosestTarget();
     }
 

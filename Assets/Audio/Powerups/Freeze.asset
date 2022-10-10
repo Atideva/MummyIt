@@ -10,16 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cbf9da1fddd9e3449a6d4f9788278834, type: 3}
-  m_Name: Pistol Shoot
+  m_Name: Freeze
   m_EditorClassIdentifier: 
   sounds:
-  - {fileID: 8300000, guid: 18cc1028d220ab54e8b673c3f2102b73, type: 3}
-  - {fileID: 8300000, guid: d01eff4282095d245897a1114d32a148, type: 3}
-  - {fileID: 8300000, guid: 85d972dc0fad9ff4b934bf9641c94c64, type: 3}
+  - {fileID: 8300000, guid: bf9bcceea6e49a24d8fb39dc2e72b2c1, type: 3}
   volume:
-    minValue: 1
+    minValue: 0.81411636
     maxValue: 1
   pitch:
-    minValue: 1.0032898
-    maxValue: 1.0032898
+    minValue: 0.8640019
+    maxValue: 0.9468323
   maximumFrequency: 0

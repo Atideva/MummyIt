@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using AudioSystem;
 using Pools;
 using UnityEngine;
 
@@ -65,9 +66,11 @@ public class GunShoot : MonoBehaviour
 
     IEnumerator ShootRoutine(Vector2 shootPos, Enemy enemy = null)
     {
+ 
         anim.Attack();
         yield return new WaitForSeconds(anim.attackDur);
-
+        AudioManager.Instance.PlaySound(currentGun.ShootSound);
+        
         if (currentGun.MultiShot)
         {
             var bullets = currentGun.MultiShot ? currentGun.BulletsAmountPerShot : 1;

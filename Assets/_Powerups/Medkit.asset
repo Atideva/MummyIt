@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff5c1b1192f84d4bbb8f331de5af91f, type: 3}
   m_Name: Medkit
   m_EditorClassIdentifier: 
+  sound: {fileID: 11400000, guid: 9fc0f354761416043ae78a9bc36bd542, type: 2}
   icon: {fileID: 21300000, guid: 6e3b1e7cc207135428c5b850ce6ec3f2, type: 3}
   patterns:
   - start: 4

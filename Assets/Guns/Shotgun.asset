@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d89f5a5a25ca014ea85872079dd6c4a, type: 3}
   m_Name: Shotgun
   m_EditorClassIdentifier: 
+  shootSound: {fileID: 11400000, guid: 79db3c6fb68099f49b5359ef562c9674, type: 2}
   bulletPrefab: {fileID: 6607903517634770811, guid: a494b1592967a154e81f71dcd79d782d, type: 3}
   icon: {fileID: -3695664891932108249, guid: b071b51d5d9e27945835b2fc1e40fc49, type: 3}
   sprite: {fileID: -3695664891932108249, guid: b071b51d5d9e27945835b2fc1e40fc49, type: 3}
+  damage: 10
+  bulletSpeed: 10
   fireRate: 3
   multiShot: 1
   bulletsAmountPerShot: 3

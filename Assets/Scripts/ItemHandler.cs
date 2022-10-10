@@ -1,11 +1,13 @@
 using System.Collections.Generic;
 using System.Linq;
+using AudioSystem;
 using DG.Tweening;
 using Items;
 using UnityEngine;
 
 public class ItemHandler : MonoBehaviour
 {
+    public AudioData ammoGetSound;
     public ItemSpawner spawner;
     public ItemCollector collector;
     public Transform powerupsMoveTo;
@@ -21,6 +23,7 @@ public class ItemHandler : MonoBehaviour
     public bool AnyAmmo => GetAmmoSlot();
     public bool enable;
     public void Disable() => enable = false;
+
     void Awake()
     {
         enable = true;
@@ -96,20 +99,26 @@ public class ItemHandler : MonoBehaviour
     }
 
 
-    public  void Pickup(ItemSlot slot)
+    public void Pickup(ItemSlot slot)
     {
+        Debug.Log("Item pickup", slot);
+        
         var pos = slot.item is ItemAmmo
             ? ammoMoveTo.position
             : powerupsMoveTo.position;
-
-
-        slot.container.DOScale(collectSize, moveTime);
         
-        Debug.Log("Slot collect", slot);
+        slot.container.DOScale(collectSize, moveTime);
         slot.container
             .DOMove(pos, moveTime)
             .OnComplete(()
                 => UseSlot(slot));
+        
+        if (slot.item is ItemAmmo)
+            AudioManager.Instance.PlaySound(ammoGetSound);
+
+        if (slot.item is ItemPowerUp powerUp)
+            AudioManager.Instance.PlaySound(powerUp.Config.Sound);
+       
     }
 
     public void FinishMove(ItemSlot slot)
