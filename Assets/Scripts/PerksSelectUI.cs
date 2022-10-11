@@ -46,10 +46,11 @@ public class PerksSelectUI : MonoBehaviour
 
         for (int i = from; i < slots.Count; i++)
         {
-            if (i < perks.Count)
+            int id = i - 1;
+            if (id < perks.Count)
             {
                 slots[i].gameObject.SetActive(true);
-                slots[i].Set(perks[i], lvl[i]);
+                slots[i].Set(perks[id], lvl[i]);
             }
             else
             {

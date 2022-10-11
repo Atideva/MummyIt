@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Perks;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PerkSelect : MonoBehaviour
@@ -15,7 +16,7 @@ public class PerkSelect : MonoBehaviour
     public List<GunConfig> guns = new();
     //  public List<AbilityConfig> abilitiesPool = new();
     [Header("DEBUG")]
-    public List<Perk> chosenPerks = new();
+    public List<Perk> ownedPerks = new();
     public int levelUps;
 
     void Start()
@@ -32,24 +33,32 @@ public class PerkSelect : MonoBehaviour
         CheckLevels();
     }
 
+    public OwnedPerks ownedPerksUI;
     //  void Continue(AbilityConfig ab) 
     //      => Continue();
 
     void OnPerkSelect(PerkConfig perk)
     {
-        if (chosenPerks.Any(p => p.config == perk))
+        Perk pk;
+        pk = ownedPerks.Find(p => p.config == perk);
+        //ownedPerks.Any(p => p.config == perk)
+        if (pk)
         {
-            var pk = chosenPerks.Find(p => p.config == perk);
-            pk.LevelUp();
+           // pk = ownedPerks.Find(p => p.config == perk);
+          //  pk.LevelUp();
+            Debug.LogError("OLD PERK, level: " + pk.level);
+            Debug.LogError( "NewPerk: "+perk.name+", WonedPerk: " + pk.config.name);
         }
         else
         {
-            var pk = Instantiate(perk.Prefab, transform);
-            pk.Activate();
-            chosenPerks.Add(pk);
+            pk = Instantiate(perk.Prefab, transform);
+            pk.Init(perk);
+            Debug.LogError("NEW PERK, level: " + pk.level);
+            ownedPerks.Add(pk);
             //pk.Activate();
         }
 
+        ownedPerksUI.PerkSelect(perk, pk.level);
         CheckLevels();
     }
 
@@ -95,7 +104,7 @@ public class PerkSelect : MonoBehaviour
         List<int> levels = new();
 
         var from = 0;
-        var isGunChance = Random.Range(0, 1) <= gunChance;
+        var isGunChance = Random.Range(0f, 1f) <= gunChance;
         GunConfig gun = null;
         var first = player.firstGun;
         var second = player.secondGun;
@@ -138,7 +147,7 @@ public class PerkSelect : MonoBehaviour
                         if (second.IsMaxed)
                             gunsExclude.Add(second.gun);
 
-                        Debug.Log("GunSelect: all guns mode, excluded" + gunsExclude.Count);
+                        Debug.Log("GunSelect: all guns mode. Excluded: " + gunsExclude.Count);
                         GUNS_LIST = guns.ToList();
                         foreach (var gunConfig in gunsExclude.Where(g => GUNS_LIST.Contains(g)))
                             GUNS_LIST.Remove(gunConfig);
@@ -167,8 +176,8 @@ public class PerkSelect : MonoBehaviour
             var r = Random.Range(0, perkList.Count);
             var perk = perkList[r];
             showPerks.Add(perk);
-            var ownPerk = chosenPerks.FirstOrDefault(p => p.config = perk);
-            var lvl = ownPerk ? ownPerk.level : 1;
+         //   var ownPerk = ownedPerks.Find(p => p.config = perk);
+         var lvl = 1; //ownPerk ? ownPerk.level : 1;
             levels.Add(lvl);
             perkList.Remove(perkList[r]);
         }

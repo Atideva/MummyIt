@@ -11,18 +11,16 @@ public class Enemy : PoolObject
     public HitPoints hp;
     public int baseHp;
     public Grayscale grayScale;
-
     [Header("ABILITIES")]
     public List<EnemyAbility> abilities = new();
-
     public EnemyConfig Config => _enemy;
+    
     public bool IsMeleeAttack => _isMeleeAttack;
     public bool IsMove => _isMove;
     public bool LastTakenDmgIsMelee { get; private set; }
     public bool IsFreeze { get; private set; }
-
     public bool Immune { get; private set; }
-
+    
     float _immunePosY;
     bool _isMeleeAttack;
     float _meleeTimer;

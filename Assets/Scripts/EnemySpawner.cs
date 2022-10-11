@@ -104,10 +104,12 @@ public class EnemySpawner : MonoBehaviour
 #endif
         enemy.SetConfig(config);
         enemy.SetImmune(immunePos.position.y);
-        currentEnemies.Add(enemy);
+        AddToList(enemy);
         OnSpawn(enemy);
     }
 
+    public void AddToList(Enemy enemy)
+        => currentEnemies.Add(enemy);
     EnemyConfig GetEnemyConfig() => enemies[Random.Range(0, enemies.Count)];
 
     void MoveSpawnPosition()

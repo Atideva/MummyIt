@@ -1,15 +1,14 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
 
 public class PatternDrawer : MonoBehaviour
 {
     [Header("Setup")]
     public List<Slot> slots = new();
     public LineRenderer linePrefab;
+    public DrawStartArea drawStartArea;
 
     [Header("DEBUG")]
     public bool drawing;
@@ -23,6 +22,7 @@ public class PatternDrawer : MonoBehaviour
 
     void Start()
     {
+        drawStartArea.OnDrawStart += OnDrawStart;
         _cam = Camera.main;
         for (var i = 0; i < slots.Count; i++)
         {
@@ -31,10 +31,16 @@ public class PatternDrawer : MonoBehaviour
         }
     }
 
+    void OnDrawStart()
+    {
+        drawing = true;
+    }
 
     void OnSlotSelected(Slot slot)
     {
-        if (!drawing) return;
+        // if (!drawing) return;
+        drawing = true;
+
 
         if (!lastLine)
         {
@@ -78,13 +84,11 @@ public class PatternDrawer : MonoBehaviour
     static Vector3 GetLinePos(Vector3 pos)
         => new(pos.x, pos.y, 0);
 
-
     void Release()
     {
         lastPatterns = drawPatterns;
         OnRelease(lastPatterns);
     }
-
 
     void Clear()
     {
@@ -99,11 +103,19 @@ public class PatternDrawer : MonoBehaviour
         lastLine = null;
     }
 
+    // bool touched;
+
     void Update()
     {
+        if (Input.touchCount > 0)
+        {
+          //touched = true;
+        }
+
+#if UNITY_EDITOR
         if (Input.GetMouseButtonDown(0))
         {
-            drawing = true;
+            drawing = false;
         }
 
         if (Input.GetMouseButtonUp(0))
@@ -112,11 +124,46 @@ public class PatternDrawer : MonoBehaviour
             Release();
             Clear();
         }
+#else
+        if (Input.touchCount == 0)
+        {
+            drawing = false;
+            Release();
+            Clear();
+        }
+#endif
 
         if (lastLine)
         {
             var pos = GetLinePos(_cam.ScreenToWorldPoint(Input.mousePosition));
             lastLine.SetPosition(1, pos);
         }
+
+        // if (Input.touchCount > 0)
+        // {
+        //     var i = 0;
+        //     while (i < Input.touchCount)
+        //     {
+        //         var t = Input.GetTouch(i);
+        //         var x = t.position.x;
+        //         var y = t.position.y;
+        //         if (t.phase == TouchPhase.Began)
+        //         {
+        //             //Left joystick AREA
+        //             if (x < Screen.width * 1 / 3 &&
+        //                 y < Screen.height * 1 / 3)
+        //             {
+        //             }
+        //             //Right joystick AREA
+        //             else if (x > Screen.width * 2 / 3 &&
+        //                      y < Screen.height * 1 / 3)
+        //             {
+        //             }
+        //         }
+        //
+        //         ++i;
+        //     }
+        // }
+        
     }
 }

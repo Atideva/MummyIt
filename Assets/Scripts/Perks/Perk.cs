@@ -4,9 +4,18 @@ namespace Perks
 {
     public abstract class Perk : MonoBehaviour
     {
-        [HideInInspector] public PerkConfig config;
-        public int level;
         public int maxLevel;
+        [Header("DEBUG")]
+        public PerkConfig config;
+        public int level;
+
+        public void Init(PerkConfig perkConfig)
+        {
+            Debug.LogError("SETED", this);
+            config = perkConfig;
+            level = 1;
+            Activate();
+        }
 
         public abstract void Activate();
  

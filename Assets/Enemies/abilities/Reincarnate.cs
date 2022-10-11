@@ -18,14 +18,15 @@ public class Reincarnate : EnemyAbility
     void OnDeath()
     {
         if (resurrects > 0)
-        {
             Invoke(nameof(Resurrect), delay);
-        }
     }
 
     void Resurrect()
     {
         resurrects--;
         Owner.hp.HealAll();
+        Owner.Move();
+        EnemySpawner.Instance.AddToList(Owner);
     }
+    
 }
