@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d89f5a5a25ca014ea85872079dd6c4a, type: 3}
+  m_Name: Shotgun
+  m_EditorClassIdentifier: 
+  gunPrefab: {fileID: 8975683381176255821, guid: 597ce0c8c81247443bc5468aa3524b12, type: 3}
+  shootSound: {fileID: 11400000, guid: 79db3c6fb68099f49b5359ef562c9674, type: 2}
+  bulletPrefab: {fileID: 6607903517634770811, guid: a494b1592967a154e81f71dcd79d782d, type: 3}
+  muzzleVfxPrefab: {fileID: 0}
+  icon: {fileID: -3695664891932108249, guid: b071b51d5d9e27945835b2fc1e40fc49, type: 3}
+  sprite: {fileID: -3695664891932108249, guid: b071b51d5d9e27945835b2fc1e40fc49, type: 3}
+  damage: 10
+  bulletSpeed: 10
+  fireRate: 3
+  multiShot: 1
+  bulletsAmountPerShot: 3
+  delayBetweenShots: 0
+  angleSpread:
+    minValue: 23.721703
+    maxValue: 23.721703
+  description: Shotgun
+  maxUpgradeLevel: 6

@@ -7,7 +7,6 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
-    
     #region Singleton
 
     //-------------------------------------------------------------
@@ -35,7 +34,7 @@ public class EnemySpawner : MonoBehaviour
     public List<EnemyConfig> enemies = new();
     public Enemy prefab;
     public float enemiesPerSec = 2;
-      float SpawnCooldown=> 1/enemiesPerSec;
+    float SpawnCooldown => 1 / enemiesPerSec;
     public Transform spawnPos;
     public List<Enemy> currentEnemies = new();
     public List<Enemy> attackedEnemies = new();
@@ -43,7 +42,7 @@ public class EnemySpawner : MonoBehaviour
     readonly Dictionary<Enemy, EnemyPool> _pools = new();
 
     public void StopSpawn() => _spawn = false;
-    
+
     void Start()
     {
         _spawn = true;
@@ -54,7 +53,7 @@ public class EnemySpawner : MonoBehaviour
 
     void OnEnemySpawnRequest(EnemyConfig enemy, Vector2 pos)
     {
-        Spawn(enemy,pos);
+        Spawn(enemy, pos);
     }
 
     public Enemy TryFindEnemy(Transform t)
@@ -79,20 +78,20 @@ public class EnemySpawner : MonoBehaviour
 
     float _timer;
     bool _spawn;
+
     void FixedUpdate()
     {
-        
         _timer -= Time.fixedDeltaTime;
         if (_timer > 0) return;
         if (!_spawn) return;
-        
+
         _timer = SpawnCooldown;
-        
+
         MoveSpawnPosition();
         var enemyConfig = GetEnemyConfig();
         Spawn(enemyConfig, spawnPos.position);
     }
- 
+
 
     void Spawn(EnemyConfig config, Vector2 pos)
     {
@@ -110,6 +109,7 @@ public class EnemySpawner : MonoBehaviour
 
     public void AddToList(Enemy enemy)
         => currentEnemies.Add(enemy);
+
     EnemyConfig GetEnemyConfig() => enemies[Random.Range(0, enemies.Count)];
 
     void MoveSpawnPosition()
@@ -131,7 +131,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (_pools.ContainsKey(enemy)) return _pools[enemy];
 
-        var container = new GameObject {name = enemy.name};
+        var container = new GameObject {name = "Pool: " +enemy.name};
         container.transform.SetParent(transform);
 
         var pool = container.AddComponent<EnemyPool>();

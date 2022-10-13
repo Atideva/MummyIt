@@ -65,7 +65,7 @@ namespace AttackModificators
         {
             if (_pools.ContainsKey(enemy)) return _pools[enemy];
 
-            var container = new GameObject {name = enemy.name};
+            var container = new GameObject {name ="Pool: " + enemy.name};
             container.transform.SetParent(transform);
 
             var pool = container.AddComponent<ModificatorVFXPool>();

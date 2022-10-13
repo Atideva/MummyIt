@@ -9,6 +9,7 @@ public abstract class Bullet : PoolObject
     [SerializeField] SpriteRenderer bulletSprite;
     [SerializeField] float speed = 10;
     [SerializeField] List<AttackModificatorConfig> attackModifiers = new();
+    [SerializeField] VFX hitVfxPrefab;
 
     public void SetModifier(List<AttackModificatorConfig> mods)
     {
@@ -24,18 +25,23 @@ public abstract class Bullet : PoolObject
 
     protected IReadOnlyList<AttackModificatorConfig> AttackModifiers => attackModifiers;
 
+    protected void PlayHitVfx(Vector3 pos) 
+        => Events.Instance.PlayVfx(hitVfxPrefab, pos);
+
+    protected void ApplyAttackModifiers(Enemy target) 
+        => Events.Instance.ApplyAttackModifier(target, AttackModifiers);
+
     public abstract void Fire(Enemy newTarget);
     public void SetSprite(Sprite sprite) => bulletSprite.sprite = sprite;
 
-    public void SetDamage(float dmg,float plasma, float bonus)
+    public void SetDamage(float dmg, float plasma, float bonus)
     {
-
         damage = dmg;
         plasmaMult = plasma;
         bonusMult = bonus;
     }
 
-    public void SetSpeed(float spd,float bonusSpeed)
+    public void SetSpeed(float spd, float bonusSpeed)
     {
         speed = spd;
         speedMult = bonusSpeed;

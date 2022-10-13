@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : PoolObject
 {
+    public Transform chest;
     public float speed = 1;
     public EnemyConfig _enemy;
     public SpriteRenderer enemyIcon;
@@ -14,7 +15,7 @@ public class Enemy : PoolObject
     [Header("ABILITIES")]
     public List<EnemyAbility> abilities = new();
     public EnemyConfig Config => _enemy;
-    
+    public Vector3 ChestPos => chest.position;
     public bool IsMeleeAttack => _isMeleeAttack;
     public bool IsMove => _isMove;
     public bool LastTakenDmgIsMelee { get; private set; }

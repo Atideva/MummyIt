@@ -13,13 +13,11 @@ MonoBehaviour:
   m_Name: AssaultRiffle Shoot
   m_EditorClassIdentifier: 
   sounds:
-  - {fileID: 8300000, guid: 18cc1028d220ab54e8b673c3f2102b73, type: 3}
-  - {fileID: 8300000, guid: d01eff4282095d245897a1114d32a148, type: 3}
-  - {fileID: 8300000, guid: 85d972dc0fad9ff4b934bf9641c94c64, type: 3}
+  - {fileID: 8300000, guid: 98029a32dd9f6cf43b9c86f5122c6be2, type: 3}
   volume:
-    minValue: 1
+    minValue: 0.79890835
     maxValue: 1
   pitch:
-    minValue: 1.0032898
-    maxValue: 1.0032898
+    minValue: 0.8955622
+    maxValue: 1.0894719
   maximumFrequency: 0

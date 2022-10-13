@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc0fd578b1574fce94de6fab08e51be0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <IsAvailable>k__BackingField: 0
   settings:
     DamageBonus: 1
     AtkSpdBonus: 1
-    Duration: 5
+    Duration: 500

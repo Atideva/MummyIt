@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using AttackModificators;
 using Powerups;
@@ -5,9 +6,10 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
+    public Transform container;
     public GunShoot shoot;
-    public SpriteRenderer gunSprite;
-    public SpriteRenderer aimSprite;
+    // public SpriteRenderer gunSprite;
+    //   public SpriteRenderer aimSprite;
     public EnemySpawner enemiesSpawner;
     public float topCornerY = 4.5f;
     [Header("DEBUG")]
@@ -25,6 +27,8 @@ public class Gun : MonoBehaviour
     public bool IsMaxed => Enabled && gun && lvl >= gun.MaxUpgradeLevel;
     public bool Enabled { get; private set; }
     public bool Empty => gun == null;
+
+    public GunView CurrentView { get; private set; }
 
     public void Init(AmmoMagazine magazine, PlasmaOverloading overload)
     {
@@ -44,19 +48,26 @@ public class Gun : MonoBehaviour
 
     void Awake()
     {
-        aimSprite.enabled = false;
+        shoot.Init(this);
     }
 
     void Start()
     {
+     
         Events.Instance.OnTakeAim += OnTakeAim;
     }
 
-    void OnTakeAim()
+    public void Change(GunConfig newGun)
     {
-        aimSprite.enabled = true;
+        gun = newGun;
+        if (CurrentView)
+            Destroy(CurrentView);
+        CurrentView = Instantiate(newGun.GunPrefab, container);
+        if (_takeAim)
+            CurrentView.TakeAim();
+        //  gunSprite.sprite = newGun.Sprite;
+        shoot.ChangeGun(newGun);
     }
-
 
     void FixedUpdate()
     {
@@ -68,6 +79,16 @@ public class Gun : MonoBehaviour
 
         ShootAtClosestTarget();
     }
+
+    bool _takeAim;
+
+    void OnTakeAim()
+    {
+        _takeAim = true;
+        if (CurrentView)
+            CurrentView.TakeAim();
+    }
+
 
     public void ShootAtPos(Vector2 pos)
     {
@@ -92,22 +113,18 @@ public class Gun : MonoBehaviour
 
     public void Disable()
     {
-        gunSprite.enabled = false;
+        if (CurrentView)
+            CurrentView.gameObject.SetActive(false);
         enabled = false;
     }
 
     public void Enable()
     {
-        gunSprite.enabled = true;
+        if (CurrentView)
+            CurrentView.gameObject.SetActive(true);
         enabled = true;
     }
 
-    public void Change(GunConfig newGun)
-    {
-        gun = newGun;
-        gunSprite.sprite = newGun.Sprite;
-        shoot.ChangeGun(newGun);
-    }
 
     public void Upgrade()
     {
@@ -143,7 +160,7 @@ public class Gun : MonoBehaviour
     {
         Enemy closest = null;
         var minDist = Mathf.Infinity;
-        var pos = gunSprite.transform.position;
+        var pos = CurrentView.transform.position;
         foreach (var enemy in enemies)
         {
             if (enemy.transform.position.y > topCornerY) continue;

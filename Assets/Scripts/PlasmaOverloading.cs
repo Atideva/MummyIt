@@ -10,8 +10,8 @@ public class PlasmaOverloading : MonoBehaviour
     bool _plasmaOverload;
     float _plasmaOverloadTimer;
     float _plasmaAtkSpdBonus;
-    public Outlinable firstGunOutline;
-    public Outlinable secondGunOutline;
+    public Gun firstGun;
+    public Gun secondGun;
     public bool Active => _plasmaOverload;
     public bool Disabled => !_plasmaOverload;
     public float AtkSpeed => _plasmaAtkSpdBonus;
@@ -24,8 +24,8 @@ public class PlasmaOverloading : MonoBehaviour
     void Awake()
     {
         slider.gameObject.SetActive(false);
-        firstGunOutline.enabled = false;
-        secondGunOutline.enabled = false;
+        if (firstGun.CurrentView) firstGun.CurrentView.DisableOutline();
+        if (secondGun.CurrentView) secondGun.CurrentView.DisableOutline();
     }
 
     void Start()
@@ -39,8 +39,8 @@ public class PlasmaOverloading : MonoBehaviour
         _plasmaOverloadTimer += data.Duration;
         _lastMaxCd += data.Duration;
         _plasmaAtkSpdBonus = data.AtkSpdBonus;
-        firstGunOutline.enabled = true;
-        if (secondGunEnabled) secondGunOutline.enabled = true;
+        if (firstGun.CurrentView) firstGun.CurrentView.EnableOutline();
+        if (secondGun.CurrentView) secondGun.CurrentView.EnableOutline();
         OnOverloadStart(data);
         slider.gameObject.SetActive(true);
     }
@@ -51,8 +51,8 @@ public class PlasmaOverloading : MonoBehaviour
         _plasmaOverloadTimer = 0;
         _lastMaxCd = 0;
         _plasmaAtkSpdBonus = 0;
-        firstGunOutline.enabled = false;
-        if (secondGunEnabled) secondGunOutline.enabled = false;
+        if (firstGun.CurrentView) firstGun.CurrentView.DisableOutline();
+        if (secondGun.CurrentView) secondGun.CurrentView.DisableOutline();
         OnOverloadEnd();
         slider.gameObject.SetActive(false);
     }

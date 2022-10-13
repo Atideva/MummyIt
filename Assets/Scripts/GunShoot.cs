@@ -9,7 +9,7 @@ public class GunShoot : MonoBehaviour
     [Header("Setup")]
     [SerializeField] EnemySpawner enemiesSpawner;
     [SerializeField] TestMonsterAnim anim;
-    [SerializeField] Transform firePos;
+        // [SerializeField] Transform firePos;
     [Header("Sprites")]
     [SerializeField] Sprite plasmaOverloadSprite;
     [SerializeField] Sprite baseBulletSprite;
@@ -21,6 +21,7 @@ public class GunShoot : MonoBehaviour
     [SerializeField] float speedDmgMult = 0;
     bool _plasmaOverload;
     readonly Dictionary<Bullet, BulletPool> _pools = new();
+    Gun _gun;
 
     void Start()
     {
@@ -40,7 +41,7 @@ public class GunShoot : MonoBehaviour
         {
             var container = new GameObject
             {
-                name = bullet.name
+                name = "Pool: " +bullet.name
             };
             container.transform.SetParent(transform);
             var pool = container.AddComponent<BulletPool>();
@@ -64,24 +65,29 @@ public class GunShoot : MonoBehaviour
     public void Shoot(Vector2 pos)
         => StartCoroutine(ShootRoutine(pos));
 
+    public void Init(Gun gun)
+    {
+        _gun = gun;
+    }
     IEnumerator ShootRoutine(Vector2 shootPos, Enemy enemy = null)
     {
- 
         anim.Attack();
         yield return new WaitForSeconds(anim.attackDur);
-        AudioManager.Instance.PlaySound(currentGun.ShootSound);
-        
+        ShootSound();
+        MuzzleVfx();
+
         if (currentGun.MultiShot)
         {
             var bullets = currentGun.MultiShot ? currentGun.BulletsAmountPerShot : 1;
             var spread = Random.Range(currentGun.AngleSpread.minValue, currentGun.AngleSpread.maxValue);
 
-            var pos = (Vector2) firePos.position;
+            var pos = (Vector2) _gun.CurrentView.FirePos;
             var targetPos = enemy ? (Vector2) enemy.transform.position : shootPos;
             var dir = targetPos - pos;
-            firePos.up = dir;
+            _gun.CurrentView.transform.up = dir;
+          //  firePos.up = dir;
 
-            var angle = firePos.rotation.eulerAngles.z;
+            var angle =  _gun.CurrentView.Rotation.eulerAngles.z;
             dir.Normalize();
 
             if (bullets > 1) angle -= spread / 2;
@@ -97,8 +103,8 @@ public class GunShoot : MonoBehaviour
                 var bullet = currentPool.Get();
                 bullet.SetDamage(currentGun.Damage, plasmaDmgMult, bonusDmgMult);
                 bullet.SetSpeed(currentGun.BulletSpeed, speedDmgMult);
-                bullet.SetSprite(_plasmaOverload ? plasmaOverloadSprite : baseBulletSprite);
-                bullet.transform.position = firePos.position;
+               // bullet.SetSprite(_plasmaOverload ? plasmaOverloadSprite : baseBulletSprite);
+                bullet.transform.position =  _gun.CurrentView.FirePos;
                 bullet.transform.rotation = Quaternion.Euler(0f, 0f, randomAngle);
                 bullet.Fire(enemy);
 
@@ -110,11 +116,11 @@ public class GunShoot : MonoBehaviour
         else
         {
             var bullet = currentPool.Get();
-            bullet.SetSprite(_plasmaOverload ? plasmaOverloadSprite : baseBulletSprite);
+        //    bullet.SetSprite(_plasmaOverload ? plasmaOverloadSprite : baseBulletSprite);
             bullet.SetDamage(currentGun.Damage, plasmaDmgMult, bonusDmgMult);
             bullet.SetSpeed(currentGun.BulletSpeed, speedDmgMult);
 
-            var pos = (Vector2) firePos.position;
+            var pos = (Vector2)  _gun.CurrentView.FirePos;
             var targetPos = (Vector2) enemy.transform.position;
             var dir = targetPos - pos;
             dir.Normalize();
@@ -127,7 +133,7 @@ public class GunShoot : MonoBehaviour
     void MultiShot()
     {
         var spread = Random.Range(currentGun.AngleSpread.minValue, currentGun.AngleSpread.maxValue);
-        var angle = firePos.rotation.eulerAngles.z;
+        var angle =  _gun.CurrentView.Rotation.eulerAngles.z;
         angle -= spread / 2;
         var bullets = currentGun.BulletsAmountPerShot;
         var step = spread / bullets;
@@ -156,6 +162,15 @@ public class GunShoot : MonoBehaviour
         _plasmaOverload = false;
         plasmaDmgMult = 0;
     }
+
+
+    void MuzzleVfx()
+    {
+        if (currentGun.MuzzleVfxPrefab)
+            Events.Instance.PlayVfx(currentGun.MuzzleVfxPrefab,  _gun.CurrentView.FirePos,  _gun.CurrentView.Rotation);
+    }
+
+    void ShootSound() => AudioManager.Instance.PlaySound(currentGun.ShootSound);
 
     Enemy GetTarget(IReadOnlyList<Pattern> patterns)
     {

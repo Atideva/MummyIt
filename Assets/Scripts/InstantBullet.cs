@@ -4,8 +4,8 @@ public class InstantBullet : Bullet
     {
         transform.position = newTarget.transform.position;
         newTarget.Damage(Damage);
-        if (AttackModifiers.Count > 0)
-            Events.Instance.ApplyAttackModifier(newTarget, AttackModifiers);
+        ApplyAttackModifiers(newTarget);
+        PlayHitVfx(newTarget.ChestPos);
         ReturnToPool();
     }
 

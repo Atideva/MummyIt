@@ -38,7 +38,7 @@ public class EnemyBulletStorage : MonoBehaviour
     {
         if (_pools.ContainsKey(bullet)) return _pools[bullet];
 
-        var container = new GameObject {name = bullet.name};
+        var container = new GameObject {name = "Pool: " +bullet.name};
         container.transform.SetParent(transform);
 
         var pool = container.AddComponent<EnemyBulletPool>();

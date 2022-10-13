@@ -30,6 +30,11 @@ public class Events : MonoBehaviour
 
     #endregion
 
+    public event Action<VFX, Vector3, Quaternion> OnVfxPlayRequest = delegate { };
+    public void PlayVfx(VFX vfx, Vector3 pos, Quaternion rot) => OnVfxPlayRequest(vfx, pos, rot);
+    public void PlayVfx(VFX vfx, Vector3 pos) => OnVfxPlayRequest(vfx, pos, Quaternion.identity);
+
+
     public event Action<Item, float> OnItemSpawnRequest = delegate { };
     public void SpawnItem(Item item, float posX = -12345) => OnItemSpawnRequest(item, posX);
     public event Action<EnemyConfig, Vector2> OnEnemySpawnRequest = delegate { };
@@ -49,9 +54,11 @@ public class Events : MonoBehaviour
 
     public event Action<Enemy, float> OnEnemyAttack = delegate { };
     public void EnemyAttack(Enemy enemy, float damage) => OnEnemyAttack(enemy, damage);
-    
+
     public event Action<Enemy, IReadOnlyList<AttackModificatorConfig>> OnApplyAttackModifier = delegate { };
-    public void ApplyAttackModifier(Enemy enemy, IReadOnlyList<AttackModificatorConfig> modifiers) => OnApplyAttackModifier(enemy,modifiers);
+
+    public void ApplyAttackModifier(Enemy enemy, IReadOnlyList<AttackModificatorConfig> modifiers) =>
+        OnApplyAttackModifier(enemy, modifiers);
 
     public event Action OnLevelUp = delegate { };
     public void LevelUp() => OnLevelUp();
@@ -103,7 +110,7 @@ public class Events : MonoBehaviour
 
     public event Action OnAllowSecondGun = delegate { };
     public void AllowSecondGun() => OnAllowSecondGun();
-    
+
     public event Action<int> OnItemCollectSlotAdd = delegate { };
     public void AddItemCollectSlot(int amount) => OnItemCollectSlotAdd(amount);
 }

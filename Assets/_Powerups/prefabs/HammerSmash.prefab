@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e09926288352465f811cd03ee3e7dcc0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <IsAvailable>k__BackingField: 0
   spawnPos: {x: 0, y: 2.16}
   vfx: {fileID: 5136351881425946099}
   damage: 100
@@ -55,6 +56,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 3728442150993766002}
     m_Modifications:
+    - target: {fileID: 5020384657076149550, guid: a670b12fdb8b64a4986b1c33954a55aa, type: 3}
+      propertyPath: m_UseCustomVertexStreams
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5020384657076149550, guid: a670b12fdb8b64a4986b1c33954a55aa, type: 3}
+      propertyPath: m_VertexStreams.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5020384657076149550, guid: a670b12fdb8b64a4986b1c33954a55aa, type: 3}
+      propertyPath: m_VertexStreams.Array.data[1]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5020384657076149550, guid: a670b12fdb8b64a4986b1c33954a55aa, type: 3}
+      propertyPath: m_VertexStreams.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5145638033724486411, guid: a670b12fdb8b64a4986b1c33954a55aa, type: 3}
       propertyPath: m_Name
       value: HammerSmashVfx2

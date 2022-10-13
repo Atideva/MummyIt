@@ -7,11 +7,16 @@ namespace Pools
     {
         T _prefab;
         readonly Queue<T> _queue = new();
+        string poolName;
+        int count;
 
         public void SetPrefab(T prefab, int prewarmCount = 0)
         {
             _prefab = prefab;
             for (var i = 0; i < prewarmCount; i++) Create().gameObject.SetActive(false);
+#if UNITY_EDITOR
+            poolName = gameObject.name;
+#endif
         }
 
         public T Get() =>
@@ -20,7 +25,13 @@ namespace Pools
                 : _queue.Dequeue().With(t => t.gameObject.SetActive(true));
 
         T Create()
-            => Instantiate(_prefab, transform).With(p => p.InitPool(this));
+        {
+#if UNITY_EDITOR
+            count++;
+            gameObject.name = poolName + " (" + count + ")";
+#endif
+            return Instantiate(_prefab, transform).With(p => p.InitPool(this));
+        }
 
         public void ReturnToPool(IPoolObject poolObject)
         {

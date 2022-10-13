@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d89f5a5a25ca014ea85872079dd6c4a, type: 3}
+  m_Name: AssaultRiffle
+  m_EditorClassIdentifier: 
+  gunPrefab: {fileID: 1749277743785816551, guid: 51d3d16349bd32c4fb944df87349fec7, type: 3}
+  shootSound: {fileID: 11400000, guid: 24705664bbf0e6d449e80d9b25fbf719, type: 2}
+  bulletPrefab: {fileID: 7961880533790258977, guid: 861c2e856e59bf54794c63bc6159b7f5, type: 3}
+  muzzleVfxPrefab: {fileID: 8138431763933843588, guid: f9675a121f9021c409e27e801d08e57a, type: 3}
+  icon: {fileID: 21300000, guid: de1a97c6be3a97647b15d2287b43a6a8, type: 3}
+  sprite: {fileID: 21300000, guid: de1a97c6be3a97647b15d2287b43a6a8, type: 3}
+  damage: 100
+  bulletSpeed: 10
+  fireRate: 5
+  multiShot: 0
+  bulletsAmountPerShot: 0
+  delayBetweenShots: 0
+  angleSpread:
+    minValue: 0
+    maxValue: 0
+  description: Assault riffle
+  maxUpgradeLevel: 6
