@@ -11,6 +11,8 @@ namespace Items
         public override string Name => ammo.name;
         public override IReadOnlyList<Pattern> Patterns => ammo.Patterns;
 
+        public AmmoConfig Ammo => ammo;
+
         public override void Use()
         {
             Events.Instance.AddAmmo(ammo);

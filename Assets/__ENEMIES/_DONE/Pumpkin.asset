@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ca147af480e6b479799f59d4743f00, type: 3}
+  m_Name: Pumpkin
+  m_EditorClassIdentifier: 
+  hitpoints: 10
+  moveSpeed: 0.5
+  damage: 10
+  attackSpeed: 1
+  prefab: {fileID: 4610276787887449548, guid: fdf24715e8ceeb54fa69f40c9ea1e56b, type: 3}
+  enemyIcon: {fileID: 21300000, guid: 7181c37d82db7dd43b4a0ed1bcc91082, type: 3}
+  attackVfx: {fileID: 9054838571166501260, guid: 7949742c965c2c140ba630920de15f2f, type: 3}
+  attackVfxDelay: 0.4
+  deathVfx: {fileID: 996142740859500597, guid: 1a3360e6f64f04c4ca2f8903fed679d3, type: 3}
+  attackSound: {fileID: 0}
+  deathSound: {fileID: 0}

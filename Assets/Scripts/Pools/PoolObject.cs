@@ -12,7 +12,7 @@ namespace Pools
         public void ReturnToPool()
         {
             OnReturnToPool();
-            _pool.ReturnToPool(this);
+            _pool?.ReturnToPool(this);
         }
     }
 }

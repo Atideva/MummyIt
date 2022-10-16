@@ -5,15 +5,21 @@ using UnityEngine;
 public class Grayscale : MonoBehaviour
 {
     [SerializeField] SpriteRenderer[] sprites;
+    List<Color> colors=new();
     [SerializeField] Material defaultMaterial;
     [SerializeField] Material grayMaterial;
     [SerializeField] Color defaultColor;
     [SerializeField] Color grayColor;
     bool _init;
+
     void Init()
     {
         _init = true;
         sprites = GetComponentsInChildren<SpriteRenderer>();
+        foreach (var spr in sprites)
+        {
+            colors.Add(spr.color);
+        }
     }
 
     bool _isGray;
@@ -39,10 +45,12 @@ public class Grayscale : MonoBehaviour
 
         if (!_init) Init();
 
-        foreach (var sprite in sprites)
+        for (var i = 0; i < sprites.Length; i++)
         {
+            var sprite = sprites[i];
             sprite.material = defaultMaterial;
-            sprite.color = defaultColor;
+            sprite.color = colors[i];
+            //  sprite.color = defaultColor;
         }
     }
 }

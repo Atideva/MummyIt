@@ -9,7 +9,8 @@ public class AmmoMagazine : MonoBehaviour
     [SerializeField] AnimationCurve ammoCurve;
     [SerializeField] float chanceFactor = 4f;
     public TextMeshProUGUI ammoText;
-    [Header("DEUBG")]
+    // ReSharper disable once StringLiteralTypo
+    [Header("DEBUBG")]
     [SerializeField] int ammo;
     public IReadOnlyList<AmmoConfig> AmmoTypes => ammoTypes;
 

@@ -16,6 +16,7 @@ public class ItemSlot : PoolObject
     public Button sellButton;
     public Button clickButton;
     public TextMeshProUGUI sellTxt;
+    public TextMeshProUGUI ammoCountTxt;
 
     [Header("DEBUG")]
     public Item item;
@@ -69,6 +70,16 @@ public class ItemSlot : PoolObject
         typeImage.color = newItem.TypeColor;
         patternUI.Set(newItem.Patterns);
 
+        if (newItem is ItemAmmo ammo)
+        {
+            ammoCountTxt.enabled = true;
+            ammoCountTxt.text = ammo.Ammo.Amount.ToString();
+        }
+        else
+        {
+            ammoCountTxt.enabled = false;
+        }
+        
 #if UNITY_EDITOR
         name = "Item: " + newItem.Name;
 #endif

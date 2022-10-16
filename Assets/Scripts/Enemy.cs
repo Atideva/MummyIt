@@ -4,35 +4,38 @@ using UnityEngine;
 
 public class Enemy : PoolObject
 {
+    [Header("Setup")]
+    public EnemyAnimator animator;
     public Transform chest;
-    public float speed = 1;
-    public EnemyConfig _enemy;
-    public SpriteRenderer enemyIcon;
-    public TestPatternView patternView;
     public HitPoints hp;
-    public int baseHp;
     public Grayscale grayScale;
     [Header("ABILITIES")]
     public List<EnemyAbility> abilities = new();
-    public EnemyConfig Config => _enemy;
+    [Header("DEBUG")]
+    public EnemyConfig config;
+    float _speed;
+    // ReSharper disable once InconsistentNaming
+    float _bonusMOVEspd;
+    // ReSharper disable once InconsistentNaming
+    float _bonusATKspd;
+    float _immunePosY;
+    bool _isMeleeAttack;
+    float _meleeTimer;
+    bool _isMove;
+
+    //    public TestPatternView patternView;
+    public EnemyConfig Config => config;
     public Vector3 ChestPos => chest.position;
     public bool IsMeleeAttack => _isMeleeAttack;
     public bool IsMove => _isMove;
     public bool LastTakenDmgIsMelee { get; private set; }
     public bool IsFreeze { get; private set; }
     public bool Immune { get; private set; }
-    
-    float _immunePosY;
-    bool _isMeleeAttack;
-    float _meleeTimer;
-    bool _isMove;
-    // ReSharper disable once InconsistentNaming
-    float _bonusMOVEspd;
-    // ReSharper disable once InconsistentNaming
-    float _bonusATKspd;
+
 
     void Awake()
     {
+        animator.Init(this);
         hp.OnDeath += OnDeath;
         foreach (var ability in abilities)
             ability.Init(this);
@@ -47,12 +50,13 @@ public class Enemy : PoolObject
 
     public void SetConfig(EnemyConfig enemy)
     {
-        _enemy = enemy;
-        speed = enemy.speed;
-        enemyIcon.sprite = enemy.enemyIcon;
+        config = enemy;
+        if (enemy.deathVfx) animator.SetDeathVFX(enemy.deathVfx);
+        if (enemy.attackVfx) animator.SetAttackVFX(enemy.attackVfx, enemy.attackVfxDelay);
+        _speed = enemy.moveSpeed;
         //patternIcon.sprite = enemy.patternIcon;
         //     patternView.Set(enemy.patterns);
-        hp.SetMaxHp(baseHp);
+        hp.SetMaxHp(enemy.hitpoints);
         foreach (var ability in abilities)
             ability.Reset();
         _bonusATKspd = 0;
@@ -67,10 +71,16 @@ public class Enemy : PoolObject
     }
 
     public void Move()
-        => _isMove = true;
+    {
+        _isMove = true;
+        animator.Move();
+    }
 
     public void StopMove()
-        => _isMove = false;
+    {
+        _isMove = false;
+        animator.Idle();
+    }
 
     public void StartMeleeAttack()
     {
@@ -82,11 +92,15 @@ public class Enemy : PoolObject
         => _isMeleeAttack = false;
 
     void MeleeAttack()
-        => Events.Instance.EnemyAttack(this, _enemy.damage);
+    {
+        animator.Attack();
+        Events.Instance.EnemyAttack(this, config.damage);
+    }
 
 
     void OnDeath()
     {
+        animator.Death();
         Freeze(false);
         StopMove();
         StopMeleeAttack();
@@ -114,7 +128,6 @@ public class Enemy : PoolObject
 
     void Update()
     {
- 
         if (Immune && transform.position.y <= _immunePosY)
         {
             Immune = false;
@@ -123,7 +136,7 @@ public class Enemy : PoolObject
 
         if (_isMove && !IsFreeze)
         {
-            transform.position += Vector3.down * (Time.deltaTime * speed * (1 + _bonusMOVEspd));
+            transform.position += Vector3.down * (Time.deltaTime * _speed * (1 + _bonusMOVEspd));
         }
 
         if (_isMeleeAttack)
@@ -131,12 +144,11 @@ public class Enemy : PoolObject
             _meleeTimer -= Time.deltaTime;
             if (_meleeTimer <= 0)
             {
-                _meleeTimer = 1 / (_enemy.attackSpeed * (1 + _bonusATKspd));
+                _meleeTimer = 1 / (config.attackSpeed * (1 + _bonusATKspd));
                 MeleeAttack();
             }
         }
     }
-
 
     public void AddBonusMoveSpeed(float mult) => _bonusMOVEspd += mult;
     public void RemoveBonusMoveSpeed(float mult) => _bonusMOVEspd -= mult;

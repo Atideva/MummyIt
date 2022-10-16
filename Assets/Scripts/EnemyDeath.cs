@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Linq;
 using DG.Tweening;
 using UnityEngine;
@@ -8,7 +9,7 @@ public class EnemyDeath : MonoBehaviour
     public float punchDistance;
     public float punchTime;
     public float punchRotate;
-
+    public float destroyDelay ;
     [Header("TEST")]
     public bool test;
     public Enemy testEnemy;
@@ -57,11 +58,32 @@ public class EnemyDeath : MonoBehaviour
             => Disable(enemy));
     }
 
+ 
     void DeathAnim(Enemy enemy)
     {
         //play death anim
-        enemy.ReturnToPool();
+        if (destroyDelay > 0)
+            StartCoroutine(DestroyEnemyDelayed(enemy, destroyDelay));
+        else
+            DestroyEnemy(enemy);
+      
+
     }
+    IEnumerator DestroyEnemyDelayed(Enemy enemy, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        DestroyEnemy(enemy);
+    }
+    void DestroyEnemy(Enemy enemy)
+    {
+        if (_noPoolMode)
+            enemy.gameObject.SetActive(false);
+        else
+            enemy.ReturnToPool();
+    }
+
+    bool _noPoolMode;
+    public void NoPoolMode() => _noPoolMode = true;
 
     void Disable(Enemy enemy)
     {
@@ -69,4 +91,5 @@ public class EnemyDeath : MonoBehaviour
             enemy.transform.position = testPos;
         enemy.ReturnToPool();
     }
+    
 }

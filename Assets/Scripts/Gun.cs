@@ -131,23 +131,15 @@ public class Gun : MonoBehaviour
         lvl++;
     }
 
-    public void Shoot(Enemy target)
-    {
-        shoot.Shoot(target);
-        RefreshMagazine();
-    }
+    public void Shoot(Enemy target) => shoot.Shoot(target);
+    public void Shoot(Vector2 pos) => shoot.Shoot(pos);
 
-    public void Shoot(Vector2 pos)
-    {
-        shoot.Shoot(pos);
-        RefreshMagazine();
-    }
-
-    void RefreshMagazine()
+    public void TakeAmmo()
     {
         if (_overload.Disabled)
             _magazine.TakeAmmo();
     }
+ 
 
 
     public void EnableAutoShoot()

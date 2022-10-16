@@ -108,6 +108,8 @@ public class GunShoot : MonoBehaviour
                 bullet.transform.rotation = Quaternion.Euler(0f, 0f, randomAngle);
                 bullet.Fire(enemy);
 
+                _gun.TakeAmmo();
+                
                 angle += step;
                 if (currentGun.DelayBetweenShots > 0)
                     yield return new WaitForSeconds(currentGun.DelayBetweenShots);
@@ -127,6 +129,8 @@ public class GunShoot : MonoBehaviour
             bullet.transform.up = dir;
             bullet.transform.position = pos;
             bullet.Fire(enemy);
+            
+            _gun.TakeAmmo();
         }
     }
 
@@ -172,29 +176,29 @@ public class GunShoot : MonoBehaviour
 
     void ShootSound() => AudioManager.Instance.PlaySound(currentGun.ShootSound);
 
-    Enemy GetTarget(IReadOnlyList<Pattern> patterns)
-    {
-        foreach (var enemy in enemiesSpawner.currentEnemies)
-        {
-            if (enemiesSpawner.IsAttacked(enemy)) continue;
-            if (patterns.Count != enemy.Config.patterns.Count) continue;
-
-            var match = 0;
-            for (var i = 0; i < patterns.Count; i++)
-            {
-                var p = patterns[i];
-                var e = enemy.Config.patterns[i];
-                if (p.start == e.start && p.end == e.end ||
-                    p.start == e.end && p.end == e.start)
-                {
-                    match++;
-                }
-            }
-
-            if (match == patterns.Count)
-                return enemy;
-        }
-
-        return null;
-    }
+    // Enemy GetTarget(IReadOnlyList<Pattern> patterns)
+    // {
+    //     foreach (var enemy in enemiesSpawner.currentEnemies)
+    //     {
+    //         if (enemiesSpawner.IsAttacked(enemy)) continue;
+    //         if (patterns.Count != enemy.Config.patterns.Count) continue;
+    //
+    //         var match = 0;
+    //         for (var i = 0; i < patterns.Count; i++)
+    //         {
+    //             var p = patterns[i];
+    //             var e = enemy.Config.patterns[i];
+    //             if (p.start == e.start && p.end == e.end ||
+    //                 p.start == e.end && p.end == e.start)
+    //             {
+    //                 match++;
+    //             }
+    //         }
+    //
+    //         if (match == patterns.Count)
+    //             return enemy;
+    //     }
+    //
+    //     return null;
+    // }
 }

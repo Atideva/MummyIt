@@ -30,9 +30,13 @@ public class Events : MonoBehaviour
 
     #endregion
 
-    public event Action<VFX, Vector3, Quaternion> OnVfxPlayRequest = delegate { };
-    public void PlayVfx(VFX vfx, Vector3 pos, Quaternion rot) => OnVfxPlayRequest(vfx, pos, rot);
-    public void PlayVfx(VFX vfx, Vector3 pos) => OnVfxPlayRequest(vfx, pos, Quaternion.identity);
+    public event Action<VFX, Vector3, Quaternion, float> OnVfxPlayRequest = delegate { };
+
+    public void PlayVfx(VFX vfx, Vector3 pos, Quaternion rot, float delay = 0) 
+        => OnVfxPlayRequest(vfx, pos, rot, delay);
+
+    public void PlayVfx(VFX vfx, Vector3 pos, float delay = 0) 
+        => OnVfxPlayRequest(vfx, pos, Quaternion.identity, delay);
 
 
     public event Action<Item, float> OnItemSpawnRequest = delegate { };

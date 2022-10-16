@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ca147af480e6b479799f59d4743f00, type: 3}
+  m_Name: Eyes
+  m_EditorClassIdentifier: 
+  hitpoints: 10
+  moveSpeed: 0.2
+  damage: 10
+  attackSpeed: 1
+  prefab: {fileID: 5908943076338275002, guid: 4546016ded89ae145b6f5bfb12e2ef70, type: 3}
+  enemyIcon: {fileID: 21300000, guid: aa63901b2cdbc364a84fb7864a381ef2, type: 3}
+  attackVfx: {fileID: 705922049848950443, guid: 26c8f4caf974e8847a4e5538e6fa7cbf, type: 3}
+  attackVfxDelay: 0.9
+  deathVfx: {fileID: 4240509560138631853, guid: 73a316c48240ab943bd43a0e24d82ced, type: 3}
+  attackSound: {fileID: 0}
+  deathSound: {fileID: 0}

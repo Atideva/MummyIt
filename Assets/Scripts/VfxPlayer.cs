@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using AttackModificators;
 using Pools;
@@ -12,9 +13,22 @@ public class VfxPlayer : MonoBehaviour
         Events.Instance.OnVfxPlayRequest += PlayVfx;
     }
 
-    void PlayVfx(VFX vfxPrefab, Vector3 pos, Quaternion rot)
+    void PlayVfx(VFX vfxPrefab, Vector3 pos, Quaternion rot, float delay)
     {
         if (!vfxPrefab) return;
+        if (delay > 0)
+            StartCoroutine(DelayPlay(vfxPrefab, pos, rot, delay));
+        else
+        {
+            var vfx = Pool(vfxPrefab).Get();
+            vfx.transform.position = pos;
+            vfx.transform.rotation = rot;
+        }
+    }
+
+    IEnumerator DelayPlay(VFX vfxPrefab, Vector3 pos, Quaternion rot, float delay)
+    {
+        yield return new WaitForSeconds(delay);
         var vfx = Pool(vfxPrefab).Get();
         vfx.transform.position = pos;
         vfx.transform.rotation = rot;

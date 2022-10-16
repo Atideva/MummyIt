@@ -9,7 +9,7 @@ public class HitPoints : MonoBehaviour
     public event Action OnDeath=delegate {  };
     public float Percent =>   hp / maxHp;
 
-    public void SetMaxHp(int maximumHp)
+    public void SetMaxHp(float maximumHp)
     {
         maxHp = maximumHp;
         hp = maxHp;
@@ -29,7 +29,7 @@ public class HitPoints : MonoBehaviour
     public void Damage(float dmg)
     {
         if (hp <= 0) return;
-        
+
         hp -= dmg;
         if (hp <= 0)
         {

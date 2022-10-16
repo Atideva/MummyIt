@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80406a87c0cf3324cb61d729b980a758, type: 3}
   m_Name: MetalBullet x1
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 377745aa7f7649d41998c7a754e44fb7, type: 3}
+  icon: {fileID: 21300000, guid: 5f074d986dc15fd4582eb15117487516, type: 3}
   amount: 3
   patterns:
   - start: 5
