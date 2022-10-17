@@ -31,8 +31,8 @@ public class BasicEnemyAnimator : EnemyAnimator
 
     public override void Attack()
     {
-        AudioManager.Instance.PlaySound(Enemy.Config.attackSound, attackVfxDelay);
-        Events.Instance.PlayVfx(AttackVfx, transform.position, attackVfxDelay);
+        AudioManager.Instance.PlaySound(Enemy.Config.attackSound, AttackVfxDelay);
+        Events.Instance.PlayVfx(AttackVfx, transform.position, AttackVfxDelay);
 
         if (!animator) return;
         StopWalk();

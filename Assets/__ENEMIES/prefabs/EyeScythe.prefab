@@ -327,11 +327,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1967353163673965636, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.24858941
       objectReference: {fileID: 0}
     - target: {fileID: 1967353163673965636, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 1.0517164
       objectReference: {fileID: 0}
     - target: {fileID: 1967353163673965636, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}
       propertyPath: m_LocalPosition.z
@@ -369,6 +369,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: EyeScythe
       objectReference: {fileID: 0}
+    - target: {fileID: 5858834326909418891, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858834326909418891, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}
 --- !u!4 &7951626366820435668 stripped
@@ -393,5 +401,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8563d94851734014ba05063801af43a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackVfxDelay: 0
   animator: {fileID: 95897105161736057}

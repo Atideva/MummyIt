@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 292169970}
   m_Layer: 0
-  m_Name: Model
+  m_Name: Container
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1101,7 +1101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c53d67f786414276bd4db0509729a1c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathVfxPrefab: {fileID: 0}
+  attackVfxDelay: 0
   moveAnims:
   - {fileID: 1674572306}
   - {fileID: 2070234626}

@@ -81,11 +81,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1967353163673965636, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.7411936
       objectReference: {fileID: 0}
     - target: {fileID: 1967353163673965636, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 3.885888
       objectReference: {fileID: 0}
     - target: {fileID: 1967353163673965636, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}
       propertyPath: m_LocalPosition.z
@@ -123,6 +123,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Eyes
       objectReference: {fileID: 0}
+    - target: {fileID: 5858834326909418891, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}
+      propertyPath: m_Size.x
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5858834326909418891, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}
+      propertyPath: m_Offset.y
+      value: 0.6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}
 --- !u!4 &793603781579493419 stripped
@@ -148,7 +156,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 5216983434227291471}
-  attackVfxDelay: 0.9
 --- !u!4 &7857651278354198371 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2694887496356253250, guid: f40e5edc62fd3fa448b5dc27d05610ea, type: 3}

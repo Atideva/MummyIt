@@ -51,15 +51,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21443ff262fc97142824513fbfc2bb68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 0}
   chest: {fileID: 1967353163673965636}
-  speed: 0.5
-  _enemy: {fileID: 0}
-  enemyIcon: {fileID: 0}
-  patternView: {fileID: 2975029498199394076}
   hp: {fileID: 8985262297190078249}
-  baseHp: 10
   grayScale: {fileID: 5990573071588535089}
   abilities: []
+  config: {fileID: 0}
 --- !u!114 &8985262297190078249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -441,7 +438,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4859005480916562186}
   m_Layer: 0
-  m_Name: Container
+  m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

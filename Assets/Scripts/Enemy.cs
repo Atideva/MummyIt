@@ -94,9 +94,11 @@ public class Enemy : PoolObject
     void MeleeAttack()
     {
         animator.Attack();
-        Events.Instance.EnemyAttack(this, config.damage);
+        Invoke(nameof(DoDamageToPlayer), config.attackVfxDelay);
     }
 
+    void DoDamageToPlayer()
+        => Events.Instance.EnemyAttack(this, config.damage);
 
     void OnDeath()
     {

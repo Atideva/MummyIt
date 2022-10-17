@@ -5,12 +5,12 @@ public abstract class EnemyAnimator : MonoBehaviour
 {
     protected VFX DeathVfx;
     protected VFX AttackVfx;
-    public float attackVfxDelay;
+    protected float AttackVfxDelay;
     public void SetDeathVFX(VFX vfx) => DeathVfx = vfx;
 
     public void SetAttackVFX(VFX vfx, float delay)
     {
-        attackVfxDelay = delay;
+        AttackVfxDelay = delay;
         AttackVfx = vfx;
     }
 
