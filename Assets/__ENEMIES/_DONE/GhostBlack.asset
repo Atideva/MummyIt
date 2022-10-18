@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ca147af480e6b479799f59d4743f00, type: 3}
+  m_Name: GhostBlack
+  m_EditorClassIdentifier: 
+  hitpoints: 10
+  moveSpeed: 0.5
+  damage: 10
+  attackSpeed: 1
+  prefab: {fileID: 4515520660837510006, guid: d406f36d532c55b4abd491b9b8a28d35, type: 3}
+  enemyIcon: {fileID: 21300000, guid: 2bc9ee3771877f848b03bcc0c060c185, type: 3}
+  attackVfxDelay: 0
+  attackVfx: {fileID: 6229202698941666770, guid: 7f020e72621b92e49a90dbfec45eef46, type: 3}
+  deathVfx: {fileID: 8898488598161461233, guid: 215fa6eff48a3694f9cbc7c07abc522d, type: 3}
+  attackSound: {fileID: 0}
+  deathSound: {fileID: 0}

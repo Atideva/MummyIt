@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,6 +8,7 @@ using Random = UnityEngine.Random;
 public class EnemySpawner : MonoBehaviour
 {
     public bool ENABLED;
+
     #region Singleton
 
     //-------------------------------------------------------------
@@ -49,7 +51,7 @@ public class EnemySpawner : MonoBehaviour
         {
             Debug.LogError("ENEMY SPAWNER DISABLED!");
         }
-        
+
         wave.Init(this, levelSpawn);
         _spawn = true;
         _timer = wave.Cooldown;
@@ -57,9 +59,12 @@ public class EnemySpawner : MonoBehaviour
         Events.Instance.OnEnemySpawnRequest += OnEnemySpawnRequest;
     }
 
-    void OnEnemySpawnRequest(EnemyConfig enemy, Vector2 pos)
+    void OnEnemySpawnRequest(EnemyConfig enemy, Vector2 pos, float delay)
     {
-        Spawn(enemy, pos);
+        if (delay > 0)
+            StartCoroutine(SpawnDelayed(enemy, pos, delay));
+        else
+            Spawn(enemy, pos);
     }
 
     public Enemy TryFindEnemy(Transform t)
@@ -88,7 +93,7 @@ public class EnemySpawner : MonoBehaviour
     void FixedUpdate()
     {
         if (!ENABLED) return;
-        
+
         _timer -= Time.fixedDeltaTime;
         if (_timer > 0) return;
         if (!_spawn) return;
@@ -98,6 +103,12 @@ public class EnemySpawner : MonoBehaviour
         if (!enemyConfig) return;
         var pos = spawnPositions.GetRandom();
         Spawn(enemyConfig, pos);
+    }
+
+    IEnumerator SpawnDelayed(EnemyConfig config, Vector2 pos, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Spawn(config, pos);
     }
 
     void Spawn(EnemyConfig config, Vector2 pos)

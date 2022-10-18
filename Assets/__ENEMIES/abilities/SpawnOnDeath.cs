@@ -1,26 +1,35 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-
-public class SpawnOnDeath : EnemyAbility
+namespace __ENEMIES.abilities
 {
-    public List<EnemyConfig> spawnEnemies = new();
-    public List<Vector3> offsets = new();
-
-    protected override void OnInit()
+    public class SpawnOnDeath : EnemyAbility
     {
-        Owner.hp.OnDeath += OnDeath;
-    }
+        public List<EnemyConfig> spawnEnemies = new();
+        public List<float> delays = new();
+        public List<Vector3> offsets = new();
 
-    void OnDeath()
-    {
-        for (int i = 0; i < spawnEnemies.Count; i++)
+        protected override void OnInit()
         {
-            Events.Instance.SpawnEnemy(spawnEnemies[i], transform.position+offsets[i]);
-        }
-    }
+            Owner.hp.OnDeath += OnDeath;
+            for (var i = 0; i < spawnEnemies.Count; i++)
+            {
+                if (delays.Count <= i)
+                    delays.Add(0);
 
-    public override void Reset()
-    {
+                if (offsets.Count <= i)
+                    offsets.Add(Vector3.zero);
+            }
+        }
+
+        void OnDeath()
+        {
+            for (var i = 0; i < spawnEnemies.Count; i++)
+                Events.Instance.SpawnEnemy(spawnEnemies[i], transform.position + offsets[i], delays[i]);
+        }
+
+        public override void Reset()
+        {
+        }
     }
 }

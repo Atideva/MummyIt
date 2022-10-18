@@ -35,7 +35,11 @@ public class Enemy : PoolObject
 
     void Awake()
     {
-        animator.Init(this);
+        if (animator) 
+            animator.Init(this);
+        else
+            Debug.LogWarning("ANIMATOR HAS NOT BEEN SET");
+        
         hp.OnDeath += OnDeath;
         foreach (var ability in abilities)
             ability.Init(this);

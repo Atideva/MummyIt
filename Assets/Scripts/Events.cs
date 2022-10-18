@@ -32,17 +32,17 @@ public class Events : MonoBehaviour
 
     public event Action<VFX, Vector3, Quaternion, float> OnVfxPlayRequest = delegate { };
 
-    public void PlayVfx(VFX vfx, Vector3 pos, Quaternion rot, float delay = 0) 
+    public void PlayVfx(VFX vfx, Vector3 pos, Quaternion rot, float delay = 0)
         => OnVfxPlayRequest(vfx, pos, rot, delay);
 
-    public void PlayVfx(VFX vfx, Vector3 pos, float delay = 0) 
+    public void PlayVfx(VFX vfx, Vector3 pos, float delay = 0)
         => OnVfxPlayRequest(vfx, pos, Quaternion.identity, delay);
 
 
     public event Action<Item, float> OnItemSpawnRequest = delegate { };
     public void SpawnItem(Item item, float posX = -12345) => OnItemSpawnRequest(item, posX);
-    public event Action<EnemyConfig, Vector2> OnEnemySpawnRequest = delegate { };
-    public void SpawnEnemy(EnemyConfig enemy, Vector2 pos) => OnEnemySpawnRequest(enemy, pos);
+    public event Action<EnemyConfig, Vector2, float> OnEnemySpawnRequest = delegate { };
+    public void SpawnEnemy(EnemyConfig enemy, Vector2 pos, float delay = 0) => OnEnemySpawnRequest(enemy, pos, delay);
 
     public event Action<Enemy> OnEnemyDeath = delegate { };
     public void EnemyDeath(Enemy enemy) => OnEnemyDeath(enemy);
