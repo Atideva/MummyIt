@@ -41,12 +41,13 @@ public class ItemSlotSpawner : MonoBehaviour
         {
             var slot = slotPool.Get();
             slot.Empty();
-
+            slot.DisableHighlight();
+            
             slots.Add(slot);
             if (!subscribe.Contains(slot))
             {
                 subscribe.Add(slot);
-                // slot.OnUse += Remove;
+                  slot.OnUse += OnUse;
                 // slot.OnDestroy += Remove;
                 // slot.OnSell += OnSell;
                 slot.OnClick += OnClick;
@@ -57,6 +58,11 @@ public class ItemSlotSpawner : MonoBehaviour
 
         transporter.SetBaseSlotsPos(slots);
         transporter.OnMoveToLineEnd += OnSlotMove;
+    }
+
+    void OnUse(ItemSlot slot)
+    {
+         slot.Empty();
     }
 
     void OnSlotMove(ItemSlot slot)

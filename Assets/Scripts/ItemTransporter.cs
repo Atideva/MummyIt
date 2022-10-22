@@ -51,10 +51,11 @@ public class ItemTransporter : MonoBehaviour
         return x > rightCorner;
     }
 
+    public float visibilityThreshold = 100;
     public bool VisibleAtScreen(ItemSlot slot)
     {
         var x = slot.slotRect.anchoredPosition.x;
-        return x <= rightCorner;
+        return x <= rightCorner-visibilityThreshold;
     }
 
     // rect.anchoredPosition = new Vector3(i * stepWidth, 0);

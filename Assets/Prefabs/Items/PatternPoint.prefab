@@ -87,7 +87,7 @@ GameObject:
   - component: {fileID: 8376264957666763042}
   - component: {fileID: 1021768915433757942}
   m_Layer: 5
-  m_Name: Pp
+  m_Name: PatternPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

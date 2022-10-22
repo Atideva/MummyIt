@@ -9,8 +9,11 @@ public class ItemGetter : MonoBehaviour
     public Player player;
     [Header("Slots backgrounds")]
     public Sprite ammoSlotSprite;
+    public Sprite ammoSlotSprite2;
     public Sprite boosterSprite;
+    public Sprite boosterSprite2;
     public Sprite skillSprite;
+    public Sprite skillSprite2;
     [Header("PowerUp")]
     public ItemPowerUp powerUpPrefab;
     public ItemPowerUpPool powerUpPool;
@@ -52,7 +55,7 @@ public class ItemGetter : MonoBehaviour
     {
         var item = ammoPool.Get();
         item.Set(ammo);
-        item.SetTypeSprite(ammoSlotSprite);
+        item.SetTypeSprite(ammoSlotSprite,ammoSlotSprite2);
       //  item.SetColor(ammoColor);
         return item;
     }
@@ -62,7 +65,8 @@ public class ItemGetter : MonoBehaviour
         var item = powerUpPool.Get();
         item.Set(powerup);
         var spr = powerup.Type == PowerupType.Booster ? boosterSprite : skillSprite;
-        item.SetTypeSprite(spr);
+        var spr2 = powerup.Type == PowerupType.Booster ? boosterSprite2 : skillSprite2;
+        item.SetTypeSprite(spr,spr2);
    //     item.SetColor(ammoColor);
         return item;
     }
@@ -83,7 +87,7 @@ public class ItemGetter : MonoBehaviour
 
         var ammo = player.ammoMagazine.AmmoTypes[id];
         item.Set(ammo);
-        item.SetTypeSprite(ammoSlotSprite);
+        item.SetTypeSprite(ammoSlotSprite,ammoSlotSprite2);
      //   item.SetColor(ammoColor);
         return item;
     }
@@ -106,7 +110,8 @@ public class ItemGetter : MonoBehaviour
         var powerup = player.powerUps.availablePowerUps[id];
         item.Set(powerup);
         var spr = powerup.Type == PowerupType.Booster ? boosterSprite : skillSprite;
-        item.SetTypeSprite(spr);
+        var spr2 = powerup.Type == PowerupType.Booster ? boosterSprite2 : skillSprite2;
+        item.SetTypeSprite(spr,spr2);
       //  item.SetColor(powerUpColor);
         return item;
     }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7693986429648275163}
   - component: {fileID: 7693986429648275162}
   m_Layer: 0
-  m_Name: Line
+  m_Name: DrawLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,8 +96,8 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0.28235295, g: 1, b: 0, a: 1}
-      key1: {r: 0.28235295, g: 1, b: 0, a: 1}
+      key0: {r: 1, g: 0.8481014, b: 0, a: 1}
+      key1: {r: 1, g: 0.84705883, b: 0, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}

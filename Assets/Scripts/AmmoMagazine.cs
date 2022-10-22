@@ -1,14 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AmmoMagazine : MonoBehaviour
 {
     [SerializeField] List<AmmoConfig> ammoTypes = new();
     [SerializeField] AnimationCurve ammoCurve;
     [SerializeField] float chanceFactor = 4f;
-    public TextMeshProUGUI ammoText;
+    [SerializeField] TextMeshProUGUI ammoText;
+    [SerializeField] Image ammoIcon;
     // ReSharper disable once StringLiteralTypo
     [Header("DEBUBG")]
     [SerializeField] int ammo;
@@ -30,6 +33,9 @@ public class AmmoMagazine : MonoBehaviour
     {
         ammo += amount;
         RefreshText();
+        ammoText.transform.DOScale(1.3f, 0.15f)
+            .OnComplete(()
+                => ammoText.transform.DOScale(1, 0.15f));
     }
 
     void RefreshText()

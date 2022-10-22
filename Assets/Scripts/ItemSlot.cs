@@ -11,13 +11,14 @@ public class ItemSlot : PoolObject
     public RectTransform slotRect;
     public Image icon;
     public Image typeImage;
+    public Image typeImage2;
     public RectTransform container;
     public PatternUI patternUI;
     public Button sellButton;
     public Button clickButton;
     public TextMeshProUGUI sellTxt;
     public TextMeshProUGUI ammoCountTxt;
-
+    public Image highlightImage;
     [Header("DEBUG")]
     public Item item;
     public int Price { get; private set; }
@@ -29,6 +30,14 @@ public class ItemSlot : PoolObject
     public bool IsEmpty => !item;
     public bool Enabled => gameObject.activeSelf;
 
+    public void EnableHighlight()
+    {
+        highlightImage.enabled = true;
+    }
+    public void DisableHighlight()
+    {
+        highlightImage.enabled = false;
+    }
     public void Empty()
     {
         item = null;
@@ -69,6 +78,7 @@ public class ItemSlot : PoolObject
         icon.sprite = newItem.Icon;
         patternUI.Set(newItem.Patterns);
         typeImage.sprite = newItem.TypeSprite;
+        typeImage2.sprite = newItem.TypeSprite2;
         if (newItem is ItemAmmo ammo)
         {
             ammoCountTxt.enabled = true;

@@ -6,10 +6,10 @@ public class Pattern
 {
     public int start;
     public int end;
-    [HideInInspector] public Slot From;
-    [HideInInspector] public Slot To;
+    [HideInInspector] public DrawSlot From;
+    [HideInInspector] public DrawSlot To;
 
-    public Pattern(Slot from, Slot to)
+    public Pattern(DrawSlot from, DrawSlot to)
     {
         start = from.id;
         end = to.id;

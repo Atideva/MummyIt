@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class ItemHandler : MonoBehaviour
 {
+    public DrawGemsSpawner drawGemSpawner;
     public ItemTransporter transporter;
     public AudioData ammoGetSound;
     public ItemSlotSpawner spawner;
@@ -24,12 +25,13 @@ public class ItemHandler : MonoBehaviour
     public bool AnyAmmo => GetAmmoSlot();
     public bool enable;
     public void Disable() => enable = false;
-
+    public bool AnyMatch() => GetSlot(drawer.drawPatterns, spawner.VisibleItems);
+    
     void Awake()
     {
         enable = true;
         spawner.OnSlotClick += OnSlotClick;
-        drawer.OnRelease += SearchMatchItem;
+        drawer.OnRelease += SearchDrawMatch;
         Events.Instance.OnAddAmmoPickup += OnAddAmmoPickup;
         transporter.OnMoveToLineEnd += OnSlotMoveEnd;
     }
@@ -66,20 +68,24 @@ public class ItemHandler : MonoBehaviour
     }
 
 
-    void SearchMatchItem(List<Pattern> drawPattern)
+
+   void SearchDrawMatch(List<Pattern> drawPattern)
     {
         var getSlot = GetSlot(drawPattern, spawner.VisibleItems);
         if (!getSlot)
         {
-            var collectorSlot = GetSlot(drawPattern, collector.Items);
+            var collectorSlot
+                = GetSlot(drawPattern, collector.Items);
             if (collectorSlot)
                 collector.UseItem(collectorSlot);
 
+            drawGemSpawner.Release();
             return;
         }
 
         Pickup(getSlot);
         movingSlots.Add(getSlot);
+        drawGemSpawner.Collect();
 
         if (getSlot.item is not ItemAmmo || pickupAtOnce < 2)
             return;
@@ -109,6 +115,7 @@ public class ItemHandler : MonoBehaviour
     public void Pickup(ItemSlot slot)
     {
         Debug.Log("Item pickup", slot);
+        slot.EnableHighlight();
         
         var pos = slot.item is ItemAmmo
             ? ammoMoveTo.position
@@ -120,12 +127,15 @@ public class ItemHandler : MonoBehaviour
             .OnComplete(()
                 => UseSlot(slot));
         
-        if (slot.item is ItemAmmo)
-            AudioManager.Instance.PlaySound(ammoGetSound);
-
-        if (slot.item is ItemPowerUp powerUp)
-            AudioManager.Instance.PlaySound(powerUp.Config.Sound);
-       
+        switch (slot.item)
+        {
+            case ItemAmmo:
+                AudioManager.Instance.PlaySound(ammoGetSound);
+                break;
+            case ItemPowerUp powerUp:
+                AudioManager.Instance.PlaySound(powerUp.Config.Sound);
+                break;
+        }
     }
 
     public void FinishMove(ItemSlot slot)
@@ -138,7 +148,8 @@ public class ItemHandler : MonoBehaviour
     {
         FinishMove(slot);
         slot.Use();
-        slot.ReturnToPool();
+        slot.DisableHighlight();
+       // slot.ReturnToPool();
     }
 
 

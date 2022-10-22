@@ -2,24 +2,41 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+ 
 
 public class PatternDrawer : MonoBehaviour
 {
     [Header("Setup")]
-    public List<Slot> slots = new();
+    public List<DrawSlot> slots = new();
     public LineRenderer linePrefab;
     public DrawStartArea drawStartArea;
-
+    public DrawGemsSpawner drawGemSpawner;
+    public Gradient commonLineColor;
+    public Gradient highlightLineColor;
     [Header("DEBUG")]
     public bool drawing;
     public LineRenderer lastLine;
-    public Slot lastSlot;
+    public DrawSlot lastSlot;
     public List<Pattern> drawPatterns = new();
     public List<Pattern> lastPatterns = new();
     public List<LineRenderer> linesInPieces = new();
     Camera _cam;
     public event Action<List<Pattern>> OnRelease = delegate { };
 
+    public void HighlightLines()
+    {
+        foreach (var line in linesInPieces)
+        {
+            line.colorGradient = highlightLineColor;
+        }
+    }
+    public void CommonLines()
+    {
+        foreach (var line in linesInPieces)
+        {
+            line.colorGradient = commonLineColor;
+        }
+    }
     void Start()
     {
         drawStartArea.OnDrawStart += OnDrawStart;
@@ -27,6 +44,7 @@ public class PatternDrawer : MonoBehaviour
         for (var i = 0; i < slots.Count; i++)
         {
             slots[i].id = i + 1;
+             slots[i].Release();
             slots[i].OnSelected += OnSlotSelected;
         }
     }
@@ -36,16 +54,21 @@ public class PatternDrawer : MonoBehaviour
         drawing = true;
     }
 
-    void OnSlotSelected(Slot slot)
+    void OnSlotSelected(DrawSlot slot)
     {
         // if (!drawing) return;
         drawing = true;
-
-
+        if (!slot.Selected)
+        {
+            drawGemSpawner.Spawn(slot);
+            slot.Select();
+        }
+ 
         if (!lastLine)
         {
             lastSlot = slot;
             lastLine = Instantiate(linePrefab);
+            lastLine.colorGradient = commonLineColor;
             lastLine.positionCount = 2;
             var pos = GetLinePos(slot.transform.position);
             lastLine.SetPosition(0, pos);
@@ -56,7 +79,7 @@ public class PatternDrawer : MonoBehaviour
             if (lastSlot != slot)
             {
                 var newPattern = new Pattern(lastSlot, slot);
-                if (!AnySamePattern(newPattern))
+                if (!AnySame(newPattern))
                 {
                     drawPatterns.Add(newPattern);
                     linesInPieces.Add(lastLine);
@@ -66,6 +89,7 @@ public class PatternDrawer : MonoBehaviour
                     lastLine.SetPosition(1, pos2);
 
                     lastLine = Instantiate(linePrefab);
+                    lastLine.colorGradient = commonLineColor;
                     lastLine.positionCount = 2;
                     var pos3 = GetLinePos(slot.transform.position);
                     lastLine.SetPosition(0, pos3);
@@ -76,7 +100,7 @@ public class PatternDrawer : MonoBehaviour
         }
     }
 
-    bool AnySamePattern(Pattern check)
+    bool AnySame(Pattern check)
         => drawPatterns.Any(p =>
             p.start == check.start && p.end == check.end ||
             p.start == check.end && p.end == check.start);
@@ -86,8 +110,13 @@ public class PatternDrawer : MonoBehaviour
 
     void Release()
     {
+        foreach (var slot in slots)
+        {
+            slot.Release();
+        }
+
         lastPatterns = drawPatterns;
-        OnRelease(lastPatterns);
+        OnRelease(drawPatterns);
     }
 
     void Clear()
@@ -109,7 +138,7 @@ public class PatternDrawer : MonoBehaviour
     {
         if (Input.touchCount > 0)
         {
-          //touched = true;
+            //touched = true;
         }
 
 #if UNITY_EDITOR
@@ -164,6 +193,5 @@ public class PatternDrawer : MonoBehaviour
         //         ++i;
         //     }
         // }
-        
     }
 }
