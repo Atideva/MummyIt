@@ -7,6 +7,7 @@ namespace Powerups
     [CreateAssetMenu(fileName = "PowerUp", menuName = "Configs/New PowerUp")]
     public class PowerUpConfig : ScriptableObject
     {
+        [SerializeField] PowerupType type;
         [SerializeField] AudioData sound;
         [SerializeField] Sprite icon;
         [SerializeField] List<Pattern> patterns = new();
@@ -17,5 +18,14 @@ namespace Powerups
         public PowerUp Prefab => prefab;
 
         public AudioData Sound => sound;
+
+        public PowerupType Type => type;
     }
+}
+
+[System.Serializable]
+public enum PowerupType
+{
+    Booster,
+    Skill
 }

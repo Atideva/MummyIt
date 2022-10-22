@@ -25,10 +25,10 @@ public abstract class Bullet : PoolObject
 
     protected IReadOnlyList<AttackModificatorConfig> AttackModifiers => attackModifiers;
 
-    protected void PlayHitVfx(Vector3 pos) 
+    protected void PlayHitVfx(Vector3 pos)
         => Events.Instance.PlayVfx(hitVfxPrefab, pos);
 
-    protected void ApplyAttackModifiers(Enemy target) 
+    protected void ApplyAttackModifiers(Enemy target)
         => Events.Instance.ApplyAttackModifier(target, AttackModifiers);
 
     public abstract void Fire(Enemy newTarget);
@@ -50,6 +50,7 @@ public abstract class Bullet : PoolObject
     public virtual void OnTriggerEnter2D(Collider2D col)
     {
         if (!col.CompareTag(Tags.ENEMY)) return;
+
         var enemy = EnemySpawner.Instance.TryFindEnemy(col.transform);
         if (enemy)
             OnEnemyCollide(enemy);

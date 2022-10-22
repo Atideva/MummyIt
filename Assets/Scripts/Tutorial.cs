@@ -7,7 +7,7 @@ public class Tutorial : MonoBehaviour
     public int current;
     public EnemySpawner enemySpawner;
     public ItemGetter itemGetter;
-    public ItemSpawner itemSpawner;
+    public ItemSlotSpawner itemSpawner;
     
     void Start()
     {

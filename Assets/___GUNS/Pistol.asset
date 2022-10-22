@@ -20,7 +20,7 @@ MonoBehaviour:
   sprite: {fileID: -4855807490512174151, guid: b071b51d5d9e27945835b2fc1e40fc49, type: 3}
   damage: 10
   bulletSpeed: 10
-  fireRate: 1
+  fireRate: 2
   multiShot: 0
   bulletsAmountPerShot: 0
   delayBetweenShots: 0

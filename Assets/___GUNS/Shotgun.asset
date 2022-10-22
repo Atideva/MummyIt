@@ -15,17 +15,17 @@ MonoBehaviour:
   gunPrefab: {fileID: 8975683381176255821, guid: 597ce0c8c81247443bc5468aa3524b12, type: 3}
   shootSound: {fileID: 11400000, guid: 79db3c6fb68099f49b5359ef562c9674, type: 2}
   bulletPrefab: {fileID: 6607903517634770811, guid: a494b1592967a154e81f71dcd79d782d, type: 3}
-  muzzleVfxPrefab: {fileID: 0}
+  muzzleVfxPrefab: {fileID: 4026849867612742999, guid: 7f8e8e0f0729b4446b56a776c9dddfb2, type: 3}
   icon: {fileID: -3695664891932108249, guid: b071b51d5d9e27945835b2fc1e40fc49, type: 3}
   sprite: {fileID: -3695664891932108249, guid: b071b51d5d9e27945835b2fc1e40fc49, type: 3}
-  damage: 10
+  damage: 5
   bulletSpeed: 10
-  fireRate: 3
+  fireRate: 1
   multiShot: 1
-  bulletsAmountPerShot: 3
+  bulletsAmountPerShot: 6
   delayBetweenShots: 0
   angleSpread:
-    minValue: 23.721703
-    maxValue: 23.721703
+    minValue: 10.317161
+    maxValue: 29.956371
   description: Shotgun
   maxUpgradeLevel: 6

@@ -31,7 +31,8 @@ public class SimpleBullet : Bullet
         enemy.Damage(Damage);
         if (AttackModifiers.Count > 0)
             Events.Instance.ApplyAttackModifier(enemy, AttackModifiers);
-            
+
+        PlayHitVfx(enemy.ChestPos);
         ReturnToPool();
     }
 

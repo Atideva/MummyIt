@@ -7,16 +7,20 @@ public class ItemGetter : MonoBehaviour
 {
     [Header("Setup")]
     public Player player;
+    [Header("Slots backgrounds")]
+    public Sprite ammoSlotSprite;
+    public Sprite boosterSprite;
+    public Sprite skillSprite;
     [Header("PowerUp")]
     public ItemPowerUp powerUpPrefab;
     public ItemPowerUpPool powerUpPool;
     [Header("Ammo")]
     public ItemAmmo ammoPrefab;
     public ItemAmmoPool ammoPool;
-    [Header("Colors")]
-    public Color ammoColor;
-    public Color powerUpColor;
-    public Color gunColor;
+    // [Header("Colors")]
+    // public Color ammoColor;
+    // public Color powerUpColor;
+    // public Color gunColor;
     [Header("Powerup chance")]
     public float powerupChance = 0.3f;
     public float powerupChanceMax = 0.5f;
@@ -44,19 +48,22 @@ public class ItemGetter : MonoBehaviour
         return GetAmmo();
     }
 
-    public Item GetAmmoItem(AmmoConfig config)
+    public Item GetAmmoItem(AmmoConfig ammo)
     {
         var item = ammoPool.Get();
-        item.Set(config);
-        item.SetColor(ammoColor);
+        item.Set(ammo);
+        item.SetTypeSprite(ammoSlotSprite);
+      //  item.SetColor(ammoColor);
         return item;
     }
     
-    public Item GetPowerupItem(PowerUpConfig config)
+    public Item GetPowerupItem(PowerUpConfig powerup)
     {
         var item = powerUpPool.Get();
-        item.Set(config);
-        item.SetColor(ammoColor);
+        item.Set(powerup);
+        var spr = powerup.Type == PowerupType.Booster ? boosterSprite : skillSprite;
+        item.SetTypeSprite(spr);
+   //     item.SetColor(ammoColor);
         return item;
     }
     Item GetAmmo()
@@ -76,7 +83,8 @@ public class ItemGetter : MonoBehaviour
 
         var ammo = player.ammoMagazine.AmmoTypes[id];
         item.Set(ammo);
-        item.SetColor(ammoColor);
+        item.SetTypeSprite(ammoSlotSprite);
+     //   item.SetColor(ammoColor);
         return item;
     }
 
@@ -95,9 +103,11 @@ public class ItemGetter : MonoBehaviour
             break;
         }
 
-        var ammo = player.powerUps.availablePowerUps[id];
-        item.Set(ammo);
-        item.SetColor(powerUpColor);
+        var powerup = player.powerUps.availablePowerUps[id];
+        item.Set(powerup);
+        var spr = powerup.Type == PowerupType.Booster ? boosterSprite : skillSprite;
+        item.SetTypeSprite(spr);
+      //  item.SetColor(powerUpColor);
         return item;
     }
     

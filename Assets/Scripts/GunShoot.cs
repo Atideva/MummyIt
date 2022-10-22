@@ -81,7 +81,7 @@ public class GunShoot : MonoBehaviour
             var bullets = currentGun.MultiShot ? currentGun.BulletsAmountPerShot : 1;
             var spread = Random.Range(currentGun.AngleSpread.minValue, currentGun.AngleSpread.maxValue);
 
-            var pos = (Vector2) _gun.CurrentView.FirePos;
+            var pos = (Vector2) _gun.CurrentView.OriginPos;
             var targetPos = enemy ? (Vector2) enemy.transform.position : shootPos;
             var dir = targetPos - pos;
             _gun.CurrentView.transform.up = dir;
@@ -122,12 +122,15 @@ public class GunShoot : MonoBehaviour
             bullet.SetDamage(currentGun.Damage, plasmaDmgMult, bonusDmgMult);
             bullet.SetSpeed(currentGun.BulletSpeed, speedDmgMult);
 
-            var pos = (Vector2)  _gun.CurrentView.FirePos;
+            var pos = (Vector2)  _gun.CurrentView.OriginPos;
             var targetPos = (Vector2) enemy.transform.position;
-            var dir = targetPos - pos;
-            dir.Normalize();
-            bullet.transform.up = dir;
-            bullet.transform.position = pos;
+
+            var dir = (targetPos - pos).normalized;
+            _gun.CurrentView.transform.up = dir;
+            
+            var dir2 = (targetPos - pos).normalized;
+            bullet.transform.up = dir2;
+            bullet.transform.position = _gun.CurrentView.FirePos;
             bullet.Fire(enemy);
             
             _gun.TakeAmmo();

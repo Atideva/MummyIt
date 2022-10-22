@@ -9,7 +9,7 @@ public class TestPickupAtClick : MonoBehaviour
     // ReSharper disable once InconsistentNaming
     public bool ENABLE;
     [Header("Settings")]
-    public ItemSpawner spawner;
+    public ItemSlotSpawner spawner;
     public ItemHandler handler;
 
     void Awake()

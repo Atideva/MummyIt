@@ -15,9 +15,9 @@ MonoBehaviour:
   sounds:
   - {fileID: 8300000, guid: 98029a32dd9f6cf43b9c86f5122c6be2, type: 3}
   volume:
-    minValue: 0.79890835
+    minValue: 0.8108816
     maxValue: 1
   pitch:
-    minValue: 0.8955622
-    maxValue: 1.0894719
+    minValue: 0.9392048
+    maxValue: 1.0483115
   maximumFrequency: 0

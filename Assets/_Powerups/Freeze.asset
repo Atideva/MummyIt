@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff5c1b1192f84d4bbb8f331de5af91f, type: 3}
   m_Name: Freeze
   m_EditorClassIdentifier: 
+  type: 1
   sound: {fileID: 11400000, guid: 6ff3cc4159359434ca822fef4f944496, type: 2}
   icon: {fileID: 21300000, guid: 2e855998a5409004cb2452a6e9cc6507, type: 3}
   patterns:

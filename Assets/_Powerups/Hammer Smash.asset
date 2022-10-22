@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff5c1b1192f84d4bbb8f331de5af91f, type: 3}
   m_Name: Hammer Smash
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 3bf9c06f0b486834e9259a8bf9d637f7, type: 3}
+  type: 1
+  sound: {fileID: 0}
+  icon: {fileID: 21300000, guid: 79b47bb526f2f407ea5a899bf93524fc, type: 3}
   patterns:
   - start: 5
     end: 1

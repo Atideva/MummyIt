@@ -7957,6 +7957,18 @@ PrefabInstance:
       propertyPath: m_Materials.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8920286824659730131, guid: bf88f20587abb4a418c8c9cfc7fd88c0, type: 3}
+      propertyPath: looping
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920286824659730131, guid: bf88f20587abb4a418c8c9cfc7fd88c0, type: 3}
+      propertyPath: simulationSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8920286824659730131, guid: bf88f20587abb4a418c8c9cfc7fd88c0, type: 3}
+      propertyPath: EmissionModule.rateOverTime.scalar
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8920286824659730156, guid: bf88f20587abb4a418c8c9cfc7fd88c0, type: 3}
       propertyPath: m_RootOrder
       value: 27

@@ -133,7 +133,7 @@ MonoBehaviour:
   bulletSprite: {fileID: 539729575799700281}
   speed: 10
   attackModifiers: []
-  hitVfxPrefab: {fileID: 4355122610880420940, guid: 857b2f78ff2ab8846bee6ffb226a22cb, type: 3}
+  hitVfxPrefab: {fileID: 4055529117157975175, guid: 645d0bdd638020146b8ccdddf6940fc8, type: 3}
   plasmaMult: 0
   bonusMult: 0
   speedMult: 0

@@ -5,7 +5,7 @@ public class PatternUI : MonoBehaviour
 {
     public List<PatterPointUI> points = new();
     public List<PatternLine> lines = new();
-
+    public bool drawLines;
     public void Disable()
     {
         foreach (var line in lines)
@@ -16,7 +16,6 @@ public class PatternUI : MonoBehaviour
     public void Set(IReadOnlyList<Pattern> patterns)
     {
         if (!gameObject.activeSelf) return;
-        
         if (patterns.Count == 0) return;
 
         foreach (var ui in points)
@@ -26,7 +25,7 @@ public class PatternUI : MonoBehaviour
         {
             EnablePoint(p.start);
             EnablePoint(p.end);
-            CreateLine(p.start, p.end);
+            if (drawLines)    CreateLine(p.start, p.end);
         }
     }
 

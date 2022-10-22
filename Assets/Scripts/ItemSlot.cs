@@ -67,9 +67,8 @@ public class ItemSlot : PoolObject
         ResetContainer();
         item = newItem;
         icon.sprite = newItem.Icon;
-        typeImage.color = newItem.TypeColor;
         patternUI.Set(newItem.Patterns);
-
+        typeImage.sprite = newItem.TypeSprite;
         if (newItem is ItemAmmo ammo)
         {
             ammoCountTxt.enabled = true;

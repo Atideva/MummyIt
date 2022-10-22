@@ -53,18 +53,21 @@ public class Gun : MonoBehaviour
 
     void Start()
     {
-     
         Events.Instance.OnTakeAim += OnTakeAim;
     }
 
     public void Change(GunConfig newGun)
     {
         gun = newGun;
+
         if (CurrentView)
-            Destroy(CurrentView);
-        CurrentView = Instantiate(newGun.GunPrefab, container);
+            Destroy(CurrentView.gameObject);
+        CurrentView =
+            Instantiate(newGun.GunPrefab, container);
+
         if (_takeAim)
             CurrentView.TakeAim();
+
         //  gunSprite.sprite = newGun.Sprite;
         shoot.ChangeGun(newGun);
     }
@@ -74,7 +77,7 @@ public class Gun : MonoBehaviour
         shootCooldown -= Time.fixedDeltaTime;
 
         if (!enemiesSpawner) return;
-        if (_magazine.Ammo <= 0 && _overload.Disabled) return;
+        if (_magazine && _magazine.Ammo <= 0 && _overload.Disabled) return;
         if (!_autoShoot) return;
 
         ShootAtClosestTarget();
@@ -97,6 +100,13 @@ public class Gun : MonoBehaviour
         Shoot(pos);
     }
 
+    public void ShootAtTarget(Enemy target)
+    {
+        if (shootCooldown > 0) return;
+        ResetShootCooldown();
+        Shoot(target);
+    }
+
     public void ShootAtClosestTarget()
     {
         if (shootCooldown > 0) return;
@@ -108,7 +118,10 @@ public class Gun : MonoBehaviour
     }
 
     void ResetShootCooldown()
-        => shootCooldown = 1 / (gun.FireRate * (1 + _overload.AtkSpeed));
+    {
+        var overloadMult = _overload ? _overload.AtkSpeed : 0f;
+        shootCooldown = 1 / (gun.FireRate * (1 + overloadMult));
+    }
 
 
     public void Disable()
@@ -136,10 +149,10 @@ public class Gun : MonoBehaviour
 
     public void TakeAmmo()
     {
-        if (_overload.Disabled)
+        if ((!_overload || _overload.Disabled)
+            && _magazine) 
             _magazine.TakeAmmo();
     }
- 
 
 
     public void EnableAutoShoot()

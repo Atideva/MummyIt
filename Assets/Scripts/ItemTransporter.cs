@@ -1,77 +1,122 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemTransporter : MonoBehaviour
 {
+    [Header("Setup")]
     public RectTransform container;
-    public ItemSpawner spawner;
+    public ItemSlotSpawner slotSpawner;
+    public ItemSpawner itemSpawner;
 
+    [Header("Settings")]
     public float moveSpeed;
     public float leftCorner;
-    public bool deleteItems;
-    public float deleteItemCorner;
+
     [Header("DEBUG")]
     public float rightCorner;
     public float itemWidth;
-    IReadOnlyList<ItemSlot> Items => spawner.LineItems;
+    float _delayBeforeStart;
 
-    public bool IsVisible(ItemSlot slot)
+    IReadOnlyList<ItemSlot> Slots => slotSpawner.Slots;
+    public event Action<ItemSlot> OnMoveToLineEnd = delegate { };
+    public float SwapCorner => 0 - itemWidth;
+    float GetItemRightX(ItemSlot slot) => slot.slotRect.anchoredPosition.x + itemWidth;
+
+    public void SetBaseSlotsPos(List<ItemSlot> slots)
+    {
+        if (slots.Count == 0)
+        {
+            Debug.LogError("WTF, why is there 0 slots, uh?");
+            return;
+        }
+
+        itemWidth = slotSpawner.slotPrefab.slotRect.rect.width;
+        for (var i = 0; i < slots.Count; i++)
+        {
+            var slot = slots[i];
+            slot.transform.SetParent(container);
+            slot.transform.localScale = Vector3.one;
+
+            var x = itemWidth * i+paddingX*i;
+            var y = 0;
+            //slot.slotRect.sizeDelta = new Vector2(slot.slotRect.rect.width, container.rect.height);
+            slot.slotRect.anchoredPosition = new Vector2(x, y);
+        }
+    }
+
+    public bool OutRightSideScreen(ItemSlot slot)
+    {
+        var x = slot.slotRect.anchoredPosition.x;
+        return x > rightCorner;
+    }
+
+    public bool VisibleAtScreen(ItemSlot slot)
     {
         var x = slot.slotRect.anchoredPosition.x;
         return x <= rightCorner;
     }
 
     // rect.anchoredPosition = new Vector3(i * stepWidth, 0);
+    void Awake()
+    {
+        slotSpawner.OnCreate += OnCreate;
+        _delayBeforeStart = itemSpawner.Cooldown;
+    }
+
     void Start()
     {
         rightCorner = container.rect.width;
-        itemWidth = spawner.slotPrefab.slotRect.rect.width;
-
-        spawner.OnCreate += OnCreate;
+        itemWidth = slotSpawner.slotPrefab.slotRect.rect.width;
     }
 
-    float GetRightBorder(ItemSlot slot) => slot.slotRect.anchoredPosition.x + itemWidth;
 
-    void OnCreate(ItemSlot item)
+    void OnCreate(ItemSlot slot)
     {
-        item.transform.SetParent(container);
-        item.transform.localScale = Vector3.one;
+        slot.transform.SetParent(container);
+        slot.transform.localScale = Vector3.one;
+        MoveToLineEnd(slot);
+        //slot.slotRect.sizeDelta = new Vector2(slot.slotRect.rect.width, container.rect.height);
+    }
 
-        var lastItemCorner = Items.Count > 1 ? GetRightBorder(Items[^2]) : leftCorner;
-
-        var x = rightCorner > lastItemCorner ? rightCorner : lastItemCorner;
+    public float paddingX=10;
+    void MoveToLineEnd(ItemSlot slot)
+    {
+        var lastItemCorner = Slots.Count > 1 ? GetItemRightX(Slots[^1]) : leftCorner;
+        var x = lastItemCorner+paddingX;
         var y = 0;
-
-        item.slotRect.sizeDelta = new Vector2(item.slotRect.rect.width, container.rect.height);
-        item.slotRect.anchoredPosition = new Vector2(x, y);
+        slot.slotRect.anchoredPosition = new Vector2(x, y);
     }
 
     void Update()
     {
-        var toRemove = new List<ItemSlot>();
-        for (var i = 0; i < Items.Count; i++)
+        if (_delayBeforeStart > 0)
         {
-            var moveTo = i == 0 ? leftCorner : GetRightBorder(Items[i - 1]);
-
-            var x = Items[i].slotRect.anchoredPosition.x;
-            var y = Items[i].slotRect.anchoredPosition.y;
-
-            if (deleteItems && x <= deleteItemCorner)
-            {
-                toRemove.Add(Items[i]);
-            }
-
-            if (x > moveTo)
-            {
-                x -= moveSpeed * Time.deltaTime;
-                if (x < moveTo) x = moveTo;
-                Items[i].slotRect.anchoredPosition = new Vector2(x, y);
-            }
+            _delayBeforeStart -= Time.deltaTime;
+            return;
         }
 
-        foreach (var r in toRemove)
+        ItemSlot swapSlot = null;
+        foreach (var slot in Slots)
         {
-            r.ReturnToPool();
+            //  var moveTo = i == 0 ? leftCorner : GetItemRightX(Items[i - 1]);
+            var pos = slot.slotRect.anchoredPosition;
+            var x = pos.x;
+            var y = pos.y;
+            //if (x > moveTo){
+            x -= moveSpeed * Time.deltaTime;
+            //if (x < moveTo) x = moveTo;
+            pos = new Vector2(x, y);
+            slot.slotRect.anchoredPosition = pos;
+            //}
+            if (x <= SwapCorner)
+                swapSlot = slot;
+        }
+
+        if (swapSlot)
+        {
+            MoveToLineEnd(swapSlot);
+            OnMoveToLineEnd(swapSlot);
         }
     }
 }

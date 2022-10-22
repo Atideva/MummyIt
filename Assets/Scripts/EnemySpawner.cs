@@ -7,6 +7,7 @@ using Random = UnityEngine.Random;
 
 public class EnemySpawner : MonoBehaviour
 {
+    
     public bool ENABLED;
 
     #region Singleton
@@ -49,7 +50,7 @@ public class EnemySpawner : MonoBehaviour
     {
         if (!ENABLED)
         {
-            Debug.LogError("ENEMY SPAWNER DISABLED!");
+            Debug.LogWarning("ENEMY SPAWNER DISABLED!");
         }
 
         wave.Init(this, levelSpawn);

@@ -9,8 +9,10 @@ public class Enemy : PoolObject
     public Transform chest;
     public HitPoints hp;
     public Grayscale grayScale;
+    
     [Header("ABILITIES")]
     public List<EnemyAbility> abilities = new();
+    
     [Header("DEBUG")]
     public EnemyConfig config;
     float _speed;
@@ -23,7 +25,7 @@ public class Enemy : PoolObject
     float _meleeTimer;
     bool _isMove;
 
-    //    public TestPatternView patternView;
+    //public TestPatternView patternView;
     public EnemyConfig Config => config;
     public Vector3 ChestPos => chest.position;
     public bool IsMeleeAttack => _isMeleeAttack;

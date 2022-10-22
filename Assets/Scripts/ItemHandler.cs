@@ -7,8 +7,9 @@ using UnityEngine;
 
 public class ItemHandler : MonoBehaviour
 {
+    public ItemTransporter transporter;
     public AudioData ammoGetSound;
-    public ItemSpawner spawner;
+    public ItemSlotSpawner spawner;
     public ItemCollector collector;
     public Transform powerupsMoveTo;
     public Transform ammoMoveTo;
@@ -30,6 +31,12 @@ public class ItemHandler : MonoBehaviour
         spawner.OnSlotClick += OnSlotClick;
         drawer.OnRelease += SearchMatchItem;
         Events.Instance.OnAddAmmoPickup += OnAddAmmoPickup;
+        transporter.OnMoveToLineEnd += OnSlotMoveEnd;
+    }
+
+    void OnSlotMoveEnd(ItemSlot slot)
+    {
+        slot.Empty();
     }
 
     void OnSlotClick(ItemSlot slot)
