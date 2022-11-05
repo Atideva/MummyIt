@@ -29,3 +29,4 @@ MonoBehaviour:
     From: {fileID: 0}
     To: {fileID: 0}
   prefab: {fileID: 1382348715902133853, guid: c5d2f182d24490c43a375b1e2ca2aa22, type: 3}
+  vfx: {fileID: 5660390070977594566, guid: 082b6529f8d2c0a449b81d57eb83761d, type: 3}

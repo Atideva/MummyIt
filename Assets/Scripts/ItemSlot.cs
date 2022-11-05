@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Items;
 using Pools;
 using TMPro;
@@ -29,7 +30,8 @@ public class ItemSlot : PoolObject
     public bool HasItem => item;
     public bool IsEmpty => !item;
     public bool Enabled => gameObject.activeSelf;
-
+    public int PatternsCount => IsEmpty ? 0 : item.Patterns.Count;
+    public  IReadOnlyList<Pattern> Patterns => IsEmpty ? null : item.Patterns;
     public void EnableHighlight()
     {
         highlightImage.enabled = true;

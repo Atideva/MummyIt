@@ -21,7 +21,7 @@ public class ItemSlotSpawner : MonoBehaviour
     public ItemSlot GetFreeSlot()
     {
         return slots.FirstOrDefault(item 
-            => transporter.OutRightSideScreen(item) &&
+            => transporter.OutScreenRight(item) &&
                item.IsEmpty);
     }
 
@@ -57,7 +57,7 @@ public class ItemSlotSpawner : MonoBehaviour
         }
 
         transporter.SetBaseSlotsPos(slots);
-        transporter.OnMoveToLineEnd += OnSlotMove;
+        transporter.OnMoveOutOfScreen += OnSlotMove;
     }
 
     void OnUse(ItemSlot slot)

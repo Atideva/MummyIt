@@ -2,110 +2,123 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
- 
 
-public class PatternDrawer : MonoBehaviour
+
+public class Drawer : MonoBehaviour
 {
     [Header("Setup")]
     public List<DrawSlot> slots = new();
     public LineRenderer linePrefab;
     public DrawStartArea drawStartArea;
-    public DrawGemsSpawner drawGemSpawner;
+    public DrawGems drawGem;
     public Gradient commonLineColor;
     public Gradient highlightLineColor;
+
     [Header("DEBUG")]
-    public bool drawing;
-    public LineRenderer lastLine;
     public DrawSlot lastSlot;
+    [field: SerializeField] public bool Drawing { get; private set; }
+
+    public LineRenderer lastLine;
+
     public List<Pattern> drawPatterns = new();
     public List<Pattern> lastPatterns = new();
-    public List<LineRenderer> linesInPieces = new();
+    public List<LineRenderer> drawLines = new();
+
     Camera _cam;
     public event Action<List<Pattern>> OnRelease = delegate { };
+    public event Action OnNewDraw = delegate { };
+    public event Action<List<Pattern>> OnPatternChange = delegate { };
+
 
     public void HighlightLines()
     {
-        foreach (var line in linesInPieces)
-        {
+        foreach (var line in drawLines)
             line.colorGradient = highlightLineColor;
-        }
     }
-    public void CommonLines()
+
+    public void ПотушитьLines()
     {
-        foreach (var line in linesInPieces)
-        {
+        foreach (var line in drawLines)
             line.colorGradient = commonLineColor;
-        }
     }
+
     void Start()
     {
         drawStartArea.OnDrawStart += OnDrawStart;
         _cam = Camera.main;
+
         for (var i = 0; i < slots.Count; i++)
         {
             slots[i].id = i + 1;
-             slots[i].Release();
+            slots[i].Release();
             slots[i].OnSelected += OnSlotSelected;
         }
     }
 
     void OnDrawStart()
     {
-        drawing = true;
+        Drawing = true;
     }
 
-    void OnSlotSelected(DrawSlot slot)
+    void OnSlotSelected(DrawSlot selected)
     {
-        // if (!drawing) return;
-        drawing = true;
-        if (!slot.Selected)
+        if (selected.NotActive)
         {
-            drawGemSpawner.Spawn(slot);
-            slot.Select();
+            drawGem.Spawn(selected);
+            selected.Activate();
         }
- 
-        if (!lastLine)
-        {
-            lastSlot = slot;
-            lastLine = Instantiate(linePrefab);
-            lastLine.colorGradient = commonLineColor;
-            lastLine.positionCount = 2;
-            var pos = GetLinePos(slot.transform.position);
-            lastLine.SetPosition(0, pos);
-            lastLine.SetPosition(1, pos);
-        }
-        else
-        {
-            if (lastSlot != slot)
-            {
-                var newPattern = new Pattern(lastSlot, slot);
-                if (!AnySame(newPattern))
-                {
-                    drawPatterns.Add(newPattern);
-                    linesInPieces.Add(lastLine);
-                    var pos = GetLinePos(newPattern.From.transform.position);
-                    var pos2 = GetLinePos(newPattern.To.transform.position);
-                    lastLine.SetPosition(0, pos);
-                    lastLine.SetPosition(1, pos2);
 
-                    lastLine = Instantiate(linePrefab);
-                    lastLine.colorGradient = commonLineColor;
-                    lastLine.positionCount = 2;
-                    var pos3 = GetLinePos(slot.transform.position);
-                    lastLine.SetPosition(0, pos3);
-                    lastLine.SetPosition(1, pos3);
-                    lastSlot = slot;
-                }
-            }
+        if (!Drawing)
+        {
+            Drawing = true;
+            lastSlot = selected;
+            lastLine = NewLineFrom(selected);
+            OnNewDraw();
+            return;
         }
+
+        if (lastSlot == selected) return;
+
+        var draw = new Pattern(lastSlot, selected);
+        if (AnySame(draw)) return;
+
+        drawPatterns.Add(draw);
+        drawLines.Add(lastLine);
+
+        Bind(lastLine, lastSlot, selected);
+        lastLine = NewLineFrom(selected);
+
+        lastSlot = selected;
+        OnPatternChange(drawPatterns);
     }
 
-    bool AnySame(Pattern check)
-        => drawPatterns.Any(p =>
+    LineRenderer NewLineFrom(DrawSlot slot)
+    {
+        var newLine = Instantiate(linePrefab);
+        newLine.colorGradient = commonLineColor;
+        newLine.positionCount = 2;
+        newLine.SetPosition(0, GetPos(slot));
+        return newLine;
+    }
+
+
+    void Bind(LineRenderer line, DrawSlot from, DrawSlot to)
+    {
+        line.SetPosition(0, GetPos(from));
+        line.SetPosition(1, GetPos(to));
+    }
+
+    bool NoSame(Pattern check) => !AnySame(check);
+
+    bool AnySame(Pattern check) =>
+        drawPatterns.Any(p =>
             p.start == check.start && p.end == check.end ||
             p.start == check.end && p.end == check.start);
 
-    static Vector3 GetLinePos(Vector3 pos)
+    static Vector3 GetPos(DrawSlot slot)
+        => GetPos(slot.transform.position);
+
+    static Vector3 GetPos(Vector3 pos)
         => new(pos.x, pos.y, 0);
 
     void Release()
@@ -121,14 +134,15 @@ public class PatternDrawer : MonoBehaviour
 
     void Clear()
     {
-        foreach (var line in linesInPieces.Where(line => line))
+        foreach (var line in drawLines.Where(line => line))
         {
             Destroy(line.gameObject);
         }
 
-        linesInPieces = new List<LineRenderer>();
+        drawLines = new List<LineRenderer>();
         drawPatterns = new List<Pattern>();
-        if (lastLine) Destroy(lastLine.gameObject);
+        if (lastLine)
+            Destroy(lastLine.gameObject);
         lastLine = null;
     }
 
@@ -144,12 +158,12 @@ public class PatternDrawer : MonoBehaviour
 #if UNITY_EDITOR
         if (Input.GetMouseButtonDown(0))
         {
-            drawing = false;
+            Drawing = false;
         }
 
         if (Input.GetMouseButtonUp(0))
         {
-            drawing = false;
+            Drawing = false;
             Release();
             Clear();
         }
@@ -164,7 +178,7 @@ public class PatternDrawer : MonoBehaviour
 
         if (lastLine)
         {
-            var pos = GetLinePos(_cam.ScreenToWorldPoint(Input.mousePosition));
+            var pos = GetPos(_cam.ScreenToWorldPoint(Input.mousePosition));
             lastLine.SetPosition(1, pos);
         }
 

@@ -6,19 +6,21 @@ using UnityEngine;
 
 public class PlasmaOverloading : MonoBehaviour
 {
+    public Sprite bulletSprite;
+    public float bulletSize=1.5f;
     public CustomSlider slider;
-    bool _plasmaOverload;
+    bool _overload;
     float _plasmaOverloadTimer;
-    float _plasmaAtkSpdBonus;
+    float _atkSpdBonus;
     public Gun firstGun;
     public Gun secondGun;
-    public bool Active => _plasmaOverload;
-    public bool Disabled => !_plasmaOverload;
-    public float AtkSpeed => _plasmaAtkSpdBonus;
+    public bool Active => _overload;
+    public bool Disabled => !_overload;
+    public float AtkSpeed => _atkSpdBonus;
     public event Action<PlasmaOverloadData> OnOverloadStart = delegate { };
     public event Action OnOverloadEnd = delegate { };
-    bool secondGunEnabled;
-    public void SecondGunEnabled() => secondGunEnabled = true;
+    bool _isSecondGun;
+    public void SecondGunEnabled() => _isSecondGun = true;
     float _lastMaxCd;
 
     void Awake()
@@ -35,10 +37,10 @@ public class PlasmaOverloading : MonoBehaviour
 
     void OnPlasmaOverload(PlasmaOverloadData data)
     {
-        _plasmaOverload = true;
+        _overload = true;
         _plasmaOverloadTimer += data.Duration;
         _lastMaxCd += data.Duration;
-        _plasmaAtkSpdBonus = data.AtkSpdBonus;
+        _atkSpdBonus = data.AtkSpdBonus;
         if (firstGun.CurrentView) firstGun.CurrentView.EnableOutline();
         if (secondGun.CurrentView) secondGun.CurrentView.EnableOutline();
         OnOverloadStart(data);
@@ -47,10 +49,10 @@ public class PlasmaOverloading : MonoBehaviour
 
     void StopPlasmaOverload()
     {
-        _plasmaOverload = false;
+        _overload = false;
         _plasmaOverloadTimer = 0;
         _lastMaxCd = 0;
-        _plasmaAtkSpdBonus = 0;
+        _atkSpdBonus = 0;
         if (firstGun.CurrentView) firstGun.CurrentView.DisableOutline();
         if (secondGun.CurrentView) secondGun.CurrentView.DisableOutline();
         OnOverloadEnd();

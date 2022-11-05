@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AttackModificators;
 using Pools;
 using UnityEngine;
@@ -10,6 +11,12 @@ public abstract class Bullet : PoolObject
     [SerializeField] float speed = 10;
     [SerializeField] List<AttackModificatorConfig> attackModifiers = new();
     [SerializeField] VFX hitVfxPrefab;
+    Sprite _defaultSprite;
+
+    void Awake()
+    {
+        _defaultSprite = bulletSprite.sprite;
+    }
 
     public void SetModifier(List<AttackModificatorConfig> mods)
     {
@@ -33,6 +40,21 @@ public abstract class Bullet : PoolObject
 
     public abstract void Fire(Enemy newTarget);
     public void SetSprite(Sprite sprite) => bulletSprite.sprite = sprite;
+
+
+    public void SetOverload(bool isOverload, float size = 1f, Sprite overloadSprite = null)
+    {
+        if (isOverload)
+        {
+            SetSprite(overloadSprite);
+            transform.localScale = new Vector3(size, size, size);
+        }
+        else
+        {
+            SetSprite(_defaultSprite);
+            transform.localScale = Vector3.one;
+        }
+    }
 
     public void SetDamage(float dmg, float plasma, float bonus)
     {

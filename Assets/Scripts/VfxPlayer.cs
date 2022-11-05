@@ -20,7 +20,8 @@ public class VfxPlayer : MonoBehaviour
             StartCoroutine(DelayPlay(vfxPrefab, pos, rot, delay));
         else
         {
-            var vfx = Pool(vfxPrefab).Get();
+         var vfx = Pool(vfxPrefab).Get();
+ 
             vfx.transform.position = pos;
             vfx.transform.rotation = rot;
         }
@@ -30,6 +31,7 @@ public class VfxPlayer : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         var vfx = Pool(vfxPrefab).Get();
+ 
         vfx.transform.position = pos;
         vfx.transform.rotation = rot;
     }

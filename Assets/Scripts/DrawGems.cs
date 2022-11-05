@@ -4,20 +4,34 @@ using DG.Tweening;
 using Pools;
 using UnityEngine;
 
-public class DrawGemsSpawner : MonoBehaviour
+public class DrawGems : MonoBehaviour
 {
-    
-    public PatternDrawer drawer;
-    public ItemHandler itemHandler;
+    public Drawer drawer;
+    public DrawMatch drawMatch;
     public DrawGemPool pool;
     public DrawGem prefab;
-    public List<DrawGem> gemInSlots = new();
+    public List<DrawGem> gems = new();
     public Transform collectPos;
     public float moveDur;
 
     void Awake()
     {
         pool.SetPrefab(prefab);
+        drawMatch.OnMatch += Match;
+        drawMatch.OnDontMatch += DontMatch;
+        drawMatch.OnEmptyRelease += Release;
+    }
+
+    void DontMatch()
+    {
+        TurnOffGems();
+        drawer.ПотушитьLines();
+    }
+
+    void Match(List<Pattern> draw)
+    {
+        HighlightGems();
+        drawer.HighlightLines();
     }
 
     public void Spawn(DrawSlot drawSlot)
@@ -26,31 +40,28 @@ public class DrawGemsSpawner : MonoBehaviour
         gem.DisableHighlight();
         gem.transform.position = drawSlot.transform.position;
         gem.transform.localScale = Vector3.one;
-        gemInSlots.Add(gem);
+        gems.Add(gem);
     }
 
     public void Collect()
     {
         Debug.Log("Draw gems: Collect");
-        foreach (var gem in gemInSlots)
+        foreach (var gem in gems)
         {
             gem.transform.DOScale(0.5f, moveDur);
             gem.transform.DOMove(collectPos.position, moveDur)
                 .OnComplete(() => MoveFinish(gem));
         }
 
-        gemInSlots = new List<DrawGem>();
+        gems = new List<DrawGem>();
     }
 
     public void Release()
     {
-        Debug.Log("Draw gems: Release");
-        foreach (var gem in gemInSlots)
-        {
+        foreach (var gem in gems)
             gem.ReturnToPool();
-        }
 
-        gemInSlots = new List<DrawGem>();
+        gems.Clear();
     }
 
     void MoveFinish(DrawGem gem)
@@ -62,31 +73,29 @@ public class DrawGemsSpawner : MonoBehaviour
 
     public void HighlightGems()
     {
-        foreach (var gem in gemInSlots)
+        foreach (var gem in gems)
             gem.EnableHighlight();
     }
 
-    public void DisableGemsHighlights()
+    public void TurnOffGems()
     {
-        foreach (var gem in gemInSlots)
+        foreach (var gem in gems)
             gem.DisableHighlight();
     }
 
-    void FixedUpdate()
-    {
-        if (gemInSlots.Count == 0) return;
-
-        if (itemHandler.AnyMatch())
-        {
-            HighlightGems();
-            drawer.HighlightLines();
-        }
-        else
-        {
-            DisableGemsHighlights();
-            drawer.CommonLines();
-        }
-        
-        
-    }
+    // void FixedUpdate()
+    // {
+    //     if (gems.Count == 0) return;
+    //
+    //     if (itemHandler.AnyMatch)
+    //     {
+    //         HighlightGems();
+    //         drawer.HighlightLines();
+    //     }
+    //     else
+    //     {
+    //         TurnOffGems();
+    //         drawer.ПотушитьLines();
+    //     }
+    // }
 }

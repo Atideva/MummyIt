@@ -133,7 +133,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 10
-  bulletSprite: {fileID: 0}
+  bulletSprite: {fileID: 6586286257972150358}
   speed: 10
   attackModifiers: []
   hitVfxPrefab: {fileID: 4055529117157975175, guid: 645d0bdd638020146b8ccdddf6940fc8, type: 3}

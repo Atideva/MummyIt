@@ -28,7 +28,7 @@ public class TestPickupAtClick : MonoBehaviour
 
     void OnSlotClick(ItemSlot slot)
     {
-        handler.movingSlots.Add(slot);
+        handler.moving.Add(slot);
         handler.Pickup(slot);
     }
 }

@@ -16,17 +16,18 @@ public class DrawSlot : MonoBehaviour, IPointerEnterHandler, IPointerDownHandler
     void Awake()
         => idTxt.enabled = false;
 
-    public bool Selected { get; private set; }
+    public bool Active { get; private set; }
+    public bool NotActive => !Active;
 
-    public void Select()
+    public void Activate()
     {
-        Selected = true;
+        Active = true;
         //  activeImg.enabled = true;
     }
 
     public void Release()
     {
-        Selected = false;
+        Active = false;
         //  activeImg.enabled = false;
     }
 

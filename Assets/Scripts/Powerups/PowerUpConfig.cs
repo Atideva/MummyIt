@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using AttackModificators;
 using AudioSystem;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Powerups
         [SerializeField] Sprite icon;
         [SerializeField] List<Pattern> patterns = new();
         [SerializeField] PowerUp prefab;
+        [SerializeField] VFX vfx;
         public IReadOnlyList<Pattern> Patterns => patterns;
         public Sprite Icon => icon;
 

@@ -30,6 +30,8 @@ public class Gun : MonoBehaviour
 
     public GunView CurrentView { get; private set; }
 
+    public PlasmaOverloading Overload => _overload;
+
     public void Init(AmmoMagazine magazine, PlasmaOverloading overload)
     {
         _overload = overload;
