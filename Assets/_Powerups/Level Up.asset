@@ -12,6 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ff5c1b1192f84d4bbb8f331de5af91f, type: 3}
   m_Name: Level Up
   m_EditorClassIdentifier: 
+  type: 0
+  pickupSound: {fileID: 11400000, guid: 03bb2ae053484c5499ebf4519131ef50, type: 2}
+  useSound: {fileID: 11400000, guid: efe21a60960cc614cad694f00d396515, type: 2}
   icon: {fileID: 21300000, guid: 9b2016bc0b6b42940817da25f0481a92, type: 3}
   patterns:
   - start: 4
@@ -23,3 +26,4 @@ MonoBehaviour:
     From: {fileID: 0}
     To: {fileID: 0}
   prefab: {fileID: 4961873296311824972, guid: a5572cb118dae51468e56ec157b97791, type: 3}
+  vfx: {fileID: 0}

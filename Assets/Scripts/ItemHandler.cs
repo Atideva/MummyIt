@@ -144,15 +144,17 @@ public class ItemHandler : MonoBehaviour
             .OnComplete(()
                 => UseSlot(slot));
 
+        
         switch (slot.item)
         {
             case ItemAmmo:
                 AudioManager.Instance.PlaySound(ammoGetSound);
                 break;
             case ItemPowerUp powerUp:
-                AudioManager.Instance.PlaySound(powerUp.Config.Sound);
+                AudioManager.Instance.PlaySound(powerUp.Config.PickupSound);
                 break;
         }
+ 
     }
 
     public void FinishMove(ItemSlot slot)
@@ -164,8 +166,16 @@ public class ItemHandler : MonoBehaviour
     void UseSlot(ItemSlot slot)
     {
         FinishMove(slot);
+        switch (slot.item)
+        {
+            case ItemPowerUp powerUp:
+                AudioManager.Instance.PlaySound(powerUp.Config.UseSound);
+                break;
+        }
         slot.Use();
         slot.DisableHighlight();
+
+     
         // slot.ReturnToPool();
     }
 

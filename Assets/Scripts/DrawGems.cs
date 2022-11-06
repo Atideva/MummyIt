@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using AudioSystem;
 using DG.Tweening;
 using Pools;
 using UnityEngine;
@@ -14,6 +15,7 @@ public class DrawGems : MonoBehaviour
     public Transform collectPos;
     public float moveDur;
 
+    
     void Awake()
     {
         pool.SetPrefab(prefab);

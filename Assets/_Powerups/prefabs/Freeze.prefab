@@ -44,6 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87236269dbed41ad968b8fc2332f859c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <IsAvailable>k__BackingField: 0
   duration: 5
   vfxPrefab: {fileID: 1733231840152098470, guid: 93dc9254506586e4680d27017d434441, type: 3}
   vfxes: []
+  sound: {fileID: 11400000, guid: 6ff3cc4159359434ca822fef4f944496, type: 2}

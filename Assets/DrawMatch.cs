@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using AudioSystem;
 using Items;
 using UnityEngine;
 
@@ -12,6 +13,9 @@ public class DrawMatch : MonoBehaviour
     public Drawer drawer;
     public ItemSlotSpawner spawner;
     public ItemTransporter transporter;
+    public AudioData matchSound;
+    public AudioData drawCancel;
+    public AudioData drawCollect;
     public event Action<List<ItemSlot>> OnMatchRelease = delegate { };
     public event Action OnEmptyRelease = delegate { };
     public event Action<List<Pattern>> OnMatch = delegate { };
@@ -35,16 +39,22 @@ public class DrawMatch : MonoBehaviour
         _matched.Remove(item);
     }
 
-    bool LimitReach => _matched.Count >= itemHandler.pickupAtOnce;
+    bool LimitReach =>
+        _matched.Count != 0 &&
+        (_matched[0].item is not ItemAmmo ||
+         _matched.Count >= itemHandler.pickupAtOnce);
+
+
     void OnBecomeVisible(ItemSlot item)
     {
         if (LimitReach) return;
         if (NotPickable(item)) return;
         if (NotMatch(item, drawer.drawPatterns)) return;
-        
+
         item.EnableHighlight();
         _matched.Add(item);
         OnMatch(drawer.drawPatterns);
+        AudioManager.Instance.PlaySound(matchSound);
     }
 
     void PatternChange(List<Pattern> draw)
@@ -57,6 +67,7 @@ public class DrawMatch : MonoBehaviour
             _matched.Clear();
         }
 
+
         _matched = FindMatch(spawner.VisibleItems, draw);
         if (_matched.Count == 0)
         {
@@ -68,6 +79,7 @@ public class DrawMatch : MonoBehaviour
             item.EnableHighlight();
 
         OnMatch(draw);
+        AudioManager.Instance.PlaySound(matchSound);
     }
 
     void NewDraw()
@@ -78,16 +90,14 @@ public class DrawMatch : MonoBehaviour
     {
         if (_matched.Count == 0)
         {
+            AudioManager.Instance.PlaySound(drawCancel);
+
             OnEmptyRelease();
             return;
         }
 
-        foreach (var match in _matched)
-        {
-            //match.DisableHighlight();
-            OnMatchRelease(_matched);
-        }
-
+        AudioManager.Instance.PlaySound(drawCollect);
+        OnMatchRelease(_matched);
         _matched.Clear();
     }
 
@@ -97,6 +107,15 @@ public class DrawMatch : MonoBehaviour
         var matchList = new List<ItemSlot>();
         foreach (var slot in search)
         {
+ 
+            if (matchList.Count > 0)
+            {
+                if (matchList[0].item is not ItemAmmo)
+                    continue;
+                if(matchList.Count >= itemHandler.pickupAtOnce)
+                    continue;
+            }
+
             if (matchList.Count >= itemHandler.pickupAtOnce) continue;
             if (NotPickable(slot)) continue;
 
@@ -108,11 +127,14 @@ public class DrawMatch : MonoBehaviour
 
         return matchList;
     }
+ 
+
 
     bool NotPickable(ItemSlot slot)
         => slot.IsEmpty || itemHandler.moving.Contains(slot);
 
     bool NotMatch(ItemSlot item, IReadOnlyCollection<Pattern> draw) => !IsMatch(item, draw);
+
     bool IsMatch(ItemSlot item, IReadOnlyCollection<Pattern> draw)
     {
         if (draw.Count != item.PatternsCount) return false;

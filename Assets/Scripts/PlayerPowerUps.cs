@@ -1,6 +1,7 @@
  using System.Collections.Generic;
 using System.Linq;
-using Powerups;
+ using AudioSystem;
+ using Powerups;
 using UnityEngine;
 
 public class PlayerPowerUps : MonoBehaviour
@@ -42,6 +43,8 @@ public class PlayerPowerUps : MonoBehaviour
 
        
         up.Use();
+        Events.Instance.PlayVfx(powerUp.Vfx,transform.position);
+   //     AudioManager.Instance.PlaySound(powerUp.Sound);
     }
 
     public float GetAmmoChance(int ammoID)

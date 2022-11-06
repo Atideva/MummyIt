@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AudioSystem;
 using UnityEngine;
 
 
@@ -13,7 +14,8 @@ public class Drawer : MonoBehaviour
     public DrawGems drawGem;
     public Gradient commonLineColor;
     public Gradient highlightLineColor;
-
+    public AudioData touchSlotSound;
+    public AudioData drawCancel;
     [Header("DEBUG")]
     public DrawSlot lastSlot;
     [field: SerializeField] public bool Drawing { get; private set; }
@@ -59,13 +61,16 @@ public class Drawer : MonoBehaviour
     {
         Drawing = true;
     }
-
+ 
     void OnSlotSelected(DrawSlot selected)
     {
+ 
+        
         if (selected.NotActive)
         {
             drawGem.Spawn(selected);
             selected.Activate();
+            AudioManager.Instance.PlaySound(touchSlotSound);
         }
 
         if (!Drawing)
@@ -130,6 +135,7 @@ public class Drawer : MonoBehaviour
 
         lastPatterns = drawPatterns;
         OnRelease(drawPatterns);
+        AudioManager.Instance.PlaySound(drawCancel);
     }
 
     void Clear()

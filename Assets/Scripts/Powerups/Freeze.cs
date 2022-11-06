@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AudioSystem;
 using UnityEngine;
 
 namespace Powerups
@@ -11,9 +12,10 @@ namespace Powerups
         [Header("DEBUG")]
         public List<GameObject> vfxes = new();
         List<Enemy> _enemies = new();
-
+ 
         protected override void OnUse()
         {
+ 
             Events.Instance.OnEnemyDeath += OnEnemyDeath;
             FreezeAll();
         }

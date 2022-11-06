@@ -9,7 +9,8 @@ namespace Powerups
     public class PowerUpConfig : ScriptableObject
     {
         [SerializeField] PowerupType type;
-        [SerializeField] AudioData sound;
+        [SerializeField] AudioData pickupSound;
+        [SerializeField] AudioData useSound;
         [SerializeField] Sprite icon;
         [SerializeField] List<Pattern> patterns = new();
         [SerializeField] PowerUp prefab;
@@ -19,9 +20,13 @@ namespace Powerups
 
         public PowerUp Prefab => prefab;
 
-        public AudioData Sound => sound;
+        public AudioData PickupSound => pickupSound;
 
         public PowerupType Type => type;
+
+        public VFX Vfx => vfx;
+
+        public AudioData UseSound => useSound;
     }
 }
 

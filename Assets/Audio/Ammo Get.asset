@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: Ammo Get
   m_EditorClassIdentifier: 
   sounds:
-  - {fileID: 8300000, guid: 6681ff764bee9894f9eba540634c74b3, type: 3}
+  - {fileID: 8300000, guid: 71439b5576e7863438f8054b1f00b8f4, type: 3}
   volume:
     minValue: 1
     maxValue: 1
   pitch:
-    minValue: 1.0032898
-    maxValue: 1.0032898
+    minValue: 1.0052402
+    maxValue: 1.0689659
   maximumFrequency: 0

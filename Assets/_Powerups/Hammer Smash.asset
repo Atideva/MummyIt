@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: Hammer Smash
   m_EditorClassIdentifier: 
   type: 1
-  sound: {fileID: 0}
+  pickupSound: {fileID: 11400000, guid: 3e0bb6b98dc0b6544a1c33c9be07192d, type: 2}
+  useSound: {fileID: 11400000, guid: 3e0bb6b98dc0b6544a1c33c9be07192d, type: 2}
   icon: {fileID: 21300000, guid: 79b47bb526f2f407ea5a899bf93524fc, type: 3}
   patterns:
   - start: 5
@@ -25,3 +26,4 @@ MonoBehaviour:
     From: {fileID: 0}
     To: {fileID: 0}
   prefab: {fileID: 6534893394040984202, guid: 7cab93786e982ca459fdf495a1cf478f, type: 3}
+  vfx: {fileID: 0}
