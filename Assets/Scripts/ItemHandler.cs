@@ -12,6 +12,7 @@ public class ItemHandler : MonoBehaviour
     public DrawMatch drawMatch;
     public ItemTransporter transporter;
     public AudioData ammoGetSound;
+    public AudioData candyGetSound;
     public ItemSlotSpawner spawner;
     public ItemCollector collector;
     public Transform powerupsMoveTo;
@@ -33,7 +34,7 @@ public class ItemHandler : MonoBehaviour
     {
         enable = true;
         spawner.OnSlotClick += OnSlotClick;
-      //  drawer.OnRelease += SearchDrawMatch;
+        //  drawer.OnRelease += SearchDrawMatch;
         drawMatch.OnMatchRelease += MatchReleaseDraw;
         transporter.OnMoveOutOfScreen += OnSlotMoveStart;
     }
@@ -131,6 +132,8 @@ public class ItemHandler : MonoBehaviour
 
     public void Pickup(ItemSlot slot)
     {
+        AudioManager.Instance.PlaySound(candyGetSound, drawGem.moveDur);
+       
         Debug.Log("Item pickup", slot);
         slot.EnableHighlight();
 
@@ -138,23 +141,32 @@ public class ItemHandler : MonoBehaviour
             ? ammoMoveTo.position
             : powerupsMoveTo.position;
 
-        slot.container.DOScale(collectSize, moveTime);
+        slot.container
+            .DOScale(collectSize, moveTime)
+            .OnComplete(()
+            => UseSlot(slot));
+        
+        // slot.container
+        //     .DOLocalMove(slot.container.localPosition+Vector3.up*150, moveTime);
+        
+        /*
         slot.container
             .DOMove(pos, moveTime)
             .OnComplete(()
                 => UseSlot(slot));
+*/
 
-        
         switch (slot.item)
         {
             case ItemAmmo:
                 AudioManager.Instance.PlaySound(ammoGetSound);
+                slot.container
+                    .DOMove(pos, moveTime);
                 break;
             case ItemPowerUp powerUp:
                 AudioManager.Instance.PlaySound(powerUp.Config.PickupSound);
                 break;
         }
- 
     }
 
     public void FinishMove(ItemSlot slot)
@@ -172,10 +184,11 @@ public class ItemHandler : MonoBehaviour
                 AudioManager.Instance.PlaySound(powerUp.Config.UseSound);
                 break;
         }
+
         slot.Use();
         slot.DisableHighlight();
 
-     
+
         // slot.ReturnToPool();
     }
 
